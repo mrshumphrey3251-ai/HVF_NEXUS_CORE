@@ -1,15 +1,17 @@
 name: HVF_Power_On_Test
+
+env:
+  PYTHONPATH: ${{ github.workspace }}
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on: [workflow_dispatch]
 
 jobs:
   run-logic:
     runs-on: ubuntu-latest
-    env:
-      PYTHONPATH: ${{ github.workspace }}
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
-      - name: Execute Handshake
-        run: python3 src/livestock/triad_link.py
-      - name: Run Revenue Oracle
-        run: python3 src/finance/revenue_oracle.py
+      - name: Execute Logic
+        run: |
+          python3 src/livestock/triad_link.py
+          python3 src/finance/revenue_oracle.py
