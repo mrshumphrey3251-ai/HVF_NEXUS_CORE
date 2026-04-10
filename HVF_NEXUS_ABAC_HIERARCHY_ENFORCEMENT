@@ -1,0 +1,18 @@
+def check_access_authority(user_tier, action_request):
+    # Tier 1: Infrastructure Specialist
+    if user_tier == 1:
+        permitted_actions = ["read_telemetry", "log_hours", "view_personal_badge"]
+    
+    # Tier 2: Operations Lead
+    elif user_tier == 2:
+        permitted_actions = ["read_telemetry", "update_unit_status", "assign_assets", "log_safety_audit"]
+    
+    # Tier 3: HVF Superintendent
+    elif user_tier == 3:
+        permitted_actions = ["full_grid_control", "budget_access", "external_comms", "reallocate_resources"]
+
+    # CEO Override: Absolute Master Key
+    elif user_id == "HUMPHREY_CEO_UUID":
+        return "GLOBAL_ADMIN_ACCESS"
+
+    return action_request in permitted_actions
