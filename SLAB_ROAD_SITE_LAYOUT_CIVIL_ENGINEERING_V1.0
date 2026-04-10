@@ -1,0 +1,15 @@
+Site_Specifications:
+  Location: "Johnston County, OK (200-Acre Tract)"
+  Residential_Pillar:
+    Unit_Count: 200 (Tiny Home Modules)
+    Design_Aesthetic: "1880s Western Mining Town"
+    Tech_Integration: "Fiber-to-the-Home & HelioGrid-Ready"
+  Water_Governance:
+    Primary_Reservoir: "25-Acre Environmental Lake"
+    Function: "Irrigation, Thermal Regulation, & Emergency Fire Suppression"
+  Energy_Grid:
+    Array_Deployment: "Rail Nexus Solar Tracking (TPP99424)"
+    Central_Command: "Humphrey Social Club (Sub-Surface Data Center)"
+  Community_Hubs:
+    Primary: "Humphrey Social Club (Historical Aesthetic/Modern Function)"
+    Secondary: "Vocational Training Barns & Heavy Logistics Depot"
