@@ -1,5 +1,4 @@
-def initiate_storm_protocol(wind_speed_forecast):
-    # 1. Engage Mechanical Lock-Down
+     # 1. Engage Mechanical Lock-Down
     # If winds exceed 80mph, the Rail Nexus units lock to the tracks
     rail_nexus.engage_storm_clamps()
     
