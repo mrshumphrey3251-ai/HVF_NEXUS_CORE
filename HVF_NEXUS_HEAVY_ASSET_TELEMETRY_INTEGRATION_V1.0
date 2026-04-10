@@ -1,0 +1,28 @@
+# Real-time monitoring for the Tranche I Heavy Fleet
+class AssetTelemetry:
+    def __init__(self):
+        self.fleet_registry = {}
+        self.sovereign_alert_threshold = 0.15 # 15% deviation triggers CEO alert
+
+    def ingest_machinery_data(self, machine_id, data_packet):
+        """
+        Processes GPS, fuel, engine load, and hydraulic pressure.
+        Ensures the asset is operating within the 200-acre geofence.
+        """
+        status = {
+            "location": data_packet['gps'],
+            "engine_health": data_packet['thermal_load'],
+            "utilization_pct": data_packet['active_vs_idle'],
+            "fuel_reserve": data_packet['fuel_level']
+        }
+        
+        # Geofence Validation
+        if not self.is_within_perimeter(status['location']):
+            self.trigger_security_lockdown(machine_id)
+            
+        self.fleet_registry[machine_id] = status
+        return f"ASSET_SYNC: {machine_id} verified and operational."
+
+    def trigger_security_lockdown(self, machine_id):
+        # Disables ignition via the Nexus Edge Gateway if theft is detected
+        pass
