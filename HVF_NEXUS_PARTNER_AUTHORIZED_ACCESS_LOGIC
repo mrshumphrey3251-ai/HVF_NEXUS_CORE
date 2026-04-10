@@ -1,0 +1,22 @@
+# Refined Access Control for Strategic Partner Integration
+class PartnerAccessControl:
+    def __init__(self):
+        self.ceo_uuid = "HUMPHREY_JEFFERY_SME_ULTRA"
+        self.partner_uuid = "HUMPHREY_WILHELMINE_PARTNER"
+
+    def determine_access_scope(self, user_uuid):
+        """
+        Differentiates between the Creator's Master Key 
+        and the Partner's Authorized Access.
+        """
+        if user_uuid == self.ceo_uuid:
+            return {
+                "access": "UNRESTRICTED",
+                "privileges": ["HELIO_CORE", "FINANCIAL_TRANCHE", "OMEGA_PROTOCOL", "SME_OVERRIDE"]
+            }
+        elif user_uuid == self.partner_uuid:
+            return {
+                "access": "AUTHORIZED_FUNCTIONAL",
+                "privileges": ["COMMUNITY_PORTAL", "SITE_PROGRESS_VIEW", "MARKETING_ASSETS", "STAKEHOLDER_LOGS"]
+            }
+        return "ACCESS_DENIED"
