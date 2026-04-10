@@ -1,0 +1,28 @@
+/* The 'Humphrey Standard' Visual Framework */
+:root {
+  --hvf-iron: #1A1A1A;     /* Midnight Black */
+  --hvf-brass: #B5892D;    /* Aged Brass */
+  --hvf-gold: #FFD700;     /* High-Performance Gold */
+  --hvf-leather: #4B3621;  /* Industrial Brown */
+}
+
+.nexus-dashboard {
+  background: var(--hvf-iron);
+  border: 4px solid var(--hvf-brass);
+  box-shadow: 0 0 25px rgba(181, 137, 45, 0.4);
+  font-family: 'Western-Industrial-Bold', serif;
+  text-transform: uppercase;
+}
+
+.action-switch {
+  /* Mimics a physical 1880s heavy industrial toggle */
+  background: linear-gradient(145deg, var(--hvf-brass), #8B6B23);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hvf-status-pulse {
+  /* Real-time pulse for 200 units and HelioGrid */
+  animation: pulse-gold 2s infinite;
+}
