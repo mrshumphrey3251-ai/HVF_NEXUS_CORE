@@ -20,3 +20,5 @@ jobs:
 
       - name: 3. Infrastructure Site Monitor
         run: python3 src/infrastructure/site_monitor.py
+      - name: 4. Vocational Mobile Nexus
+        run: python3 src/vocational/nexus_mobile.py
