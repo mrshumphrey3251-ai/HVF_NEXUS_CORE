@@ -1,0 +1,23 @@
+# Real-time financial modeling for new property designs
+class CapexEstimator:
+    def __init__(self):
+        self.unit_cost_base = 125000 # Per residential module
+        self.excavation_rate = 4.50 # Per cubic yard of dirt
+        self.heliogrid_block_cost = 750000 # Per 5MW array
+
+    def calculate_project_total(self, design_data):
+        """
+        Calculates the total investment required for the current 
+        Sandbox design.
+        """
+        lake_cost = design_data['lake_volume'] * self.excavation_rate
+        housing_cost = 200 * self.unit_cost_base
+        grid_cost = design_data['power_req'] * self.heliogrid_block_cost
+        
+        soft_costs = (lake_cost + housing_cost + grid_cost) * 0.15 # 15% Overhead
+        
+        return {
+            "Total_CAPEX": round(lake_cost + housing_cost + grid_cost + soft_costs, 2),
+            "Phase_I_Mobilization": round(soft_costs, 2),
+            "Cost_Per_Acre": round((lake_cost + housing_cost) / 200, 2)
+        }
