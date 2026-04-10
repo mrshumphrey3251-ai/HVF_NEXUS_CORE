@@ -1,0 +1,33 @@
+CREATE TABLE users (
+    user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    legal_name VARCHAR(255) NOT NULL,
+    rank_tier INT CHECK (rank_tier BETWEEN 1 AND 3),
+    badge_level VARCHAR(50),
+    encryption_key_hash TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE heliogrid_telemetry (
+    node_id UUID PRIMARY KEY,
+    voltage_in DECIMAL(10,2),
+    amperage_out DECIMAL(10,2),
+    storage_capacity_pct INT,
+    thermal_status VARCHAR(50),
+    last_ping TIMESTAMP
+);
+
+CREATE TABLE infrastructure_master (
+    unit_id INT PRIMARY KEY,
+    sector_id INT,
+    status_code VARCHAR(20), -- Planning, Foundation, Completed
+    asset_link UUID, -- Links to heavy machinery on-site
+    last_inspection DATE
+);
+
+CREATE TABLE restoration_ledger (
+    entry_id UUID PRIMARY KEY,
+    veteran_id UUID REFERENCES users(user_id),
+    vocational_hours DECIMAL(10,2),
+    certification_earned VARCHAR(100),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
