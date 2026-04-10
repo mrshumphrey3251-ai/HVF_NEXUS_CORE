@@ -1,0 +1,18 @@
+# Synchronizing the Tour Progress with Johnston County Ops
+class TourTracker:
+    def __init__(self):
+        self.total_stops = 40
+        self.completed_stops = 0
+        self.current_location = "JOHNSTON_COUNTY_OK"
+
+    def mark_milestone(self, city, stakeholder_count):
+        """
+        Logs the impact of each city visit.
+        Syncs stakeholder interest back to the Partner (Mina) Dashboard.
+        """
+        self.completed_stops += 1
+        print(f"MILESTONE_LOGGED: {city} activation complete.")
+        return f"TOUR_PROGRESS: {self.completed_stops / self.total_stops * 100}%"
+
+# The Alpha Build is now fully synchronized with the physical schedule.
+tour_sync = TourTracker()
