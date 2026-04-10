@@ -1,0 +1,27 @@
+# TSM Logic linking HelioGrid output to Residential Unit Status
+class TSMVisualization:
+    def __init__(self, site_id="JOHNSTON_COUNTY_OK"):
+        self.site_map = {}
+        self.unit_count = 200
+
+    def sync_unit_status(self, unit_id, grid_data):
+        """
+        Maps real-time HelioGrid telemetry to the physical 200-unit 
+        footprint. Provides the 'God-view' for the CEO.
+        """
+        autonomy_score = grid_data['kW_output'] / 1.5 # 1.5kW avg residential load
+        
+        status_update = {
+            "unit_id": unit_id,
+            "power_status": "FULL_AUTONOMY" if autonomy_score >= 1.0 else "GRID_ASSISTED",
+            "thermal_regulation": "OPTIMAL",
+            "occupancy_ready": True
+        }
+        
+        self.site_map[unit_id] = status_update
+        return f"TSM_UPDATE: Unit {unit_id} is now LIVE on the map."
+
+    def get_site_health_pulse(self):
+        # Aggregates all 200 units into a single Executive KPI
+        active_units = len(self.site_map)
+        return f"SITE_PULSE: {active_units}/{self.unit_count} Units Synchronized."
