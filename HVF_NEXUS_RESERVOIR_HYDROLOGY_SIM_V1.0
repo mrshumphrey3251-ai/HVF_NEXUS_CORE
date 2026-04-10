@@ -1,0 +1,20 @@
+# Hydrology Engine for Reservoir Performance
+class HydrologyEngine:
+    def __init__(self, lake_acreage=25):
+        self.lake_area = lake_acreage * 43560 # Sq Ft
+        self.target_depth = 12 # Mean depth in feet
+        self.evaporation_rate = 0.002 # Daily avg coefficient
+
+    def simulate_fill_cycle(self, annual_rainfall_inches, terrain_runoff_coeff):
+        """
+        Calculates how many 'Rain Days' are required to reach 100% capacity
+        based on the catchment area of the 200-acre tract.
+        """
+        catchment_volume = (200 * 43560) * (annual_rainfall_inches / 12) * terrain_runoff_coeff
+        days_to_fill = (self.lake_area * self.target_depth) / (catchment_volume / 365)
+        
+        return {
+            "Total_Capacity_Gallons": round((self.lake_area * self.target_depth) * 7.48, 2),
+            "Estimated_Fill_Time_Days": round(days_to_fill, 1),
+            "Sustainability_Index": "SELF_SUSTAINING" if days_to_fill < 365 else "SUPPLEMENT_REQUIRED"
+        }
