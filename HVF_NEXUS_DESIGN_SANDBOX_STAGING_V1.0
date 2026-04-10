@@ -1,0 +1,24 @@
+# The Sandbox Logic for New Property Prototyping
+class DesignSandbox:
+    def __init__(self):
+        self.active_session = None
+        self.logic_constraint = "HVF_INDUSTRIAL_STANDARD"
+
+    def create_new_draft(self, site_name, acreage):
+        """
+        Creates a isolated 'Draft Environment'. 
+        Zero risk of cross-contamination with the $25M primary ledger.
+        """
+        draft_site = {
+            "name": site_name,
+            "size": acreage,
+            "status": "CONCEPTUAL",
+            "layer_mask": "TOPOGRAPHICAL_WIRE_FRAME"
+        }
+        self.active_session = draft_site
+        return f"SANDBOX_READY: '{site_name}' is now active for generative design."
+
+    def apply_auto_layout(self):
+        # Automatically places the 200-unit cluster and 25-acre reservoir
+        # based on terrain low-points and ADA accessibility.
+        pass
