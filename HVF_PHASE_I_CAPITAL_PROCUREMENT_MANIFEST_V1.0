@@ -1,0 +1,24 @@
+Procurement_Authorization:
+  Tranche_ID: "TRANCHE_I_MOBILIZATION"
+  Total_Allocation: 3750000.00
+  Currency_Type: "USD"
+  Authorized_By: "HUMPHREY_CEO_SME_ULTRA"
+
+  Asset_Acquisition_List:
+    - Item: "Industrial Earthmoving Fleet (Excavator, Dozer, Grader)"
+      Purpose: "25-Acre Lake Basin Development"
+      Allocation: 2100000.00
+    
+    - Item: "HVF Nexus Armored Edge Gateways (x2)"
+      Purpose: "Site-Wide Satellite Uplink & Logic Hosting"
+      Allocation: 450000.00
+    
+    - Item: "Perimeter Security & Drone Surveillance Mesh"
+      Purpose: "Geofence Enforcement & Asset Protection"
+      Allocation: 300000.00
+    
+    - Item: "Initial Site Infrastructure (Mobile Command & Prep)"
+      Purpose: "Establishing the Slab Road Ground-Zero Office"
+      Allocation: 900000.00
+
+  Payment_Protocol: "Milestone-Escrow_SAM_CAGE_Verified"
