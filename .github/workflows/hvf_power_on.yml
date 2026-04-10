@@ -1,14 +1,4 @@
 name: HVF_Power_On
-on: [workflow_dispatch]
-
-jobs:
-  run-logic:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Execute Handshake
-        run: python3 src/livestock/triad_link.py
-name: HVF_Power_On
 
 env:
   PYTHONPATH: ${{ github.workspace }}
