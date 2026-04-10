@@ -1,0 +1,10 @@
+{
+  "endpoints": {
+    "weather_irradiance": "GET /v1/environment/solar-flux",
+    "supply_chain_materials": "GET /v1/logistics/market-pricing",
+    "heliogrid_middleware_push": "POST /v1/grid/telemetry-sync",
+    "gis_site_overlay": "GET /v1/map/johnston-county-gis"
+  },
+  "auth_method": "Bearer_Token_AES256",
+  "priority_routing": "Critical_Alerts_Override"
+}
