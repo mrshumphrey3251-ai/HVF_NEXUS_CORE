@@ -1,0 +1,17 @@
+{
+  "connectivity_parameters": {
+    "primary_uplink": "High-Throughput_LEO_Satellite_Array",
+    "backup_uplink": "Redundant_Long-Range_Radio_Frequency (LoRaWAN)",
+    "encryption": "AES-256_End-to-End",
+    "bandwidth_allocation": {
+      "heliogrid_telemetry": "20%",
+      "security_drone_video": "50%",
+      "ceo_command_voice": "10%",
+      "site_ops_data": "20%"
+    },
+    "failsafe_logic": {
+      "on_signal_loss": "ACTIVATE_LOCAL_EDGE_AUTONOMY",
+      "on_reconnect": "FORCE_FORENSIC_SYNC"
+    }
+  }
+}
