@@ -1,0 +1,22 @@
+{
+  "site_sovereignty": {
+    "property_id": "SLAB_ROAD_JOHNSTON_COUNTY_OK",
+    "total_acreage": 200.0,
+    "gps_coordinates": {
+      "nw_corner": [34.3400, -96.6500],
+      "ne_corner": [34.3400, -96.6400],
+      "sw_corner": [34.3300, -96.6500],
+      "se_corner": [34.3300, -96.6400]
+    },
+    "perimeter_logic": {
+      "alert_status": "ENABLED",
+      "entry_protocol": "CEO_NOTIFICATION_ONLY",
+      "unauthorized_breach": "LOG_TO_FORENSIC_SHIELD"
+    },
+    "internal_zones": [
+      {"zone": "RESERVOIR_EXCAVATION", "radius": "25_ACRES"},
+      {"zone": "HELIOGRID_HUB", "radius": "5_ACRES"},
+      {"zone": "RESIDENTIAL_CLUSTER", "units": 200}
+    ]
+  }
+}
