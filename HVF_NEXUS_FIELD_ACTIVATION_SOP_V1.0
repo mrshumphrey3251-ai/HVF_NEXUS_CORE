@@ -1,0 +1,20 @@
+# HVF Nexus On-Site Activation Protocol
+
+## 1. Hardware Initialization
+- Deploy Industrial IoT Gateways at Sector 1 (HelioGrid Hub).
+- Establish Secure Local Area Network (SLAN) with WPA3 Enterprise encryption.
+- Connect Physical Sensors (Voltage, Amperage, GPS) to Gateway via Modbus.
+
+## 2. Nexus Handshake
+- Authenticate Gateway using CEO-issued Unique Device ID (UDI).
+- Execute 'Nexus-Connect' script to sync local data with Cloud Master.
+- Verify real-time telemetry appears on the Tactical Site Map (TSM).
+
+## 3. Personnel Integration
+- Provision Tier 1 & Tier 2 credentials via the Nexus Admin Portal.
+- Conduct local stress test: Toggle a non-critical load (e.g., perimeter lighting) 
+  via the Nexus interface.
+
+## 4. Sovereignty Check
+- Test the 'Omega' bypass. Ensure the CEO UUID can lock/unlock the sector 
+  independently of local Superintendent access.
