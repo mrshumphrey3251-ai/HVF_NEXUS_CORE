@@ -1,0 +1,17 @@
+Day_Zero_Parameters:
+  Timestamp: "2026-04-10T12:00:00Z"
+  Site_Location: "Johnston County, OK (Slab Road Tract)"
+  Current_Asset_Value: 0.00 # Pre-Disbursement Baseline
+  Physical_State:
+    Land_Status: "Raw_Acreage_Secured"
+    Reservoir_Site: "Unexcavated_25_Acre_Basin"
+    Residential_Units: 0
+    Grid_Status: "Off-Line (Middleware_Only)"
+  Personnel_Status:
+    CEO: "Active_Sovereign"
+    Superintendents: "Provisioned_Pending_Deployment"
+    Veterans: "Waitlist_Activated"
+  Legal_Audit:
+    CAGE_Code: "1AHA8"
+    UEI: "S1M4ENLHTDH5"
+    Patent_Status: "TPP99424_Pending"
