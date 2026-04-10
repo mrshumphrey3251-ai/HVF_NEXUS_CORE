@@ -14,3 +14,5 @@ class BillingEngine:
     def process_commission(self, sale_amount):
         """Calculates the HVF platform cut for the Iron Record."""
         return sale_amount * self.transaction_fee
+    - name: Run Revenue Oracle
+        run: python3 src/finance/revenue_oracle.py
