@@ -1,0 +1,19 @@
+{
+  "logistics_module": {
+    "procurement_logic": "JIT_Industrial_Standard",
+    "critical_assets": [
+      "HelioGrid_Solar_Arrays",
+      "HVF_Housing_Modules",
+      "Reservoir_Filtration_Hardware"
+    ],
+    "tracking_metrics": {
+      "on_site_inventory": "decimal",
+      "in_transit_eta": "timestamp",
+      "vendor_reliability_score": "float"
+    },
+    "alert_triggers": {
+      "material_shortage": "RECALCULATE_TSM_VELOCITY",
+      "cost_fluctuation_threshold": "0.05"
+    }
+  }
+}
