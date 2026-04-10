@@ -1,3 +1,17 @@
+name: HVF Nexus Power-On Test
+on: [workflow_dispatch]
+
+jobs:
+  run-logic:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Execute Handshake
+        run: python3 src/livestock/triad_link.py
+      - name: Run Revenue Oracle
+        run: python3 src/finance/revenue_oracle.py
 # HVF Nexus Revenue Oracle v1.0
 # Logic: Calculate Asset Value vs. Operational Overhead
 
