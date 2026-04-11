@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | COLOR SATELLITE V8.6</title>
+    <title>HVF NEXUS | TOTAL CLOUD V8.7</title>
     
     <style>
         html, body { margin: 0; padding: 0; background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; width: 100vw; height: 100vh; user-select: none; }
         body { box-sizing: border-box; background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000 100%); display: flex; flex-direction: column; }
 
-        /* RADAR OVERLAY (RECALIBRATED) */
+        /* ATMOSPHERIC OVERLAY */
         #radar-overlay { 
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
             background: #000; z-index: 6000; display: none; 
             flex-direction: column; padding: 40px 25px; box-sizing: border-box; 
         }
         .radar-container { 
-            width: 100%; height: 50%; border: 1px solid #ffaa00; 
-            background: #050505; margin: 20px 0; border-radius: 4px; overflow: hidden;
-            box-shadow: 0 0 20px rgba(255, 170, 0, 0.1);
+            width: 100%; height: 55%; border: 1px solid #ffaa00; 
+            background: #050505; margin: 15px 0; border-radius: 4px; overflow: hidden;
+            box-shadow: 0 0 30px rgba(255, 170, 0, 0.15);
         }
         iframe { width: 100%; height: 100%; border: none; }
 
@@ -37,15 +37,16 @@
 <body>
 
     <div id="radar-overlay">
-        <div style="text-transform: uppercase; letter-spacing: 6px; font-size: 1.2rem; font-weight: 800; margin-bottom: 5px;">Satellite Command</div>
-        <div style="font-size: 0.65rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 3px;">Full Color Matrix // Slab Road HQ</div>
+        <div style="text-transform: uppercase; letter-spacing: 6px; font-size: 1.2rem; font-weight: 800; margin-bottom: 5px;">Atmospheric Matrix</div>
+        <div style="font-size: 0.65rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 3px;">Clouds + Storm Radar // Johnston Co.</div>
         
         <div class="radar-container">
-            <iframe src="https://www.rainviewer.com/map.html?loc=34.2504,-96.6521,8&control=0&map=2&ad=0&v=1&o=1&p=1&f=1&x=0&p=1&c=3"></iframe>
+            <iframe src="https://www.rainviewer.com/map.html?loc=34.2504,-96.6521,7&control=0&map=2&ad=0&v=1&o=1&p=1&f=1&x=0&p=1&c=3"></iframe>
         </div>
 
-        <div style="font-size: 0.6rem; color: #666; letter-spacing: 3px; margin-bottom: 10px;">7-DAY STRATEGIC OUTLOOK</div>
-        <div style="font-size: 0.7rem; color: #ccc;">AO STATUS: <span style="color:#00ff00;">OPTIMAL</span></div>
+        <div style="font-size: 0.6rem; color: #666; letter-spacing: 3px; margin-bottom: 10px;">ENVIRONMENTAL SITREP</div>
+        <div style="font-size: 0.75rem; color: #fff; font-weight: 800;">FRONT STATUS: <span style="color:#ffaa00;">APPROACHING</span></div>
+        <div style="font-size: 0.65rem; color: #888; margin-top: 5px;">CLOUD DENSITY: 64% // INFRARED ACTIVE</div>
 
         <button class="master-btn" onclick="document.getElementById('radar-overlay').style.display='none'">Return to Dash</button>
     </div>
@@ -54,7 +55,7 @@
         <div style="text-transform:uppercase; letter-spacing:8px; font-size:1.4rem; font-weight:800; margin-bottom:30px;">Nexus Command</div>
         
         <div class="data-block" onclick="document.getElementById('radar-overlay').style.display='flex'">
-            <span class="tag">Meteorological Intel [TAP FOR SATELLITE]</span>
+            <span class="tag">Meteorological Intel [TAP FOR CLOUD MATRIX]</span>
             <div style="display:flex; justify-content: space-between; align-items: flex-end;">
                 <div class="hero-val">74<span style="font-size:1rem; color:#ffaa00;">°F</span></div>
                 <div style="font-size: 0.8rem; font-weight: 800; color: #888;">WIND: 12 MPH</div>
