@@ -12,13 +12,13 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Force Project Generation
+      - name: Force Skeleton Generation
         run: |
           flutter create --platforms android .
           
-      - name: Restore Sovereign Logic
+      - name: Clean and Get Dependencies
         run: |
-          # This ensures our custom files override the default ones
+          flutter clean
           flutter pub get
 
       - name: Build Android APK
