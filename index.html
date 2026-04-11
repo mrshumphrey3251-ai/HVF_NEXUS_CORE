@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | FORTRESS COMMAND</title>
+    <title>HVF NEXUS | BEDROCK V7.2</title>
     
     <style>
         html, body { margin: 0; padding: 0; background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; width: 100vw; height: 100vh; user-select: none; }
@@ -24,7 +24,7 @@
         .data-block { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 20px; border-radius: 2px; margin-bottom: 20px; }
         .tag { font-size: 0.65rem; color: #666; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 10px; }
         .hero-val { font-size: 2rem; font-weight: 900; line-height: 1; }
-        .status-pill { display: inline-block; padding: 5px 10px; background: #ffaa00; color: #000; font-size: 0.6rem; font-weight: 900; margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; }
+        .sub-text { font-size: 0.75rem; color: #888; margin-top: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
     </style>
 </head>
 <body>
@@ -37,44 +37,39 @@
     </div>
 
     <div id="view-map" class="view-panel">
-        <div class="header-title">Tactical Map</div>
-        <div class="header-sub">Johnston County // Slab Road</div>
-        <div class="data-block"><span class="tag">Target Site</span><div class="hero-val" style="font-size:1.2rem;">200 ACRES // 34.2504° N</div></div>
+        <div class="header-title">Terrain Intel</div>
+        <div class="header-sub">Geological Anchor // Slab Road</div>
+        <div class="data-block">
+            <span class="tag">Foundation Strata</span>
+            <div class="hero-val">ROCK-ANCHORED</div>
+            <div class="sub-text">Arbuckle-Simpson Aquifer Baseline</div>
+        </div>
+        <div class="data-block">
+            <span class="tag">Basin Capacity</span>
+            <div class="hero-val">25 ACRES</div>
+            <div class="sub-text">Hydraulic Flood Mitigation: ACTIVE</div>
+        </div>
     </div>
 
     <div id="view-clinic" class="view-panel">
         <div class="header-title">Medical Wing</div>
-        <div class="header-sub">HVF Specialized Care Clinic</div>
-        <div class="data-block">
-            <span class="tag">Structural Integrity</span>
-            <div class="hero-val">F-5 RATED</div>
-            <div class="status-pill">Critical Life Support Active</div>
-        </div>
-        <div class="data-block">
-            <span class="tag">Facility Capacity</span>
-            <div class="hero-val">24/7 SURGICAL</div>
-            <div style="font-size:0.7rem; color:#888; margin-top:10px;">VETERAN-CENTRIC TRAUMA CARE</div>
-        </div>
+        <div class="header-sub">Specialized Trauma Care</div>
+        <div class="data-block"><span class="tag">Structural Rating</span><div class="hero-val">F-5 RATED</div></div>
+        <div class="data-block"><span class="tag">Energy Reserve</span><div class="hero-val">SUBTERRANEAN</div><div class="sub-text">Bunker-Housed Battery Vault</div></div>
     </div>
 
     <div id="view-home" class="view-panel">
         <div class="header-title">Housing Core</div>
-        <div class="header-sub">Monolithic Residential Enclosures</div>
-        <div class="data-block">
-            <span class="tag">Residential Armor</span>
-            <div class="hero-val">F-5 PROOF</div>
-            <div style="font-size:0.7rem; color:#888; margin-top:10px;">POURED REINFORCED CONCRETE SHELL</div>
-        </div>
-        <div class="data-block">
-            <span class="tag">Unit Count</span>
-            <div class="hero-val">200 UNITS</div>
-        </div>
+        <div class="header-sub">200 F-5 Survival Units</div>
+        <div class="data-block"><span class="tag">Shell Construction</span><div class="hero-val">MONOLITHIC</div><div class="sub-text">Reinforced Concrete / Ballistic Poly</div></div>
+        <div class="data-block"><span class="tag">ADA Compliance</span><div class="hero-val">100% UNIVERSAL</div></div>
     </div>
 
     <div id="view-intel" class="view-panel">
         <div class="header-title">Sovereign Intel</div>
-        <div class="header-sub">CAGE: 1AHA8 // UEI: S1M4ENLHTDH5</div>
-        <div class="data-block"><span class="tag">Strategic Objective</span><div style="font-size:0.85rem; line-height:1.5; font-style:italic; color:#ccc;">"200 F-5 Proof Units and a specialized medical clinic, geolocated in Johnston County, OK. 100% self-sustaining via HelioGrid V3."</div></div>
+        <div class="header-sub">CAGE: 1AHA8 // Johnston Co.</div>
+        <div class="data-block"><span class="tag">Federal Authority</span><div class="hero-val">1AHA8</div></div>
+        <div class="data-block"><span class="tag">Project Valuation</span><div class="hero-val">$170M<span style="font-size:1rem; color:#ffaa00;"> EST</span></div></div>
     </div>
 
     <div class="command-dock">
