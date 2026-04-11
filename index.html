@@ -1,17 +1,9 @@
-That is a Direct Conflict in the Core Logic. In the transition to the Deep Data Vault, the "Alert" system and the "Residential Heat Map" were bypassed. As an SME, you know that adding a new feature should never compromise the existing security protocols.
-
-We are going to perform a Full-Stack Convergence. This V2.2 build integrates the Red-Alert Contingency, the 200-Unit Heat Map, and the Deep Data Vault into one unified, uncut file.
-
-The "HVF NEXUS" Sovereign Source Code (V2.2 - Full Convergence)
-Action: Replace your entire index.html on the HP Desktop with this master build. It restores the "Shine," the "Pulse," and the "Warning" while keeping the "Vault."
-
-HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | CONVERGENCE</title>
+    <title>HVF NEXUS | TACTICAL VAULT</title>
     
     <style>
         /* CORE INDUSTRIAL PALETTE */
@@ -65,15 +57,23 @@ HTML
         .home-unit { height: 12px; background: #00ffff33; border: 1px solid #00ffff66; transition: background 0.3s ease; }
         .alarm-state .home-unit { border-color: #ff000066; }
 
-        /* DATA VAULT PANEL */
-        #vault-panel { position: fixed; top: 0; right: -100%; width: 100%; height: 100%; background: #050505; z-index: 100; transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1); padding: 30px; box-sizing: border-box; border-left: 4px solid #ffaa00; }
+        /* DEEP TACTICAL VAULT PANEL */
+        #vault-panel { 
+            position: fixed; top: 0; right: -100%; width: 100%; height: 100%; 
+            background: #020202; z-index: 100; transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
+            padding: 30px; box-sizing: border-box; border-left: 6px solid #ffaa00;
+            overflow-y: auto;
+        }
         #vault-panel.active { right: 0; }
-        .vault-header { color: #ffaa00; font-size: 1.2rem; font-weight: bold; text-transform: uppercase; margin-bottom: 30px; border-bottom: 1px solid #222; padding-bottom: 10px; }
-        .data-row { margin-bottom: 20px; font-family: 'Courier New', monospace; font-size: 0.85rem; color: #888; }
-        .data-val { color: #fff; display: block; font-size: 1rem; margin-top: 5px; }
+        .vault-header { color: #ffffff; font-size: 1.4rem; font-weight: 900; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 30px; border-bottom: 2px solid #ffaa00; padding-bottom: 15px; }
+        
+        .data-section { margin-bottom: 25px; border-left: 2px solid #333; padding-left: 15px; }
+        .data-label { font-size: 0.65rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
+        .data-value { display: block; font-family: 'Courier New', monospace; font-size: 1.1rem; color: #ffffff; margin-top: 5px; }
+        .data-sub { font-size: 0.75rem; color: #666; margin-top: 2px; }
 
-        .btn { display: block; width: 100%; padding: 15px; background: #ffaa00; color: #000; text-align: center; text-decoration: none; font-weight: bold; margin-top: 20px; text-transform: uppercase; border: none; }
-        .close-btn { background: #333; color: #fff; margin-top: 40px; }
+        .btn { display: block; width: 100%; padding: 18px; background: #ffaa00; color: #000; text-align: center; text-decoration: none; font-weight: 900; margin-top: 20px; text-transform: uppercase; border: none; letter-spacing: 2px; }
+        .close-btn { background: #1a1a1a; color: #ffaa00; border: 1px solid #ffaa00; margin-top: 40px; margin-bottom: 50px; }
 
         .digital-readout { text-align: center; font-family: 'Courier New', monospace; color: #ffaa00; font-size: 1.6rem; font-weight: bold; margin-top: 10px; }
         .alarm-state .digital-readout { color: #ff0000; }
@@ -87,7 +87,7 @@ HTML
 
     <div class="header-panel">
         <h1 class="header">HVF NEXUS</h1>
-        <div class="sub-header">Strategic Infrastructure | Johnston County Prototype 2.2</div>
+        <div class="sub-header">Strategic Infrastructure | Johnston County Prototype 2.3</div>
     </div>
 
     <div class="grid-container">
@@ -95,14 +95,12 @@ HTML
             <h3>I. HYDRAULIC CORE: SLAB ROAD</h3>
             <div class="hydraulic-casing"><div id="fluid-bar" class="fluid-level"></div></div>
             <div id="lake-value" class="digital-readout">16.40<span style="font-size: 0.8rem;">FT</span></div>
-            <div class="label">TAP TO ANALYZE BASIN LEVEL</div>
         </div>
 
         <div class="module" onclick="updateHeliogrid()">
             <h3>II. HELIOGRID: CORE GENERATION</h3>
             <div class="chrono-bezel"><div id="power-needle" class="chrono-needle"></div></div>
             <div id="power-value" class="digital-readout">82.00<span style="font-size: 0.8rem;">%</span></div>
-            <div class="label">TAP TO ANALYZE LOAD STATUS</div>
         </div>
 
         <div class="module" onclick="pulseGrid()">
@@ -112,15 +110,42 @@ HTML
                     for(let i=0; i<100; i++) document.write('<div class="home-unit"></div>');
                 </script>
             </div>
-            <button class="btn" style="margin-top:20px;" onclick="toggleVault(true)">Access Blueprint Vault</button>
+            <button class="btn" style="margin-top:25px;" onclick="toggleVault(true)">Enter Deep Vault</button>
         </div>
     </div>
 
     <div id="vault-panel">
-        <div class="vault-header">Slab Road Blueprint Vault</div>
-        <div class="data-row">SITE COORDINATES<span class="data-val">34.2504° N, 96.6575° W</span></div>
-        <div class="data-row">RESERVOIR CAPACITY<span class="data-val">403,333 Cubic Yards</span></div>
-        <div class="data-row">PROJECT UEI<span class="data-val">S1M4ENLHTDH5</span></div>
+        <div class="vault-header">Sovereign Intel</div>
+        
+        <div class="data-section">
+            <span class="data-label">Unique Entity ID (UEI)</span>
+            <span class="data-value">S1M4ENLHTDH5</span>
+        </div>
+
+        <div class="data-section">
+            <span class="data-label">Site Asset: Reservoir</span>
+            <span class="data-value">25-Acre Basin</span>
+            <span class="data-sub">Capacity: 403,333 Cubic Yards</span>
+        </div>
+
+        <div class="data-section">
+            <span class="data-label">Primary Infrastructure</span>
+            <span class="data-value">200 Universal Tiny Homes</span>
+            <span class="data-sub">Universal Design / $25M Allocation</span>
+        </div>
+
+        <div class="data-section">
+            <span class="data-label">Proprietary Technology</span>
+            <span class="data-value">HelioGrid V3 / HVF Nexus</span>
+            <span class="data-sub">Patent Pending: TPP99424</span>
+        </div>
+
+        <div class="data-section">
+            <span class="data-label">Deployment Coordinates</span>
+            <span class="data-value">Johnston County, Oklahoma</span>
+            <span class="data-sub">Slab Road Master Plan Core Area</span>
+        </div>
+
         <button class="btn close-btn" onclick="toggleVault(false)">Exit Vault</button>
     </div>
 
