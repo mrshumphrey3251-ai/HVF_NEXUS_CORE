@@ -19,9 +19,6 @@ class HVFNexus extends StatelessWidget {
   }
 }
 
-// ... [ExecutiveGate and NexusBase from Build #25 remain the same] ...
-// I will skip to the new SocialClubPortal implementation to save space but ensure it's in your file
-
 class ExecutiveGate extends StatelessWidget {
   const ExecutiveGate({super.key});
   @override
@@ -79,8 +76,6 @@ class _NexusBaseState extends State<NexusBase> {
   }
 }
 
-// ... [CommandHUD from Build #25 remains here] ...
-
 class CommandHUD extends StatefulWidget {
   const CommandHUD({super.key});
   @override
@@ -90,6 +85,8 @@ class CommandHUD extends StatefulWidget {
 class _CommandHUDState extends State<CommandHUD> {
   double power = 98.2;
   double water = 24.2;
+  String sysStatus = "NOMINAL";
+  Color statusColor = Colors.greenAccent;
   late Timer _timer;
 
   @override
@@ -98,8 +95,15 @@ class _CommandHUDState extends State<CommandHUD> {
     _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       if(mounted) {
         setState(() {
-          power = 97.0 + Random().nextDouble() * 3.0;
+          power = 95.0 + Random().nextDouble() * 5.0;
           water = 24.1 + Random().nextDouble() * 0.2;
+          if (power < 96.5) {
+            sysStatus = "CAUTION";
+            statusColor = Colors.orangeAccent;
+          } else {
+            sysStatus = "NOMINAL";
+            statusColor = Colors.greenAccent;
+          }
         });
       }
     });
@@ -118,11 +122,28 @@ class _CommandHUDState extends State<CommandHUD> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Center(child: Text("LIVE TELEMETRY", style: TextStyle(color: Color(0xFFB87333), letterSpacing: 4, fontWeight: FontWeight.bold))),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("SYSTEM TELEMETRY", style: TextStyle(color: Color(0xFFB87333), letterSpacing: 2, fontWeight: FontWeight.bold)),
+              Text(sysStatus, style: TextStyle(color: statusColor, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1)),
+            ],
+          ),
           const SizedBox(height: 40),
           _statusTile("HELIOGRID", "${power.toStringAsFixed(1)}% OUTPUT", Icons.bolt, Colors.greenAccent),
           _statusTile("BASIN DEPTH", "${water.toStringAsFixed(2)} FT", Icons.water_drop, Colors.blueAccent),
-          _statusTile("ATMOS", "72°F | CLEAR", Icons.cloud, const Color(0xFFB87333)),
+          const Spacer(),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton(
+              style: OutlinedButton.styleFrom(side: BorderSide(color: statusColor.withOpacity(0.5))),
+              onPressed: () {
+                setState(() => power = 100.0);
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("EXECUTIVE OVERRIDE: SYSTEM CALIBRATED")));
+              },
+              child: const Text("MANUAL SYSTEM RESET", style: TextStyle(fontSize: 10, letterSpacing: 1)),
+            ),
+          ),
         ],
       ),
     );
@@ -138,56 +159,6 @@ class _CommandHUDState extends State<CommandHUD> {
   }
 }
 
-// VIEW 3: NEW SOCIAL CLUB REGISTRY
-class SocialClubPortal extends StatelessWidget {
-  const SocialClubPortal({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(30.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text("SOCIAL CLUB REGISTRY", style: TextStyle(color: Color(0xFFB87333), letterSpacing: 2, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 20),
-          Expanded(
-            child: ListView(
-              children: [
-                _residentTile("LEAD EXECUTIVE", "FOUNDER 001", Colors.blueAccent),
-                _residentTile("CO-FOUNDER & ADVOCATE", "EXECUTIVE 002", Colors.orangeAccent),
-                _residentTile("VETERAN RESIDENT", "CHARTER MEMBER", Colors.greenAccent),
-                _residentTile("AGRICULTURAL SME", "ADVISOR", Colors.purpleAccent),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _residentTile(String role, String status, Color color) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: const Color(0xFF151515), border: Border.all(color: color.withOpacity(0.2))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(role, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-              const SizedBox(height: 4),
-              Text(status, style: TextStyle(fontSize: 10, color: color, letterSpacing: 1)),
-            ],
-          ),
-          Icon(Icons.chevron_right, color: color, size: 16),
-        ],
-      ),
-    );
-  }
-}
-
-class SiteMapGIS extends StatelessWidget { const SiteMapGIS({super.key}); @override Widget build(BuildContext context) { return const Center(child: Text("34.3323° N | 96.5056° W", style: TextStyle(color: Color(0xFFB87333)))); } }
-class MissionIntel extends StatelessWidget { const MissionIntel({super.key}); @override Widget build(BuildContext context) { return const Center(child: Text("HVF CREED", style: TextStyle(color: Color(0xFFB87333)))); } }
+class SiteMapGIS extends StatelessWidget { const SiteMapGIS({super.key}); @override Widget build(BuildContext context) { return const Center(child: Text("GIS LAYER: 200 UNITS PLOTTED", style: TextStyle(color: Color(0xFFB87333)))); } }
+class SocialClubPortal extends StatelessWidget { const SocialClubPortal({super.key}); @override Widget build(BuildContext context) { return const Center(child: Text("CLUB REGISTRY: FOUNDER 001", style: TextStyle(color: Color(0xFFB87333)))); } }
+class MissionIntel extends StatelessWidget { const MissionIntel({super.key}); @override Widget build(BuildContext context) { return const Center(child: Text("HVF MISSION INTEL", style: TextStyle(color: Color(0xFFB87333)))); } }
