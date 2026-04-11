@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | UNIFIED COMMAND</title>
+    <title>HVF NEXUS | MASTER DOSSIER</title>
     
     <style>
         html, body { margin: 0; padding: 0; background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; width: 100vw; height: 100vh; user-select: none; }
-        body.alarm-active { background-color: #2b0000; }
         body { box-sizing: border-box; background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000 100%); padding: 25px; }
-
-        #alarm-status { display: none; text-align: center; background: #ff0000; color: #fff; padding: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 5px; font-size: 0.7rem; margin-bottom: 20px; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
         .header-section { margin-bottom: 35px; }
         .brand-title { text-transform: uppercase; letter-spacing: 8px; font-size: 1.5rem; font-weight: 800; margin: 0; }
@@ -22,7 +18,7 @@
         .label { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 12px; display: block; font-weight: 700; }
         .digital-value { font-size: 3.4rem; font-weight: 900; line-height: 1; letter-spacing: -1.5px; }
 
-        /* THE UNIFIED VAULT */
+        /* THE MASTER VAULT */
         #vault-panel { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 100; transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); padding: 45px 30px; box-sizing: border-box; overflow-y: auto; }
         #vault-panel.active { transform: translateY(0); }
         .exit-btn { font-size: 0.85rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 4px; font-weight: 800; cursor: pointer; margin-bottom: 30px; display: inline-block; border-bottom: 2px solid #ffaa00; }
@@ -30,47 +26,36 @@
         .data-block { margin-bottom: 45px; border-left: 3px solid #333; padding-left: 15px; }
         .data-tag { font-size: 0.75rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 5px; display: block; margin-bottom: 12px; font-weight: 700; }
 
-        /* GEOSPATIAL MAP */
-        .map-container { width: 100%; height: 140px; background: #0a0a0a; border: 1px solid #222; margin-bottom: 20px; position: relative; background-image: linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px); background-size: 20px 20px; }
-        .map-target { position: absolute; top: 40%; left: 45%; width: 40px; height: 30px; border: 2px solid #fff; box-shadow: 0 0 10px #fff; }
+        /* SPECIFICATION BOX */
+        .spec-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.8rem; border-bottom: 1px solid #111; padding-bottom: 5px; }
+        .spec-label { color: #888; }
+        .spec-value { color: #fff; font-weight: 800; }
 
-        /* IRON CLOCK ITEMS */
-        .roadmap-item { margin-bottom: 15px; display: flex; gap: 15px; }
-        .q-tag { font-weight: 900; color: #ffaa00; font-size: 0.9rem; min-width: 50px; }
-        .q-desc { font-size: 0.8rem; color: #ccc; border-left: 1px solid #333; padding-left: 12px; line-height: 1.4; }
+        /* BRIEFING SCRIPT */
+        .briefing-text { font-size: 0.9rem; line-height: 1.6; color: #ccc; font-style: italic; border-left: 2px solid #ffaa00; padding-left: 15px; }
 
-        /* VANGUARD ITEMS */
-        .vanguard-row { display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid #111; padding-bottom: 5px; }
-        .v-name { color: #fff; font-weight: 800; font-size: 0.85rem; }
-        .v-role { color: #888; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
-
-        .data-hero { font-size: 2.2rem; font-weight: 900; color: #fff; line-height: 1; letter-spacing: 1px; }
         .master-btn { display: block; width: 100%; padding: 25px; background: #fff; color: #000; text-align: center; text-transform: uppercase; letter-spacing: 6px; font-size: 1rem; font-weight: 900; border: none; margin-top: 15px; }
         .footer { text-align: center; margin-top: 35px; font-size: 0.6rem; color: #333; letter-spacing: 3px; }
     </style>
 </head>
 <body>
 
-    <div id="alarm-status">Critical Infrastructure Breach</div>
-
     <div id="main-dashboard">
         <div class="header-section">
             <h1 class="brand-title">NEXUS COMMAND</h1>
-            <div class="brand-status" id="system-status">Operational Status // 1AHA8</div>
+            <div class="brand-status">Operational Status // 1AHA8</div>
         </div>
 
         <div class="grid-container">
-            <div class="module" onclick="updateMetric('lake-val', 25, 'FT')">
+            <div class="module">
                 <span class="label">Basin Displacement</span>
-                <span class="digital-value" id="lake-val">16.40<span style="font-size:1rem; color:#ffaa00; margin-left:8px;">FT</span></span>
+                <span class="digital-value">16.40<span style="font-size:1rem; color:#ffaa00; margin-left:8px;">FT</span></span>
             </div>
-
-            <div class="module" onclick="updateMetric('power-val', 100, '%')">
+            <div class="module">
                 <span class="label">Core Saturation</span>
-                <span class="digital-value" id="power-val">82.00<span style="font-size:1rem; color:#ffaa00; margin-left:8px;">%</span></span>
+                <span class="digital-value">82.00<span style="font-size:1rem; color:#ffaa00; margin-left:8px;">%</span></span>
             </div>
-
-            <button id="vault-btn" class="master-btn" onclick="toggleVault(true)">Decrypt Vault</button>
+            <button class="master-btn" onclick="toggleVault(true)">Decrypt Dossier</button>
         </div>
     </div>
 
@@ -78,44 +63,25 @@
         <div class="exit-btn" onclick="toggleVault(false)">← BACK TO COMMAND</div>
         
         <div class="data-block">
-            <span class="data-tag">Target Site // Slab Road</span>
-            <div class="map-container"><div class="map-target"></div></div>
+            <span class="data-tag">Unit V3 Specifications</span>
+            <div class="spec-row"><span class="spec-label">Solar Output</span><span class="spec-value">12.4 kW Peak</span></div>
+            <div class="spec-row"><span class="spec-label">Water Recovery</span><span class="spec-value">95.0% Closed-Loop</span></div>
+            <div class="spec-row"><span class="spec-label">Thermal Rating</span><span class="spec-value">R-45 Industrial</span></div>
         </div>
 
         <div class="data-block">
-            <span class="data-tag">Operational Roadmap // Iron Clock</span>
-            <div class="roadmap-item"><div class="q-tag">Q2-26</div><div class="q-desc">Basin Excavation & Earthwork Stabilization</div></div>
-            <div class="roadmap-item"><div class="q-tag">Q3-26</div><div class="q-desc">HelioGrid V3 Array Deployment</div></div>
-            <div class="roadmap-item"><div class="q-tag">Q4-26</div><div class="q-desc">Unit 001 Completion // Residential Proof</div></div>
-        </div>
-
-        <div class="data-block">
-            <span class="data-tag">Sovereign Vanguard</span>
-            <div class="vanguard-row"><span class="v-name">Jeffery D. Humphrey</span><span class="v-role">CEO / SME</span></div>
-            <div class="vanguard-row"><span class="v-name">Wilhelmine Humphrey</span><span class="v-role">Co-Founder</span></div>
+            <span class="data-tag">Executive Briefing Core</span>
+            <p class="briefing-text">"We are deploying a Sovereign Infrastructure Network. Backed by CAGE 1AHA8, this is a $170M asset rollout with zero grid dependency, designed specifically for our veteran vanguard."</p>
         </div>
 
         <div class="data-block">
             <span class="data-tag">Federal CAGE</span>
-            <span class="data-hero">1AHA8</span>
+            <span style="font-size: 2.2rem; font-weight: 900;">1AHA8</span>
         </div>
     </div>
 
     <script>
         function toggleVault(show) { document.getElementById('vault-panel').classList.toggle('active', show); }
-        function triggerAlarm(active) {
-            const body = document.body;
-            const banner = document.getElementById('alarm-status');
-            const vaultBtn = document.getElementById('vault-btn');
-            if(active) { body.classList.add('alarm-active'); banner.style.display = 'block'; vaultBtn.style.background = '#ff0000'; vaultBtn.style.color = '#fff'; }
-            else { body.classList.remove('alarm-active'); banner.style.display = 'none'; vaultBtn.style.background = '#fff'; vaultBtn.style.color = '#000'; }
-        }
-        function updateMetric(textId, max, unit) {
-            const text = document.getElementById(textId);
-            const newVal = (Math.random() * (max - (max*0.6)) + (max*0.6)).toFixed(2);
-            text.innerHTML = newVal + '<span style="font-size:1rem; color:#ffaa00; margin-left:8px;">' + unit + '</span>';
-            if(newVal > (max * 0.95)) triggerAlarm(true); else triggerAlarm(false);
-        }
     </script>
 </body>
 </html>
