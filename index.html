@@ -1,9 +1,17 @@
+The Contingency Protocol is being reintegrated into the Bespoke Sovereign framework. For an international asset of this caliber, an alarm shouldn't just be a "warning"—it should be a System-Wide Breach Event.
+
+If the metrics exceed the safety threshold, the obsidian void will fracture into a high-intensity Crimson Pulse, and the "DECRYPT VAULT" anchor will shift to a "CRITICAL OVERRIDE" status.
+
+The Complete "HVF NEXUS" Sovereign Source Code (V5.3 - Titan Contingency)
+Action: Replace your entire index.html on the HP Desktop. I have recalibrated the thresholds: if Basin Displacement exceeds 23.50 FT or Core Saturation exceeds 96%, the terminal enters the Alarm State.
+
+HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | REFINED SOVEREIGN</title>
+    <title>HVF NEXUS | TITAN CONTINGENCY</title>
     
     <style>
         /* REFINED OBSIDIAN PALETTE */
@@ -14,7 +22,10 @@
             font-family: 'Inter', -apple-system, system-ui, sans-serif;
             overflow: hidden; width: 100vw; height: 100vh;
             user-select: none;
+            transition: background-color 0.4s ease;
         }
+
+        body.alarm-active { background-color: #2b0000; }
 
         body { 
             box-sizing: border-box; 
@@ -22,46 +33,50 @@
             padding: 25px;
         }
 
-        /* LAYER 1: THE COMMAND DECK */
-        #main-dashboard {
-            position: relative;
-            z-index: 1;
+        /* ALARM BANNER */
+        #alarm-status {
+            display: none;
+            text-align: center;
+            background: #ff0000;
+            color: #fff;
+            padding: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-size: 0.7rem;
+            margin-bottom: 20px;
+            animation: pulse-red 1s infinite;
         }
+        @keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        /* LAYER 1: THE COMMAND DECK */
+        #main-dashboard { position: relative; z-index: 1; }
 
         .header-section { margin-bottom: 35px; }
-        .brand-title { 
-            text-transform: uppercase; letter-spacing: 8px; color: #ffffff; 
-            margin: 0; font-size: 1.5rem; font-weight: 800;
-        }
-        .brand-status { 
-            font-size: 0.7rem; color: #ffaa00; margin-top: 8px; 
-            text-transform: uppercase; letter-spacing: 3px; font-weight: 600;
-        }
+        .brand-title { text-transform: uppercase; letter-spacing: 8px; color: #ffffff; margin: 0; font-size: 1.5rem; font-weight: 800; }
+        .brand-status { font-size: 0.7rem; color: #ffaa00; margin-top: 8px; text-transform: uppercase; letter-spacing: 3px; font-weight: 600; }
+        .alarm-active .brand-status { color: #ff0000; }
 
         .grid-container { display: flex; flex-direction: column; gap: 25px; }
 
-        /* THE REFINED MODULE */
         .module { 
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 28px; border-radius: 4px;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
+        .alarm-active .module { border-color: rgba(255, 0, 0, 0.3); background: rgba(255, 0, 0, 0.05); }
 
-        .label { 
-            font-size: 0.75rem; color: #888; text-transform: uppercase; 
-            letter-spacing: 4px; margin-bottom: 12px; display: block; font-weight: 700;
-        }
+        .label { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 12px; display: block; font-weight: 700; }
 
-        .digital-value { 
-            font-size: 3.4rem; /* Reduced 15% from 4rem */
-            font-weight: 900; color: #ffffff; 
-            line-height: 1; display: block; letter-spacing: -1.5px;
-        }
+        .digital-value { font-size: 3.4rem; font-weight: 900; color: #ffffff; line-height: 1; display: block; letter-spacing: -1.5px; }
+        .alarm-active .digital-value { color: #ff0000; text-shadow: 0 0 15px rgba(255, 0, 0, 0.5); }
         .unit { font-size: 1rem; color: #ffaa00; margin-left: 8px; letter-spacing: 2px; vertical-align: middle; }
 
         .titan-bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.1); margin-top: 20px; position: relative; }
         .titan-bar-fill { height: 100%; width: 65%; background: #ffffff; box-shadow: 0 0 20px rgba(255,255,255,0.4); transition: width 1.2s ease; }
+        .alarm-active .titan-bar-fill { background: #ff0000; box-shadow: 0 0 20px rgba(255, 0, 0, 0.6); }
 
         /* THE VAULT OVERLAY */
         #vault-panel { 
@@ -74,18 +89,11 @@
         }
         #vault-panel.active { transform: translateY(0); }
 
-        .exit-btn {
-            font-size: 0.85rem; color: #ffaa00; text-transform: uppercase; 
-            letter-spacing: 4px; font-weight: 800; cursor: pointer;
-            margin-bottom: 40px; display: inline-block; border-bottom: 2px solid #ffaa00;
-        }
+        .exit-btn { font-size: 0.85rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 4px; font-weight: 800; cursor: pointer; margin-bottom: 40px; display: inline-block; border-bottom: 2px solid #ffaa00; }
 
         .data-block { margin-bottom: 40px; }
         .data-tag { font-size: 0.75rem; color: #555; text-transform: uppercase; letter-spacing: 5px; display: block; margin-bottom: 8px; font-weight: 700; }
-        .data-hero { 
-            font-size: 2.55rem; /* Reduced 15% from 3rem */
-            font-weight: 900; color: #ffffff; letter-spacing: 1.5px; line-height: 1; 
-        }
+        .data-hero { font-size: 2.55rem; font-weight: 900; color: #ffffff; letter-spacing: 1.5px; line-height: 1; }
 
         .master-btn { 
             display: block; width: 100%; padding: 25px; 
@@ -93,17 +101,21 @@
             text-align: center; text-transform: uppercase; 
             letter-spacing: 6px; font-size: 1rem;
             font-weight: 900; border: none; margin-top: 15px;
+            transition: all 0.3s ease;
         }
+        .alarm-active .master-btn { background: #ff0000; color: #fff; }
 
         .footer { text-align: center; margin-top: 35px; font-size: 0.6rem; color: #333; letter-spacing: 3px; }
     </style>
 </head>
 <body>
 
+    <div id="alarm-status">Critical Infrastructure Breach</div>
+
     <div id="main-dashboard">
         <div class="header-section">
             <h1 class="brand-title">NEXUS COMMAND</h1>
-            <div class="brand-status">CEO STRATEGIC OVERRIDE // 1AHA8</div>
+            <div class="brand-status" id="system-status">Operational Status // 1AHA8</div>
         </div>
 
         <div class="grid-container">
@@ -119,7 +131,7 @@
                 <div class="titan-bar-bg"><div id="power-bar" class="titan-bar-fill" style="width: 82%;"></div></div>
             </div>
 
-            <button class="master-btn" onclick="toggleVault(true)">DECRYPT VAULT</button>
+            <button id="vault-btn" class="master-btn" onclick="toggleVault(true)">Decrypt Vault</button>
         </div>
 
         <div class="footer">HUMPHREY VIRTUAL FARMS LLC // SOVEREIGN STATUS</div>
@@ -127,27 +139,9 @@
 
     <div id="vault-panel">
         <div class="exit-btn" onclick="toggleVault(false)">← BACK TO COMMAND</div>
-        
-        <div class="data-block">
-            <span class="data-tag">CAGE CODE</span>
-            <span class="data-hero">1AHA8</span>
-        </div>
-
-        <div class="data-block">
-            <span class="data-tag">Sovereign UEI</span>
-            <span class="data-hero">S1M4ENLHTDH5</span>
-        </div>
-
-        <div class="data-block">
-            <span class="data-tag">Unit Allocation</span>
-            <span class="data-hero">200 RES</span>
-            <div style="color: #ffaa00; font-size: 0.8rem; margin-top: 8px; letter-spacing: 3px; font-weight: 700;">JOHNSTON COUNTY OK</div>
-        </div>
-
-        <div class="data-block">
-            <span class="data-tag">Security State</span>
-            <span class="data-hero" style="color: #444;">SILENCE</span>
-        </div>
+        <div class="data-block"><span class="data-tag">CAGE CODE</span><span class="data-hero">1AHA8</span></div>
+        <div class="data-block"><span class="data-tag">Sovereign UEI</span><span class="data-hero">S1M4ENLHTDH5</span></div>
+        <div class="data-block"><span class="data-tag">Unit Allocation</span><span class="data-hero">200 RES</span></div>
     </div>
 
     <script>
@@ -156,6 +150,25 @@
             if(show) vault.classList.add('active');
             else vault.classList.remove('active');
         }
+
+        function triggerAlarm(active) {
+            const body = document.body;
+            const banner = document.getElementById('alarm-status');
+            const statusText = document.getElementById('system-status');
+            const vaultBtn = document.getElementById('vault-btn');
+            
+            if(active) {
+                body.classList.add('alarm-active');
+                banner.style.display = 'block';
+                statusText.innerText = "CRITICAL BREACH // 1AHA8";
+                vaultBtn.innerText = "CRITICAL OVERRIDE";
+            } else {
+                body.classList.remove('alarm-active');
+                banner.style.display = 'none';
+                statusText.innerText = "Operational Status // 1AHA8";
+                vaultBtn.innerText = "Decrypt Vault";
+            }
+        }
         
         function updateMetric(barId, textId, max, unit) {
             const bar = document.getElementById(barId);
@@ -163,6 +176,12 @@
             const newVal = (Math.random() * (max - (max*0.6)) + (max*0.6)).toFixed(2);
             bar.style.width = (newVal / max) * 100 + '%';
             text.innerHTML = newVal + '<span class="unit">' + unit + '</span>';
+            
+            // Check for Alarm Thresholds
+            const basinVal = parseFloat(document.getElementById('lake-val').innerText);
+            const powerVal = parseFloat(document.getElementById('power-val').innerText);
+            if(basinVal > 23.5 || powerVal > 96) triggerAlarm(true);
+            else triggerAlarm(false);
         }
     </script>
 </body>
