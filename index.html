@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | SOVEREIGN COMMAND</title>
+    <title>HVF NEXUS | INDUSTRIAL COMMAND</title>
     
     <style>
-        /* CORE INTERFACE SCALING */
+        /* PERIOD-APPROPRIATE CORE */
         html, body {
             margin: 0;
             padding: 0;
-            background-color: #050505;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0a0908; /* Coal Mine Black */
+            color: #d4a373; /* Aged Parchment/Brass */
+            font-family: 'Courier New', Courier, monospace; /* Typewriter/Letterpress feel */
             overflow-x: hidden;
             width: 100vw;
         }
@@ -20,204 +20,172 @@
         body {
             box-sizing: border-box;
             padding: 20px;
-            line-height: 1.6;
+            background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png'); /* Gritty texture */
         }
 
-        /* RUSTIC-INDUSTRIAL AESTHETICS */
-        .gold-line { 
-            border-top: 4px solid #f1c40f; 
-            width: 60px; 
-            margin-bottom: 15px; 
+        /* HEADER: FOUNDRY STYLE */
+        .header-container {
+            text-align: center;
+            border: 2px solid #5e503f;
+            padding: 15px;
+            margin-bottom: 25px;
+            background: rgba(43, 36, 28, 0.5);
         }
 
         .header { 
             text-transform: uppercase; 
-            letter-spacing: 3px; 
-            color: #f1c40f; 
+            letter-spacing: 5px; 
+            color: #f1c40f; /* High-Grade Gold */
             margin: 0;
-            font-size: 1.4rem;
+            font-size: 1.6rem;
+            text-shadow: 2px 2px #000;
         }
 
         .sub-header { 
-            font-size: 0.75rem; 
-            color: #888; 
-            margin-top: 5px; 
-            margin-bottom: 25px; 
+            font-size: 0.7rem; 
+            color: #8e7d66; 
+            margin-top: 10px; 
             text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        .grid-container { 
-            display: flex;
-            flex-direction: column;
-            gap: 20px; 
-        }
+        .grid-container { display: flex; flex-direction: column; gap: 25px; }
 
+        /* THE INDUSTRIAL MODULE */
         .module { 
-            border: 1px solid #222; 
-            background: #111; 
-            padding: 18px; 
-            border-radius: 2px;
-            width: 100%;
-            box-sizing: border-box;
+            border: 3px solid #5e503f; /* Cast Iron Border */
+            background: #1a1612; /* Dark Timber */
+            padding: 20px;
             position: relative;
-        }
-
-        .status-tag { 
-            background: #f1c40f; 
-            color: #000; 
-            padding: 2px 8px; 
-            font-weight: bold; 
-            font-size: 0.65rem; 
-            border-radius: 1px; 
-            float: right; 
-            text-transform: uppercase;
+            box-shadow: inset 0 0 15px #000;
         }
 
         h3 { 
             margin-top: 0; 
             color: #f1c40f; 
-            font-size: 1rem; 
+            font-size: 1.1rem; 
             text-transform: uppercase;
+            border-bottom: 1px solid #5e503f;
+            padding-bottom: 10px;
         }
 
-        /* PROTOTYPE VISUALIZERS */
-        .monitor-frame {
-            height: 80px;
-            border: 1px solid #333;
-            margin: 15px 0;
-            background-color: #0a0a0a;
+        /* GAUGE 01: THE HYDRAULIC GLASS COLUMN */
+        .glass-column-container {
+            width: 50px;
+            height: 150px;
+            border: 4px solid #8d99ae; /* Lead/Iron casing */
+            background: #000;
+            margin: 10px auto;
             position: relative;
-            overflow: hidden;
+            border-radius: 5px;
         }
 
-        .blueprint-grid {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: linear-gradient(#1a1a1a 1px, transparent 1px), linear-gradient(90deg, #1a1a1a 1px, transparent 1px);
-            background-size: 15px 15px;
-            z-index: 1;
-        }
-
-        .water-level {
+        .water-column {
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: 65%;
-            background: rgba(184, 115, 51, 0.2);
-            border-top: 2px solid #b87333;
-            z-index: 2;
+            height: 65.6%; /* 16.4ft / 25ft max */
+            background: linear-gradient(to right, #2a6f97, #468faf);
+            box-shadow: inset -5px 0 10px rgba(0,0,0,0.5);
         }
 
-        /* THE ANIMATED HEARTBEAT (HELIOGRID) */
-        .pulse-container {
+        /* GAUGE 02: THE STEAM DIAL (HELIOGRID) */
+        .steam-dial {
+            width: 120px;
+            height: 120px;
+            border: 6px solid #b87333; /* Heavy Brass */
+            border-radius: 50%;
+            margin: 10px auto;
+            position: relative;
+            background: #e3d5ca; /* Aged Paper Face */
+            box-shadow: 0 0 10px #000;
+        }
+
+        .needle {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            width: 4px;
+            height: 45px;
+            background: #780000; /* Dark Iron Red */
+            transform-origin: bottom center;
+            transform: rotate(100deg); /* 82% Load position */
+            transition: transform 2s ease-in-out;
+            border-radius: 2px;
+        }
+
+        .dial-center {
             position: absolute;
             top: 50%;
-            left: 0;
-            width: 200%; /* Extended for seamless looping */
-            height: 4px;
-            z-index: 3;
-            display: flex;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            background: #333;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
         }
 
-        .pulse-line {
-            width: 100%;
-            height: 2px;
-            background: #f1c40f;
-            box-shadow: 0 0 12px #f1c40f;
-            will-change: transform;
-            animation: heartbeat-scroll 3s linear infinite;
-        }
-
-        @keyframes heartbeat-scroll {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-
-        .readout {
-            position: absolute;
-            top: 5px;
-            right: 8px;
-            font-size: 0.7rem;
+        .readout-stamp {
+            text-align: center;
             font-weight: bold;
-            z-index: 4;
-            text-transform: uppercase;
+            color: #f1c40f;
+            font-size: 1.2rem;
+            margin-top: 10px;
+            text-shadow: 1px 1px #000;
         }
 
-        .action-btn { 
-            display: block; 
-            width: 100%; 
-            padding: 12px; 
-            background: #f1c40f; 
-            color: #000; 
-            text-align: center; 
-            text-decoration: none; 
-            font-weight: bold; 
-            margin-top: 15px; 
-            border-radius: 2px; 
-            text-transform: uppercase;
-            font-size: 0.85rem;
+        .map-bg {
+            background-image: url('https://www.transparenttextures.com/patterns/pinstriped-suit.png');
+            opacity: 0.1;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
         }
 
-        .footer {
+        .footer { 
             text-align: center; 
             margin-top: 40px; 
-            font-size: 0.65rem; 
-            color: #444;
+            font-size: 0.6rem; 
+            color: #5e503f; 
             text-transform: uppercase;
         }
     </style>
 </head>
 <body>
 
-    <div class="gold-line"></div>
-    <h1 class="header">HVF NEXUS</h1>
-    <div class="sub-header">Sovereign Industrial Prototype | CEO Internal Access</div>
+    <div class="header-container">
+        <h1 class="header">HVF NEXUS</h1>
+        <div class="sub-header">PROPRIETARY INDUSTRIAL TERMINAL | EST. 2026</div>
+    </div>
 
     <div class="grid-container">
         
-        <div class="module" style="border-left: 4px solid #b87333;">
-            <span class="status-tag" style="background: #b87333;">ACTIVE SIM</span>
-            <h3>01. HYDRAULIC DEPTH (LAKE)</h3>
-            <div class="monitor-frame">
-                <div class="water-level"></div>
-                <div class="blueprint-grid"></div>
-                <div class="readout" style="color:#b87333;">RESERVOIR: 16.4 FT</div>
+        <div class="module">
+            <div class="map-bg"></div>
+            <h3>I. HYDRAULIC RESERVOIR (25-ACRE)</h3>
+            <div class="glass-column-container">
+                <div class="water-column"></div>
             </div>
-            <p style="font-size: 0.85rem; color: #888;">Simulating 25-acre water retention against Johnston County terrain.</p>
-        </div>
-
-        <div class="module" style="border-left: 4px solid #f1c40f;">
-            <span class="status-tag">HEARTBEAT LIVE</span>
-            <h3>02. HELIOGRID POWER CORE</h3>
-            <div class="monitor-frame">
-                <div class="pulse-container">
-                    <div class="pulse-line"></div>
-                </div>
-                <div class="blueprint-grid"></div>
-                <div class="readout" style="color:#f1c40f;">LOAD: 82% CAPACITY</div>
-            </div>
-            <p style="font-size: 0.85rem; color: #888;">Live simulation of solar capture vs. 200-unit residential consumption.</p>
+            <div class="readout-stamp">16.4 FT</div>
+            <p style="text-align: center; font-size: 0.8rem; color: #8e7d66;">CURRENT RETENTION DEPTH</p>
         </div>
 
         <div class="module">
-            <span class="status-tag">SECURE</span>
-            <h3>03. SLAB ROAD SPECS</h3>
-            <ul style="font-size: 0.85rem; color: #ccc; padding-left: 20px;">
-                <li>200 Sustainable Tiny Homes</li>
-                <li>25-Acre Central Reservoir</li>
-                <li>NIST-Compliant Power Management</li>
-            </ul>
-            <a href="#" class="action-btn">Enter Blueprint Vault</a>
+            <div class="map-bg"></div>
+            <h3>II. HELIOGRID POWER LOAD</h3>
+            <div class="steam-dial">
+                <div class="needle"></div>
+                <div class="dial-center"></div>
+                <div style="position: absolute; bottom: 20px; width: 100%; text-align: center; color: #333; font-size: 0.6rem; font-weight: bold;">PSI / LOAD</div>
+            </div>
+            <div class="readout-stamp">82% CAP.</div>
+            <p style="text-align: center; font-size: 0.8rem; color: #8e7d66;">SOLAR CORE CONSUMPTION</p>
         </div>
 
     </div>
 
     <div class="footer">
-        © 2026 HUMPHREY VIRTUAL FARMS LLC<br>
-        PROTOTYPE PHASE: INTERNAL USE ONLY
+        HUMPHREY VIRTUAL FARMS LLC<br>
+        JOHNSTON COUNTY SOVEREIGNTY PROJECT
     </div>
 
 </body>
