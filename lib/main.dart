@@ -1,12 +1,11 @@
+import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const HVFNexus());
-}
+void main() => runApp(const HVFNexus());
 
 class HVFNexus extends StatelessWidget {
   const HVFNexus({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,7 +21,6 @@ class HVFNexus extends StatelessWidget {
 
 class ExecutiveGate extends StatelessWidget {
   const ExecutiveGate({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,16 +33,8 @@ class ExecutiveGate extends StatelessWidget {
             const Text("HVF NEXUS CORE", style: TextStyle(letterSpacing: 6, fontWeight: FontWeight.bold, fontSize: 18)),
             const SizedBox(height: 48),
             OutlinedButton(
-              style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: Color(0xFFB87333)),
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-              ),
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const NexusBase()),
-                );
-              },
+              style: OutlinedButton.styleFrom(side: const BorderSide(color: Color(0xFFB87333)), padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16)),
+              onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const NexusBase())),
               child: const Text("ENGAGE COMMAND", style: TextStyle(color: Colors.white, letterSpacing: 2)),
             ),
           ],
@@ -56,20 +46,13 @@ class ExecutiveGate extends StatelessWidget {
 
 class NexusBase extends StatefulWidget {
   const NexusBase({super.key});
-
   @override
   State<NexusBase> createState() => _NexusBaseState();
 }
 
 class _NexusBaseState extends State<NexusBase> {
   int _selectedIndex = 0;
-
-  final List<Widget> _views = [
-    const CommandHUD(),
-    const SiteMapGIS(),
-    const SocialClubPortal(),
-    const MissionIntel(),
-  ];
+  final List<Widget> _views = [const CommandHUD(), const SiteMapGIS(), const SocialClubPortal(), const MissionIntel()];
 
   @override
   Widget build(BuildContext context) {
@@ -79,13 +62,9 @@ class _NexusBaseState extends State<NexusBase> {
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.black,
         selectedItemColor: const Color(0xFFB87333),
-        unselectedItemColor: Colors.white12,
+        unselectedItemColor: Colors.white10,
         currentIndex: _selectedIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
+        onTap: (index) => setState(() => _selectedIndex = index),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.analytics), label: 'COMMAND'),
           BottomNavigationBarItem(icon: Icon(Icons.map), label: 'GIS'),
@@ -97,8 +76,35 @@ class _NexusBaseState extends State<NexusBase> {
   }
 }
 
-class CommandHUD extends StatelessWidget {
+class CommandHUD extends StatefulWidget {
   const CommandHUD({super.key});
+  @override
+  State<CommandHUD> createState() => _CommandHUDState();
+}
+
+class _CommandHUDState extends State<CommandHUD> {
+  double power = 98.2;
+  double water = 24.2;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    // THE PULSE: Updates every 3 seconds to simulate live sensor data
+    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      setState(() {
+        power = 97.0 + Random().nextDouble() * 3.0; // Flux between 97-100%
+        water = 24.1 + Random().nextDouble() * 0.2; // Minor ripple in basin
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -106,12 +112,10 @@ class CommandHUD extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Center(
-            child: Text("COMMAND HUD", style: TextStyle(color: Color(0xFFB87333), letterSpacing: 4, fontWeight: FontWeight.bold)),
-          ),
+          const Center(child: Text("LIVE TELEMETRY", style: TextStyle(color: Color(0xFFB87333), letterSpacing: 4, fontWeight: FontWeight.bold))),
           const SizedBox(height: 40),
-          _statusTile("HELIOGRID", "98% POWER", Icons.bolt, Colors.greenAccent),
-          _statusTile("BASIN", "24.2 FT", Icons.water_drop, Colors.blueAccent),
+          _statusTile("HELIOGRID", "${power.toStringAsFixed(1)}% OUTPUT", Icons.bolt, Colors.greenAccent),
+          _statusTile("BASIN DEPTH", "${water.toStringAsFixed(2)} FT", Icons.water_drop, Colors.blueAccent),
           _statusTile("ATMOS", "72°F | CLEAR", Icons.cloud, const Color(0xFFB87333)),
         ],
       ),
@@ -122,44 +126,12 @@ class CommandHUD extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: Icon(icon, color: color),
-      title: Text(title, style: const TextStyle(fontSize: 12, color: Colors.white38)),
+      title: Text(title, style: const TextStyle(fontSize: 10, color: Colors.white38, letterSpacing: 1)),
       subtitle: Text(val, style: TextStyle(fontSize: 18, color: color, fontWeight: FontWeight.bold)),
     );
   }
 }
 
-class SiteMapGIS extends StatelessWidget {
-  const SiteMapGIS({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text("GIS SATELLITE INTERFACE\n34.3323° N | 96.5056° W", 
-        textAlign: TextAlign.center, style: TextStyle(color: Color(0xFFB87333), letterSpacing: 2)),
-    );
-  }
-}
-
-class SocialClubPortal extends StatelessWidget {
-  const SocialClubPortal({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text("SOCIAL CLUB REGISTRY\n[0 RESIDENTS FOUND]", 
-        textAlign: TextAlign.center, style: TextStyle(color: Color(0xFFB87333), letterSpacing: 2)),
-    );
-  }
-}
-
-class MissionIntel extends StatelessWidget {
-  const MissionIntel({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(40.0),
-      child: Center(
-        child: Text("THE HUMPHREY CREED\n\nTo lead with honor, to build with purpose.", 
-          textAlign: TextAlign.center, style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white70)),
-      ),
-    );
-  }
-}
+class SiteMapGIS extends StatelessWidget { const SiteMapGIS({super.key}); @override Widget build(BuildContext context) { return const Center(child: Text("34.3323° N | 96.5056° W", style: TextStyle(color: Color(0xFFB87333)))); } }
+class SocialClubPortal extends StatelessWidget { const SocialClubPortal({super.key}); @override Widget build(BuildContext context) { return const Center(child: Text("CLUB REGISTRY", style: TextStyle(color: Color(0xFFB87333)))); } }
+class MissionIntel extends StatelessWidget { const MissionIntel({super.key}); @override Widget build(BuildContext context) { return const Center(child: Text("HVF CREED", style: TextStyle(color: Color(0xFFB87333)))); } }
