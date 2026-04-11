@@ -3,100 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | TITAN CONTINGENCY</title>
+    <title>HVF NEXUS | TACTICAL SATELLITE</title>
     
     <style>
-        /* REFINED OBSIDIAN PALETTE */
         html, body {
             margin: 0; padding: 0;
-            background-color: #000000;
-            color: #ffffff;
-            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background-color: #000; color: #fff;
+            font-family: 'Inter', -apple-system, sans-serif;
             overflow: hidden; width: 100vw; height: 100vh;
-            user-select: none;
-            transition: background-color 0.4s ease;
+            user-select: none; transition: background-color 0.4s ease;
         }
 
         body.alarm-active { background-color: #2b0000; }
+        body { box-sizing: border-box; background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000 100%); padding: 25px; }
 
-        body { 
-            box-sizing: border-box; 
-            background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000000 100%);
-            padding: 25px;
-        }
-
-        /* ALARM BANNER */
-        #alarm-status {
-            display: none;
-            text-align: center;
-            background: #ff0000;
-            color: #fff;
-            padding: 10px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            font-size: 0.7rem;
-            margin-bottom: 20px;
-            animation: pulse-red 1s infinite;
-        }
-        @keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-
-        /* LAYER 1: THE COMMAND DECK */
-        #main-dashboard { position: relative; z-index: 1; }
+        #alarm-status { display: none; text-align: center; background: #ff0000; color: #fff; padding: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 5px; font-size: 0.7rem; margin-bottom: 20px; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
         .header-section { margin-bottom: 35px; }
-        .brand-title { text-transform: uppercase; letter-spacing: 8px; color: #ffffff; margin: 0; font-size: 1.5rem; font-weight: 800; }
-        .brand-status { font-size: 0.7rem; color: #ffaa00; margin-top: 8px; text-transform: uppercase; letter-spacing: 3px; font-weight: 600; }
-        .alarm-active .brand-status { color: #ff0000; }
+        .brand-title { text-transform: uppercase; letter-spacing: 8px; font-size: 1.5rem; font-weight: 800; margin: 0; }
+        .brand-status { font-size: 0.7rem; color: #ffaa00; margin-top: 8px; text-transform: uppercase; letter-spacing: 3px; }
 
         .grid-container { display: flex; flex-direction: column; gap: 25px; }
 
-        .module { 
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 28px; border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .alarm-active .module { border-color: rgba(255, 0, 0, 0.3); background: rgba(255, 0, 0, 0.05); }
-
+        .module { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 28px; border-radius: 4px; cursor: pointer; }
         .label { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 12px; display: block; font-weight: 700; }
+        .digital-value { font-size: 3.4rem; font-weight: 900; line-height: 1; letter-spacing: -1.5px; }
+        .unit { font-size: 1rem; color: #ffaa00; margin-left: 8px; letter-spacing: 2px; }
 
-        .digital-value { font-size: 3.4rem; font-weight: 900; color: #ffffff; line-height: 1; display: block; letter-spacing: -1.5px; }
-        .alarm-active .digital-value { color: #ff0000; text-shadow: 0 0 15px rgba(255, 0, 0, 0.5); }
-        .unit { font-size: 1rem; color: #ffaa00; margin-left: 8px; letter-spacing: 2px; vertical-align: middle; }
+        .bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.1); margin-top: 20px; }
+        .bar-fill { height: 100%; width: 65%; background: #fff; transition: width 1.2s ease; }
 
-        .titan-bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.1); margin-top: 20px; position: relative; }
-        .titan-bar-fill { height: 100%; width: 65%; background: #ffffff; box-shadow: 0 0 20px rgba(255,255,255,0.4); transition: width 1.2s ease; }
-        .alarm-active .titan-bar-fill { background: #ff0000; box-shadow: 0 0 20px rgba(255, 0, 0, 0.6); }
-
-        /* THE VAULT OVERLAY */
-        #vault-panel { 
-            position: fixed; top: 0; left: 0;
-            width: 100vw; height: 100vh; 
-            background: #000; z-index: 100; 
-            transform: translateY(100%);
-            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); 
-            padding: 45px 30px; box-sizing: border-box; 
-        }
+        /* THE TACTICAL VAULT & MAP */
+        #vault-panel { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 100; transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); padding: 40px 30px; box-sizing: border-box; overflow-y: auto; }
         #vault-panel.active { transform: translateY(0); }
 
-        .exit-btn { font-size: 0.85rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 4px; font-weight: 800; cursor: pointer; margin-bottom: 40px; display: inline-block; border-bottom: 2px solid #ffaa00; }
+        .exit-btn { font-size: 0.85rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 4px; font-weight: 800; cursor: pointer; margin-bottom: 30px; display: inline-block; border-bottom: 2px solid #ffaa00; }
 
-        .data-block { margin-bottom: 40px; }
-        .data-tag { font-size: 0.75rem; color: #555; text-transform: uppercase; letter-spacing: 5px; display: block; margin-bottom: 8px; font-weight: 700; }
-        .data-hero { font-size: 2.55rem; font-weight: 900; color: #ffffff; letter-spacing: 1.5px; line-height: 1; }
-
-        .master-btn { 
-            display: block; width: 100%; padding: 25px; 
-            background: #ffffff; color: #000; 
-            text-align: center; text-transform: uppercase; 
-            letter-spacing: 6px; font-size: 1rem;
-            font-weight: 900; border: none; margin-top: 15px;
-            transition: all 0.3s ease;
+        .map-container { 
+            width: 100%; height: 200px; background: #0a0a0a; border: 1px solid #222; margin-bottom: 40px; position: relative;
+            background-image: linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px);
+            background-size: 20px 20px;
         }
-        .alarm-active .master-btn { background: #ff0000; color: #fff; }
+        .map-target { position: absolute; top: 40%; left: 45%; width: 40px; height: 30px; border: 2px solid #fff; box-shadow: 0 0 10px #fff; }
 
+        .data-block { margin-bottom: 35px; border-left: 2px solid #333; padding-left: 15px; }
+        .data-tag { font-size: 0.7rem; color: #555; text-transform: uppercase; letter-spacing: 5px; display: block; margin-bottom: 5px; }
+        .data-hero { font-size: 1.8rem; font-weight: 800; color: #fff; line-height: 1.2; }
+
+        .master-btn { display: block; width: 100%; padding: 25px; background: #fff; color: #000; text-align: center; text-transform: uppercase; letter-spacing: 6px; font-size: 1rem; font-weight: 900; border: none; margin-top: 15px; }
         .footer { text-align: center; margin-top: 35px; font-size: 0.6rem; color: #333; letter-spacing: 3px; }
     </style>
 </head>
@@ -114,26 +69,31 @@
             <div class="module" onclick="updateMetric('lake-bar', 'lake-val', 25, 'FT')">
                 <span class="label">Basin Displacement</span>
                 <span class="digital-value" id="lake-val">16.40<span class="unit">FT</span></span>
-                <div class="titan-bar-bg"><div id="lake-bar" class="titan-bar-fill" style="width: 65%;"></div></div>
+                <div class="bar-bg"><div id="lake-bar" class="bar-fill"></div></div>
             </div>
 
             <div class="module" onclick="updateMetric('power-bar', 'power-val', 100, '%')">
                 <span class="label">Core Saturation</span>
                 <span class="digital-value" id="power-val">82.00<span class="unit">%</span></span>
-                <div class="titan-bar-bg"><div id="power-bar" class="titan-bar-fill" style="width: 82%;"></div></div>
+                <div class="bar-bg"><div id="power-bar" class="bar-fill" style="width: 82%;"></div></div>
             </div>
 
             <button id="vault-btn" class="master-btn" onclick="toggleVault(true)">Decrypt Vault</button>
         </div>
-
-        <div class="footer">HUMPHREY VIRTUAL FARMS LLC // SOVEREIGN STATUS</div>
     </div>
 
     <div id="vault-panel">
-        <div class="exit-btn" onclick="toggleVault(false)">← BACK TO COMMAND</div>
+        <div class="exit-btn" onclick="toggleVault(false)">← Close Terminal</div>
+        
+        <div class="data-tag" style="margin-bottom:15px;">Target Site Overlay</div>
+        <div class="map-container">
+            <div class="map-target"></div>
+            <div style="position:absolute; bottom:10px; left:10px; color:#444; font-size:0.5rem; letter-spacing:2px;">SLAB ROAD // JOHNSTON CO // 34.2504° N</div>
+        </div>
+
         <div class="data-block"><span class="data-tag">CAGE CODE</span><span class="data-hero">1AHA8</span></div>
         <div class="data-block"><span class="data-tag">Sovereign UEI</span><span class="data-hero">S1M4ENLHTDH5</span></div>
-        <div class="data-block"><span class="data-tag">Unit Allocation</span><span class="data-hero">200 RES</span></div>
+        <div class="data-block"><span class="data-tag">Global Status</span><span class="data-hero" style="color:#444;">SILENCE</span></div>
     </div>
 
     <script>
@@ -146,19 +106,17 @@
         function triggerAlarm(active) {
             const body = document.body;
             const banner = document.getElementById('alarm-status');
-            const statusText = document.getElementById('system-status');
             const vaultBtn = document.getElementById('vault-btn');
-            
             if(active) {
                 body.classList.add('alarm-active');
                 banner.style.display = 'block';
-                statusText.innerText = "CRITICAL BREACH // 1AHA8";
-                vaultBtn.innerText = "CRITICAL OVERRIDE";
+                vaultBtn.style.background = '#ff0000';
+                vaultBtn.style.color = '#fff';
             } else {
                 body.classList.remove('alarm-active');
                 banner.style.display = 'none';
-                statusText.innerText = "Operational Status // 1AHA8";
-                vaultBtn.innerText = "Decrypt Vault";
+                vaultBtn.style.background = '#fff';
+                vaultBtn.style.color = '#000';
             }
         }
         
@@ -168,11 +126,7 @@
             const newVal = (Math.random() * (max - (max*0.6)) + (max*0.6)).toFixed(2);
             bar.style.width = (newVal / max) * 100 + '%';
             text.innerHTML = newVal + '<span class="unit">' + unit + '</span>';
-            
-            // Check for Alarm Thresholds
-            const basinVal = parseFloat(document.getElementById('lake-val').innerText);
-            const powerVal = parseFloat(document.getElementById('power-val').innerText);
-            if(basinVal > 23.5 || powerVal > 96) triggerAlarm(true);
+            if(newVal > (max * 0.95)) triggerAlarm(true);
             else triggerAlarm(false);
         }
     </script>
