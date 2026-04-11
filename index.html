@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | SOVEREIGN INTEL</title>
+    <title>HVF NEXUS | STRUCTURAL CORE</title>
     
     <style>
         html, body {
@@ -19,7 +19,7 @@
         body.alarm-state { background-color: #300000; }
         body { box-sizing: border-box; padding: 20px; background-image: radial-gradient(circle at 50% 10%, #1a1a1a 0%, #020202 100%); }
 
-        #alarm-banner { display: none; background: #ff0000; color: #fff; text-align: center; font-weight: bold; padding: 12px; margin-bottom: 20px; text-transform: uppercase; animation: blink 0.8s infinite; z-index: 50; letter-spacing: 2px; }
+        #alarm-banner { display: none; background: #ff0000; color: #fff; text-align: center; font-weight: bold; padding: 12px; margin-bottom: 20px; text-transform: uppercase; animation: blink 0.8s infinite; z-index: 200; letter-spacing: 2px; position: sticky; top: 0; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
 
         .header-panel { text-align: left; border-left: 6px solid #ffaa00; padding: 20px; margin-bottom: 30px; background: rgba(20, 20, 20, 0.8); }
@@ -38,15 +38,9 @@
 
         h3 { margin-top: 0; color: #ffffff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; opacity: 0.7; }
 
-        .hydraulic-casing { width: 100%; height: 30px; background: #000; border: 1px solid #333; position: relative; overflow: hidden; margin-bottom: 10px;}
-        .fluid-level { height: 100%; width: 65.6%; background: linear-gradient(180deg, #004e92 0%, #000428 100%); transition: width 1.5s ease; }
-        .chrono-bezel { width: 100px; height: 100px; border: 2px solid #1a1a1a; border-radius: 50%; margin: 0 auto; position: relative; background: #000; }
-        .chrono-needle { position: absolute; bottom: 50%; left: 50%; width: 2px; height: 40px; background: #ffaa00; transform-origin: bottom center; transform: rotate(115deg); transition: transform 1.5s ease; }
+        .digital-readout { text-align: center; font-family: 'Courier New', monospace; color: #ffaa00; font-size: 1.6rem; font-weight: bold; margin-top: 10px; }
 
-        .residential-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; margin-top: 15px; }
-        .home-unit { height: 12px; background: #00ffff33; border: 1px solid #00ffff66; transition: background 0.3s ease; }
-
-        /* DEEP TACTICAL VAULT PANEL - FINAL AUTHORIZATION */
+        /* DEEP TACTICAL VAULT PANEL */
         #vault-panel { 
             position: fixed; top: 0; right: -100%; width: 100%; height: 100%; 
             background: #020202; z-index: 100; transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
@@ -54,17 +48,19 @@
             overflow-y: auto;
         }
         #vault-panel.active { right: 0; }
-        .vault-header { color: #ffffff; font-size: 1.8rem; font-weight: 900; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 40px; border-bottom: 3px solid #ffaa00; padding-bottom: 15px; }
+        .vault-header { color: #ffffff; font-size: 1.8rem; font-weight: 900; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 30px; border-bottom: 3px solid #ffaa00; padding-bottom: 15px; }
         
-        .data-section { margin-bottom: 35px; border-left: 4px solid #333; padding-left: 20px; }
-        .data-label { font-size: 0.9rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 3px; font-weight: bold; }
-        .data-value { display: block; font-family: 'Courier New', monospace; font-size: 1.6rem; color: #ffffff; margin-top: 8px; font-weight: 900; letter-spacing: 1px; }
-        .data-sub { font-size: 1rem; color: #888; margin-top: 4px; }
+        .data-section { margin-bottom: 30px; border-left: 4px solid #333; padding-left: 20px; }
+        .data-label { font-size: 0.85rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
+        .data-value { display: block; font-family: 'Courier New', monospace; font-size: 1.4rem; color: #ffffff; margin-top: 5px; font-weight: 900; }
 
-        .btn { display: block; width: 100%; padding: 22px; background: #ffaa00; color: #000; text-align: center; text-decoration: none; font-weight: 900; margin-top: 20px; text-transform: uppercase; border: none; letter-spacing: 2px; font-size: 1.1rem; }
-        .close-btn { background: #1a1a1a; color: #ffaa00; border: 2px solid #ffaa00; margin-top: 50px; margin-bottom: 60px; }
+        /* UNIT SCHEMATIC VISUALIZER */
+        .blueprint-box { width: 100%; height: 200px; border: 1px solid #00ffff33; background: #000; position: relative; margin: 20px 0; overflow: hidden; }
+        .blueprint-line { position: absolute; border: 1px solid #00ffff66; }
 
-        .digital-readout { text-align: center; font-family: 'Courier New', monospace; color: #ffaa00; font-size: 1.6rem; font-weight: bold; margin-top: 10px; }
+        .btn { display: block; width: 100%; padding: 20px; background: #ffaa00; color: #000; text-align: center; font-weight: 900; margin-top: 20px; text-transform: uppercase; border: none; letter-spacing: 2px; }
+        .close-btn { background: #1a1a1a; color: #ffaa00; border: 2px solid #ffaa00; margin-top: 30px; margin-bottom: 40px; }
+
         .footer { text-align: center; margin-top: 60px; font-size: 0.6rem; color: #333; text-transform: uppercase; }
     </style>
 </head>
@@ -74,28 +70,23 @@
 
     <div class="header-panel">
         <h1 class="header">HVF NEXUS</h1>
-        <div class="sub-header">Strategic Infrastructure | Johnston County Prototype 2.5</div>
+        <div class="sub-header">Structural Engineering | Johnston County V2.6</div>
     </div>
 
     <div class="grid-container">
         <div class="module" onclick="updateHydraulics()">
             <h3>I. HYDRAULIC CORE</h3>
-            <div class="hydraulic-casing"><div id="fluid-bar" class="fluid-level"></div></div>
             <div id="lake-value" class="digital-readout">16.40<span style="font-size: 0.8rem;">FT</span></div>
         </div>
 
         <div class="module" onclick="updateHeliogrid()">
             <h3>II. HELIOGRID POWER</h3>
-            <div class="chrono-bezel"><div id="power-needle" class="chrono-needle"></div></div>
             <div id="power-value" class="digital-readout">82.00<span style="font-size: 0.8rem;">%</span></div>
         </div>
 
-        <div class="module" onclick="pulseGrid()">
-            <h3>III. RESIDENTIAL GRID</h3>
-            <div id="res-grid" class="residential-grid">
-                <script>for(let i=0; i<100; i++) document.write('<div class="home-unit"></div>');</script>
-            </div>
-            <button class="btn" style="margin-top:25px;" onclick="toggleVault(true)">Enter Deep Vault</button>
+        <div class="module">
+            <h3>III. SOVEREIGN ASSETS</h3>
+            <button class="btn" onclick="toggleVault(true)">Enter Deep Vault</button>
         </div>
     </div>
 
@@ -108,26 +99,24 @@
         </div>
 
         <div class="data-section">
+            <span class="data-label">UNIT 001 SCHEMATIC</span>
+            <div class="blueprint-box">
+                <div class="blueprint-line" style="top:20%; left:20%; width:60%; height:60%;"></div>
+                <div class="blueprint-line" style="top:20%; left:50%; width:1px; height:60%;"></div>
+                <div class="blueprint-line" style="top:50%; left:20%; width:30%; height:1px;"></div>
+                <div style="position:absolute; bottom:10px; left:10px; color:#00ffff; font-size:0.5rem; font-family:monospace;">CORE_HUB_INTEGRATION_V1</div>
+            </div>
+            <span class="data-sub" style="color:#666; font-size:0.75rem;">Universal Design / Sustainable Slab Foundation</span>
+        </div>
+
+        <div class="data-section">
             <span class="data-label">Unique Entity ID (UEI)</span>
             <span class="data-value">S1M4ENLHTDH5</span>
         </div>
 
         <div class="data-section">
-            <span class="data-label">Proprietary Technology</span>
-            <span class="data-value">Patent Pending: TPP99424</span>
-            <span class="data-sub">HelioGrid V3 / HVF Nexus System</span>
-        </div>
-
-        <div class="data-section">
-            <span class="data-label">Asset: Engineered Basin</span>
-            <span class="data-value">25-Acre Reservoir</span>
-            <span class="data-sub">Capacity: 403,333 Cubic Yards</span>
-        </div>
-
-        <div class="data-section">
-            <span class="data-label">Asset: Residential Core</span>
-            <span class="data-value">200 Universal Units</span>
-            <span class="data-sub">Johnston County, Oklahoma</span>
+            <span class="data-label">Construction Target</span>
+            <span class="data-value">200 Units / 200 Acres</span>
         </div>
 
         <button class="btn close-btn" onclick="toggleVault(false)">Exit Vault</button>
@@ -136,40 +125,22 @@
     <div class="footer">© 2026 HUMPHREY VIRTUAL FARMS LLC</div>
 
     <script>
-        function triggerAlarm(isActive) {
-            const body = document.body;
-            const banner = document.getElementById('alarm-banner');
-            if(isActive) { body.classList.add('alarm-state'); banner.style.display = 'block'; }
-            else { body.classList.remove('alarm-state'); banner.style.display = 'none'; }
-        }
-
         function toggleVault(show) { document.getElementById('vault-panel').classList.toggle('active', show); }
-
+        
         function updateHydraulics() {
-            const bar = document.getElementById('fluid-bar');
             const readout = document.getElementById('lake-value');
             const newVal = (Math.random() * (25 - 15) + 15).toFixed(2);
-            bar.style.width = (newVal / 25) * 100 + '%';
             readout.innerHTML = newVal + '<span style="font-size: 0.8rem;">FT</span>';
-            if(newVal > 23.5) triggerAlarm(true); else triggerAlarm(false);
+            if(newVal > 23.5) document.getElementById('alarm-banner').style.display = 'block';
+            else document.getElementById('alarm-banner').style.display = 'none';
         }
 
         function updateHeliogrid() {
-            const needle = document.getElementById('power-needle');
             const readout = document.getElementById('power-value');
             const newVal = (Math.random() * (100 - 70) + 70).toFixed(2);
-            needle.style.transform = 'rotate(' + ((newVal * 1.8) - 90) + 'deg)';
             readout.innerHTML = newVal + '<span style="font-size: 0.8rem;">%</span>';
-            if(newVal > 96) triggerAlarm(true); else if(document.getElementById('lake-value').innerText.split('FT')[0] < 23) triggerAlarm(false);
-        }
-
-        function pulseGrid() {
-            const units = document.getElementsByClassName('home-unit');
-            for(let unit of units) {
-                let intensity = Math.random();
-                unit.style.background = intensity > 0.8 ? '#00ffff' : '#00ffff33';
-                if(document.body.classList.contains('alarm-state')) unit.style.background = intensity > 0.5 ? '#ff0000' : '#300000';
-            }
+            if(newVal > 96) document.getElementById('alarm-banner').style.display = 'block';
+            else document.getElementById('alarm-banner').style.display = 'none';
         }
     </script>
 </body>
