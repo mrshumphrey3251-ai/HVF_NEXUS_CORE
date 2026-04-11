@@ -23,7 +23,6 @@ class NexusBase extends StatefulWidget {
 class _NexusBaseState extends State<NexusBase> {
   int _selectedIndex = 0;
 
-  // The views are now cleanly separated to avoid overlapping
   static const List<Widget> _views = [
     CommandHUD(),
     SiteMapGIS(),
@@ -34,7 +33,6 @@ class _NexusBaseState extends State<NexusBase> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0A0A0A),
-      // The content now sits safely above the Navigation Bar
       body: SafeArea(child: _views[_selectedIndex]), 
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black,
@@ -117,7 +115,8 @@ class SiteMapGIS extends StatelessWidget {
 }
 
 class MissionIntel extends StatelessWidget {
-  const MissionIntel({super.objective});
+  // FIXED: Changed super.objective to super.key
+  const MissionIntel({super.key});
   @override
   Widget build(BuildContext context) {
     return Center(
