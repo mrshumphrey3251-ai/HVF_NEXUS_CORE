@@ -1,19 +1,32 @@
+The Critical Warning Protocol is the hallmark of a high-contingency industrial system. For a $170,000,000.00 project, "Safe" isn't enough; the system must communicate Emergency States with absolute clarity.
+
+We are going to hard-code a Critical Failure Trigger. If the HelioGrid load hits 95% or the Hydraulic level exceeds the safety bank, the interface will shift from the calm Obsidian/Amber into a High-Intensity Red Alert with a pulsing "ALARM" indicator.
+
+The Complete "HVF NEXUS" Sovereign Source Code (V1.9)
+Action: Replace your entire index.html on the HP Desktop with this "High-Contingency" build.
+
+HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | INDUSTRIAL COMMAND</title>
+    <title>HVF NEXUS | CRITICAL SYSTEM</title>
     
     <style>
-        /* HIGH-CAPITAL INDUSTRIAL PALETTE */
+        /* CORE INDUSTRIAL PALETTE */
         html, body {
             margin: 0; padding: 0;
             background-color: #020202;
             color: #e0e0e0;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             overflow-x: hidden; width: 100vw;
-            user-select: none; /* Prevents accidental text highlighting during taps */
+            user-select: none;
+            transition: background-color 0.5s ease;
+        }
+
+        body.alarm-state {
+            background-color: #300000; /* Deep Blood Red for Warning */
         }
 
         body {
@@ -27,8 +40,10 @@
             border-left: 6px solid #ffaa00;
             padding: 20px; margin-bottom: 30px;
             background: rgba(20, 20, 20, 0.8);
-            box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+            transition: border-color 0.5s ease;
         }
+
+        .alarm-state .header-panel { border-left-color: #ff0000; }
 
         .header { text-transform: uppercase; letter-spacing: 4px; color: #ffffff; margin: 0; font-size: 1.5rem; font-weight: 900; }
         .sub-header { font-size: 0.7rem; color: #ffaa00; margin-top: 5px; text-transform: uppercase; font-weight: bold; letter-spacing: 2px; }
@@ -41,22 +56,42 @@
             border: 1px solid #222; border-top: 1px solid #333;
             padding: 25px; position: relative;
             box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-            cursor: pointer; /* Signals it can be tapped */
+            cursor: pointer;
             -webkit-tap-highlight-color: transparent;
         }
 
+        .alarm-state .module { border-color: #500000; }
+
         h3 { margin-top: 0; color: #ffffff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; opacity: 0.7; }
 
-        /* HYDRAULIC VISUALIZER */
+        /* WARNING INDICATOR */
+        #alarm-banner {
+            display: none;
+            background: #ff0000;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+            padding: 5px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
+
+        /* PRECISION GAUGE ELEMENTS */
         .hydraulic-casing { width: 80%; height: 40px; background: #000; margin: 20px auto; border: 2px solid #333; position: relative; overflow: hidden; }
-        .fluid-level { height: 100%; width: 65.6%; background: linear-gradient(180deg, #004e92 0%, #000428 100%); transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 15px rgba(0, 78, 146, 0.5); }
+        .fluid-level { height: 100%; width: 65.6%; background: linear-gradient(180deg, #004e92 0%, #000428 100%); transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .alarm-state .fluid-level { background: linear-gradient(180deg, #ff0000 0%, #440000 100%); }
 
-        /* CHRONOGRAPH DIAL */
-        .chrono-bezel { width: 160px; height: 160px; border: 2px solid #1a1a1a; border-radius: 50%; margin: 0 auto; position: relative; background: radial-gradient(circle, #0f0f0f, #000); box-shadow: inset 0 0 20px #000, 0 10px 20px rgba(0,0,0,0.5); }
-        .chrono-needle { position: absolute; bottom: 50%; left: 50%; width: 2px; height: 70px; background: #ffaa00; transform-origin: bottom center; transform: rotate(115deg); transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 5; box-shadow: 0 0 8px #ffaa00; }
-        .needle-hub { position: absolute; top: 50%; left: 50%; width: 12px; height: 12px; background: #111; border: 2px solid #ffaa00; border-radius: 50%; transform: translate(-50%, -50%); z-index: 6; }
+        .chrono-bezel { width: 160px; height: 160px; border: 2px solid #1a1a1a; border-radius: 50%; margin: 0 auto; position: relative; background: radial-gradient(circle, #0f0f0f, #000); }
+        .chrono-needle { position: absolute; bottom: 50%; left: 50%; width: 2px; height: 70px; background: #ffaa00; transform-origin: bottom center; transform: rotate(115deg); transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 5; }
+        .alarm-state .chrono-needle { background: #ff0000; box-shadow: 0 0 15px #ff0000; }
 
-        .digital-readout { text-align: center; font-family: 'Courier New', monospace; color: #ffaa00; font-size: 1.8rem; font-weight: bold; margin-top: 15px; letter-spacing: -1px; }
+        .digital-readout { text-align: center; font-family: 'Courier New', monospace; color: #ffaa00; font-size: 1.8rem; font-weight: bold; margin-top: 15px; }
+        .alarm-state .digital-readout { color: #ff0000; }
+
         .label { text-align: center; font-size: 0.6rem; color: #444; text-transform: uppercase; letter-spacing: 2px; margin-top: 5px; }
 
         .footer { text-align: center; margin-top: 60px; font-size: 0.6rem; color: #333; text-transform: uppercase; letter-spacing: 2px; }
@@ -64,9 +99,11 @@
 </head>
 <body>
 
+    <div id="alarm-banner">SYSTEM CRITICAL: CAPACITY REACHED</div>
+
     <div class="header-panel">
         <h1 class="header">HVF NEXUS</h1>
-        <div class="sub-header">Strategic Infrastructure | Prototype 1.8</div>
+        <div class="sub-header">Strategic Infrastructure | Johnston County Prototype 1.9</div>
     </div>
 
     <div class="grid-container">
@@ -77,49 +114,65 @@
                 <div id="fluid-bar" class="fluid-level"></div>
             </div>
             <div id="lake-value" class="digital-readout">16.40<span style="font-size: 0.8rem; margin-left: 5px;">FT</span></div>
-            <div class="label">TAP TO RE-SCAN TERRAIN RUNOFF</div>
+            <div class="label">TAP TO ANALYZE BASIN LEVEL</div>
         </div>
 
         <div class="module" onclick="updateHeliogrid()">
             <h3>II. HELIOGRID: CORE GENERATION</h3>
             <div class="chrono-bezel">
                 <div id="power-needle" class="chrono-needle"></div>
-                <div class="needle-hub"></div>
+                <div style="position: absolute; top:50%; left:50%; width:12px; height:12px; background:#111; border:2px solid #ffaa00; border-radius:50%; transform:translate(-50%,-50%); z-index:6;"></div>
             </div>
             <div id="power-value" class="digital-readout">82.00<span style="font-size: 0.8rem; margin-left: 5px;">%</span></div>
-            <div class="label">TAP TO ANALYZE CURRENT LOAD</div>
+            <div class="label">TAP TO ANALYZE LOAD STATUS</div>
         </div>
 
     </div>
 
     <div class="footer">
         © 2026 HUMPHREY VIRTUAL FARMS LLC<br>
-        SYSTEM STATUS: INTERACTIVE PROTOTYPE
+        ALARM PROTOCOL: ENABLED
     </div>
 
     <script>
-        // INTERACTIVE LOGIC FOR $170M PROTOTYPE
+        function triggerAlarm(isActive) {
+            const body = document.body;
+            const banner = document.getElementById('alarm-banner');
+            if(isActive) {
+                body.classList.add('alarm-state');
+                banner.style.display = 'block';
+            } else {
+                body.classList.remove('alarm-state');
+                banner.style.display = 'none';
+            }
+        }
+
         function updateHydraulics() {
             const bar = document.getElementById('fluid-bar');
             const readout = document.getElementById('lake-value');
-            // Simulate a new scan value between 15 and 20
-            const newVal = (Math.random() * (20 - 15) + 15).toFixed(2);
+            // Randomly test the "Safety Limit" (23ft+)
+            const newVal = (Math.random() * (25 - 15) + 15).toFixed(2);
             const percentage = (newVal / 25) * 100;
             
             bar.style.width = percentage + '%';
             readout.innerHTML = newVal + '<span style="font-size: 0.8rem; margin-left: 5px;">FT</span>';
+            
+            if(newVal > 23) triggerAlarm(true);
+            else triggerAlarm(false);
         }
 
         function updateHeliogrid() {
             const needle = document.getElementById('power-needle');
             const readout = document.getElementById('power-value');
-            // Simulate load between 70% and 95%
-            const newVal = (Math.random() * (95 - 70) + 70).toFixed(2);
-            // Map percentage to degrees (0% = -90deg, 100% = 90deg approx)
+            // Randomly test the "Load Limit" (95%+)
+            const newVal = (Math.random() * (100 - 70) + 70).toFixed(2);
             const degrees = (newVal * 1.8) - 90;
             
             needle.style.transform = 'rotate(' + degrees + 'deg)';
             readout.innerHTML = newVal + '<span style="font-size: 0.8rem; margin-left: 5px;">%</span>';
+            
+            if(newVal > 95) triggerAlarm(true);
+            else if (document.getElementById('lake-value').innerText.split('FT')[0] <= 23) triggerAlarm(false);
         }
     </script>
 
