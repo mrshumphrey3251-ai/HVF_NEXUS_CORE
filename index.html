@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+Applying the Stress Test logic to the HelioGrid V3 ensures that you can demonstrate total control over the community's energy stability. By manually overloading the core saturation, you prove to your audience that the Nexus is calibrated to detect and signal a grid failure before it becomes a catastrophe.Phase 183: The "Grid Overload" ProtocolThe Logic of the Core Overload:Manual Saturation: Inside the Live Grid view, a Core Calibration Slider now controls the energy density of the HelioGrid V3 arrays.The Thermal Threshold: * Normal (80–95%): The pulse remains a calm, authoritative amber.Critical (96.00%+): The pulse turns high-intensity crimson, and the global alarm triggers.The SME Impact: This demonstrates the Sovereign Load-Balancing system. You are showing that you can push $1.84$ MW of power through the system and have the terminal intelligently warn the CEO of a potential burnout.The Complete "HVF NEXUS" Sovereign Source Code (V7.9 - Multi-Point Stress Test)Action: Replace your index.html. You now have active sliders in both the Basin and Grid views. If either—or both—are pushed into the red, the app enters the Global Alarm state.HTML<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | STRESS TEST V7.8</title>
+    <title>HVF NEXUS | MULTI-STRESS V7.9</title>
     
     <style>
         html, body { margin: 0; padding: 0; background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; width: 100vw; height: 100vh; user-select: none; }
@@ -16,18 +16,24 @@
 
         /* OVERLAYS */
         .live-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 5000; display: none; flex-direction: column; padding: 40px 25px; box-sizing: border-box; }
-        .visual-box { width: 100%; height: 40%; background: #050505; border: 1px solid #222; margin: 20px 0; position: relative; overflow: hidden; }
+        .visual-box { width: 100%; height: 35%; background: #050505; border: 1px solid #222; margin: 20px 0; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         
-        /* SLIDERS */
-        .slider-box { margin-top: 30px; border-top: 1px solid #222; padding-top: 20px; }
-        .control-slider { -webkit-appearance: none; width: 100%; height: 10px; background: #222; border-radius: 5px; outline: none; margin: 20px 0; }
-        .control-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; background: #ffaa00; border-radius: 50%; cursor: pointer; }
+        /* PULSE ANIMATION */
+        .pulse-core { width: 80px; height: 80px; border: 2px solid #ffaa00; border-radius: 50%; animation: pulse-glow 2s infinite; }
+        @keyframes pulse-glow { 0% { box-shadow: 0 0 0 0 rgba(255,170,0,0.4); } 70% { box-shadow: 0 0 0 30px rgba(255,170,0,0); } 100% { box-shadow: 0 0 0 0 rgba(255,170,0,0); } }
 
-        /* DASH & DOCK */
+        /* SLIDERS */
+        .slider-box { margin-top: 20px; border-top: 1px solid #222; padding-top: 20px; }
+        .control-slider { -webkit-appearance: none; width: 100%; height: 8px; background: #222; border-radius: 5px; outline: none; margin: 15px 0; }
+        .control-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 25px; height: 25px; background: #ffaa00; border-radius: 50%; cursor: pointer; }
+
+        /* DASH */
         .view-panel { flex: 1; padding: 30px 25px 100px 25px; display: none; }
         .view-panel.active { display: block; }
         .data-block { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 25px; border-radius: 2px; margin-bottom: 20px; cursor: pointer; }
         .hero-val { font-size: 2.5rem; font-weight: 900; }
+        
+        /* DOCK */
         .command-dock { position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; background: #0a0a0a; border-top: 1px solid #333; display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
         .nav-item { color: #444; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; flex: 1; text-align: center; }
         .nav-item.active { color: #ffaa00; }
@@ -45,20 +51,33 @@
         </div>
         <div class="slider-box">
             <span style="font-size:0.7rem; letter-spacing:2px; color:#888;">CALIBRATE DEPTH</span>
-            <input type="range" min="10" max="25" step="0.1" value="16.4" class="control-slider" id="lake-slider" oninput="adjustLake(this.value)">
+            <input type="range" min="10" max="25" step="0.1" value="16.4" class="control-slider" oninput="updateLake(this.value)">
         </div>
-        <button onclick="closeOverlays()" style="background:#fff; border:none; padding:15px; width:100%; font-weight:900; margin-top:20px;">LOCK CALIBRATION</button>
+        <button onclick="closeOverlays()" style="background:#fff; border:none; padding:15px; width:100%; font-weight:900; margin-top:10px;">LOCK CALIBRATION</button>
+    </div>
+
+    <div id="view-grid-live" class="live-overlay">
+        <div style="font-size: 1.2rem; font-weight: 800; letter-spacing: 5px;">GRID OVERRIDE</div>
+        <div class="visual-box" id="grid-visual-box">
+            <div class="pulse-core" id="pulse-element"></div>
+            <div id="grid-sat-text" style="position:absolute; top:20px; left:20px; font-weight:900;">82.00 %</div>
+        </div>
+        <div class="slider-box">
+            <span style="font-size:0.7rem; letter-spacing:2px; color:#888;">CALIBRATE SATURATION</span>
+            <input type="range" min="60" max="100" step="0.1" value="82" class="control-slider" oninput="updateGrid(this.value)">
+        </div>
+        <button onclick="closeOverlays()" style="background:#fff; border:none; padding:15px; width:100%; font-weight:900; margin-top:10px;">LOCK CALIBRATION</button>
     </div>
 
     <div id="view-dash" class="view-panel active">
         <div style="text-transform:uppercase; letter-spacing:8px; font-size:1.5rem; font-weight:800; margin-bottom:30px;">Nexus Command</div>
-        <div class="data-block" onclick="openLake()">
+        <div class="data-block" onclick="openView('view-lake-live')">
             <span style="font-size:0.7rem; color:#666; letter-spacing:3px;">Basin Displacement</span>
             <div class="hero-val" id="dash-lake">16.40<span style="font-size:1rem; color:#ffaa00;"> FT</span></div>
         </div>
-        <div class="data-block" onclick="alert('Grid Stress Test Coming Next...')">
+        <div class="data-block" onclick="openView('view-grid-live')">
             <span style="font-size:0.7rem; color:#666; letter-spacing:3px;">Core Saturation</span>
-            <div class="hero-val">82.00<span style="font-size:1rem; color:#ffaa00;"> %</span></div>
+            <div class="hero-val" id="dash-grid">82.00<span style="font-size:1rem; color:#ffaa00;"> %</span></div>
         </div>
     </div>
 
@@ -71,26 +90,44 @@
     </div>
 
     <script>
-        function openLake() { document.getElementById('view-lake-live').style.display = 'flex'; }
+        let lakeLevel = 16.4;
+        let gridLevel = 82;
+
+        function openView(id) { document.getElementById(id).style.display = 'flex'; }
         function closeOverlays() { document.querySelectorAll('.live-overlay').forEach(o => o.style.display = 'none'); }
 
-        function adjustLake(val) {
-            document.getElementById('lake-depth-text').innerText = val + " FT";
-            document.getElementById('dash-lake').innerHTML = val + '<span style="font-size:1rem; color:#ffaa00;"> FT</span>';
-            document.getElementById('lake-water').style.height = (val / 25 * 100) + "%";
-            
+        function checkAlarm() {
             const alarm = document.getElementById('global-alarm');
-            const visual = document.getElementById('lake-visual-box');
-            
-            if(val > 23.5) {
+            if(lakeLevel > 23.5 || gridLevel > 96) {
                 document.body.classList.add('alarm-active');
                 alarm.style.display = 'block';
-                visual.style.borderColor = '#ff0000';
             } else {
                 document.body.classList.remove('alarm-active');
                 alarm.style.display = 'none';
-                visual.style.borderColor = '#222';
             }
+        }
+
+        function updateLake(val) {
+            lakeLevel = val;
+            document.getElementById('lake-depth-text').innerText = val + " FT";
+            document.getElementById('dash-lake').innerHTML = val + '<span style="font-size:1rem; color:#ffaa00;"> FT</span>';
+            document.getElementById('lake-water').style.height = (val / 25 * 100) + "%";
+            checkAlarm();
+        }
+
+        function updateGrid(val) {
+            gridLevel = val;
+            document.getElementById('grid-sat-text').innerText = val + " %";
+            document.getElementById('dash-grid').innerHTML = val + '<span style="font-size:1rem; color:#ffaa00;"> %</span>';
+            const pulse = document.getElementById('pulse-element');
+            if(val > 96) {
+                pulse.style.borderColor = "#ff0000";
+                pulse.style.animation = "pulse-glow 0.5s infinite";
+            } else {
+                pulse.style.borderColor = "#ffaa00";
+                pulse.style.animation = "pulse-glow 2s infinite";
+            }
+            checkAlarm();
         }
     </script>
 </body>
