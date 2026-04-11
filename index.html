@@ -3,6 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HVF NEXUS | DEEP DATA</title>
+    
+    <style>
+        html, body { margin: 0; padding: 0; background-color: #020202; color: #e0e0e0; font-family: 'Helvetica Neue', Helvetica, sans-serif; overflow-x: hidden; width: 100vw; transition: background-color 0.5s ease; }
+        body.alarm-state { background-color: #300000; }
+        body { box-sizing: border-box; padding: 20px; background-image: radial-gradient(circle at 50% 10%, #1a1a1a 0%, #020202 100%); }
+
+        .header-panel { text-align: left; border-left: 6px solid #ffaa00; padding: 20px; margin-bottom: 30px; background: rgba(20, 20, 20, 0.8); }
+        .header { text-transform: uppercase; letter-spacing: 4px; color: #ffffff; margin: 0; font-size: 1.5rem; font-weight: 900; }
+        .sub-header { font-size: 0.7rem; color: #ffaa00; margin-top: 5px; text-transform: uppercase; font-weight: bold; letter-spacing: 2px; }
+
+        .grid-container { display: flex; flex-direction: column; gap: 25px; }
+
+        .module { background: linear-gradient(180deg, #121212 0%, #080808 100%); border: 1px solid #222; border-top: 1px solid #333; padding: 25px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.8); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        h3 { margin-top: 0; color: #ffffff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; opacity: 0.7; }
+
+        /* GAUGE ASSETS */
+        .hydraulic-casing { width: 100%; height: 30px; background: #000; border: 1px solid #333; position: relative; overflow: hidden; margin-bottom: 10px;}
+        .fluid-level { height: 100%; width: 65.6%; background: linear-gradient(180deg, #004e92 0%, #000428 100%); transition: width 1.5s ease; }
+        .chrono-bezel { width: 100px; height: 100px; border: 2px solid #1a1a1a; border-radius: 50%; margin: 0 auto; position: relative; background: #000; }
+        .chrono-needle { position: absolute; bottom: 50%; left: 50%; width: 2px; height: 40px; background: #ffaa00; transform-origin: bottom center; transform: rotate(115deg); transition: transform 1.5s ease; }
+
+        /* DATA VAULT PANEL */
+        #vault-panel { position: fixed; top: 0; right: -100%; width: 100%; height: 100%; background: #050505; z-index: 100; transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1); padding: 30px; box-sizing: border-box; border-left: 4px solid #ffaa00; }
+        #vault-panel.active { right: 0; }
+        .vault-header { color: #ffaa00; font-size: 1.2rem; font-weight: bold; text-transform: uppercase; margin-bottom: 30px; border-bottom: 1px solid #222; padding-bottom: 10px; }
+        .data-row { margin-bottom: 20px; font-family: 'Courier New', monospace; font-size: 0.85rem; color: #888; }
+        .data-val { color: #fff; display: block; font-size: 1rem; margin-top: 5px; }
+
+        .btn { display: block; width: 100%; padding: 15px; background: #ffaa00; color: #000; text-align: center; text-decoration: none; font-weight: bold; margin-top: 20px; text-transform: uppercase; border: none; }
+        .close-btn { background: #333; color: #fff; margin-top: 40px; }
+
+        .digital-readout { text-align: center; font-family: 'Courier New', monospace; color: #ffaa00; font-size: 1.6rem; font-weight: bold; margin-top: 10px; }
+        .label { text-align: center; font-size: 0.55rem; color: #444; text-transform: uppercase; letter-spacing: 2px; }
+        .footer { text-align: center; margin-top: 60px; font-size: 0.6rem; color: #333; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+    <div class="header-panel">
+        <h1 class="header">HVF NEXUS</h1>
+        <div class="sub-header">Strategic Infrastructure | Johnston County Prototype 2.1</div>
+    </div>
+
+    <div class="grid-container">
+        <div class="module" onclick="updateHydraulics()">
+            <h3>I. HYDRAULIC CORE</h3>
+            <div class="hydraulic-casing"><div id="fluid-bar" class="fluid-level"></div></div>
+            <div id="lake-value" class="digital-readout">16.40<span style="font-size: 0.8rem;">FT</span></div>
+        </div>
+
+        <div class="module" onclick="updateHeliogrid()">
+            <h3>II. HELIOGRID POWER</h3>
+            <div class="chrono-bezel"><div id="power-needle" class="chrono-needle"></div></div>
+            <div id="power-value" class="digital-readout">82.00<span style="font-size: 0.8rem;">%</span></div>
+        </div>
+
+        <div class="module">
+            <h3>III. STRATEGIC ASSETS</h3>
+            <p style="font-size: 0.8rem; color: #666;">Proprietary Blueprint & Site Data Locked.</p>
+            <button class="btn" onclick="toggleVault(true)">Access Blueprint Vault</button>
+        </div>
+    </div>
+
+    <div id="vault-panel">
+        <div class="vault-header">Slab Road Blueprint Vault</div>
+        
+        <div class="data-row">SITE COORDINATES<span class="data-val">34.2504° N, 96.6575° W</span></div>
+        <div class="data-row">RESERVOIR CAPACITY<span class="data-val">403,333 Cubic Yards</span></div>
+        <div class="data-row">RESIDENTIAL DENSITY<span class="data-val">200 Units / 200 Acres</span></div>
+        <div class="data-row">POWER INFRASTRUCTURE<span class="data-val">HelioGrid V3 Mobile Array</span></div>
+        <div class="data-row">PROJECT UEI<span class="data-val">S1M4ENLHTDH5</span></div>
+
+        <button class="btn close-btn" onclick="toggleVault(false)">Exit Vault</button>
+    </div>
+
+    <div class="footer">© 2026 HUMPHREY VIRTUAL FARMS LLC</div>
+
+    <script>
+        function toggleVault(show) {
+            const panel = document.getElementById('vault-panel');
+            if(show) panel.classList.add('active');
+            else panel.classList.remove('active');
+        }
+
+        function updateHydraulics() {
+            const bar = document.getElementById('fluid-bar');
+            const readout = document.getElementById('lake-value');
+            const newVal = (Math.random() * (22 - 15) + 15).toFixed(2);
+            bar.style.width = (newVal / 25) * 100 + '%';
+            readout.innerHTML = newVal + '<span style="font-size: 0.8rem;">FT</span>';
+        }
+
+        function updateHeliogrid() {
+            const needle = document.getElementById('power-needle');
+            const readout = document.getElementById('power-value');
+            const newVal = (Math.random() * (95 - 70) + 70).toFixed(2);
+            needle.style.transform = 'rotate(' + ((newVal * 1.8) - 90) + 'deg)';
+            readout.innerHTML = newVal + '<span style="font-size: 0.8rem;">%</span>';
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>HVF NEXUS | FULL SPECTRUM</title>
     
     <style>
