@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | GLOBAL BASELINE 6.0</title>
+    <title>HVF NEXUS | FULL SPECTRUM COMMAND</title>
     
     <style>
         /* THE TITAN OBSIDIAN PALETTE */
@@ -12,161 +12,174 @@
             background-color: #000; color: #fff;
             font-family: 'Inter', -apple-system, sans-serif;
             overflow: hidden; width: 100vw; height: 100vh;
-            user-select: none; transition: background-color 0.4s ease;
+            user-select: none;
         }
 
-        body.alarm-active { background-color: #2b0000; }
-        body { box-sizing: border-box; background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000 100%); padding: 25px; }
-
-        /* ALARM SYSTEM */
-        #alarm-status { 
-            display: none; text-align: center; background: #ff0000; color: #fff; 
-            padding: 10px; font-weight: 900; text-transform: uppercase; 
-            letter-spacing: 5px; font-size: 0.7rem; margin-bottom: 20px; 
-            animation: pulse-red 1s infinite; z-index: 200;
+        body { 
+            box-sizing: border-box; 
+            background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000 100%);
+            display: flex; flex-direction: column;
         }
-        @keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
-        /* DASHBOARD LAYOUT */
-        .header-section { margin-bottom: 30px; }
-        .brand-title { text-transform: uppercase; letter-spacing: 8px; font-size: 1.5rem; font-weight: 800; margin: 0; }
-        .brand-status { font-size: 0.7rem; color: #ffaa00; margin-top: 8px; text-transform: uppercase; letter-spacing: 3px; font-weight: 600; }
-
-        .grid-container { display: flex; flex-direction: column; gap: 20px; }
-        .module { 
-            background: rgba(255, 255, 255, 0.05); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            padding: 25px; border-radius: 4px; cursor: pointer; 
+        /* NAVIGATION DOCK */
+        .command-dock {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            height: 70px; background: rgba(15, 15, 15, 0.95);
+            border-top: 1px solid #333; display: flex;
+            justify-content: space-around; align-items: center;
+            z-index: 1000; backdrop-filter: blur(10px);
         }
-        .alarm-active .module { border-color: rgba(255, 0, 0, 0.3); }
-
-        .label { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 10px; display: block; font-weight: 700; }
-        .digital-value { font-size: 3.4rem; font-weight: 900; line-height: 1; letter-spacing: -1.5px; }
-        .unit { font-size: 1rem; color: #ffaa00; margin-left: 8px; }
-
-        /* UNIFIED VAULT DOSSIER */
-        #vault-panel { 
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-            background: #000; z-index: 100; transform: translateY(100%); 
-            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); 
-            padding: 40px 25px; box-sizing: border-box; overflow-y: auto; 
+        .nav-item {
+            color: #555; font-size: 0.6rem; text-transform: uppercase;
+            letter-spacing: 1px; font-weight: 800; text-align: center;
+            cursor: pointer; flex: 1; transition: color 0.3s;
         }
-        #vault-panel.active { transform: translateY(0); }
-        .exit-btn { font-size: 0.85rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 4px; font-weight: 800; cursor: pointer; margin-bottom: 30px; display: inline-block; border-bottom: 2px solid #ffaa00; }
+        .nav-item.active { color: #ffaa00; }
 
-        .data-block { margin-bottom: 40px; border-left: 3px solid #333; padding-left: 15px; }
-        .data-tag { font-size: 0.75rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 5px; display: block; margin-bottom: 12px; font-weight: 700; }
-
-        /* TACTICAL MAP */
-        .map-container { width: 100%; height: 140px; background: #0a0a0a; border: 1px solid #222; margin-bottom: 20px; position: relative; background-image: linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px); background-size: 20px 20px; }
-        .map-target { position: absolute; top: 40%; left: 45%; width: 40px; height: 30px; border: 2px solid #fff; box-shadow: 0 0 10px #fff; }
-
-        /* ROADMAP & SPECS */
-        .q-item { margin-bottom: 10px; display: flex; gap: 10px; font-size: 0.8rem; }
-        .q-tag { font-weight: 900; color: #ffaa00; min-width: 45px; }
-        .v-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; border-bottom: 1px solid #111; padding-bottom: 5px; }
-
-        /* SCRIPT & HERO */
-        .briefing-text { font-size: 0.9rem; line-height: 1.6; color: #ccc; font-style: italic; border-left: 2px solid #ffaa00; padding-left: 15px; }
-        .data-hero { font-size: 2.2rem; font-weight: 900; color: #fff; }
-
-        .master-btn { 
-            display: block; width: 100%; padding: 25px; 
-            background: #fff; color: #000; 
-            text-align: center; text-transform: uppercase; 
-            letter-spacing: 6px; font-size: 1rem; font-weight: 900; 
-            border: none; margin-top: 15px; transition: all 0.3s ease;
+        /* VIEW CONTAINER */
+        .view-panel {
+            flex: 1; padding: 30px 25px 100px 25px;
+            overflow-y: auto; display: none;
         }
-        .alarm-active .master-btn { background: #ff0000; color: #fff; }
+        .view-panel.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .footer { text-align: center; margin-top: 35px; font-size: 0.6rem; color: #333; letter-spacing: 3px; }
+        /* UNIVERSAL STYLING */
+        .header-title { text-transform: uppercase; letter-spacing: 6px; font-size: 1.2rem; font-weight: 800; margin-bottom: 5px; }
+        .header-sub { font-size: 0.65rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 30px; }
+        
+        .data-block { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 20px; border-radius: 4px; margin-bottom: 20px; }
+        .tag { font-size: 0.65rem; color: #666; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 10px; }
+        .hero-val { font-size: 2.2rem; font-weight: 900; line-height: 1; }
+        .sub-val { font-size: 0.8rem; color: #ffaa00; margin-top: 8px; font-weight: 700; }
+
+        /* BLUEPRINT BOX */
+        .blueprint { width: 100%; height: 120px; border: 1px solid #222; position: relative; background: #050505; }
+        .line { position: absolute; background: #333; }
+
+        /* ALARM OVERLAY */
+        #alarm-banner { display: none; position: fixed; top: 0; width: 100%; background: #ff0000; color: #fff; text-align: center; padding: 5px; font-size: 0.6rem; font-weight: 900; z-index: 2000; letter-spacing: 3px; }
     </style>
 </head>
 <body>
 
-    <div id="alarm-status">Critical Infrastructure Breach</div>
+    <div id="alarm-banner">CRITICAL BREACH // 1AHA8</div>
 
-    <div id="main-dashboard">
-        <div class="header-section">
-            <h1 class="brand-title">NEXUS COMMAND</h1>
-            <div class="brand-status" id="system-status">Operational Status // 1AHA8</div>
+    <div id="view-command" class="view-panel active">
+        <div class="header-title">Nexus Command</div>
+        <div class="header-sub">Operational Baseline</div>
+        
+        <div class="data-block" onclick="triggerSim()">
+            <span class="tag">Basin Displacement</span>
+            <div class="hero-val" id="main-lake">16.40<span style="font-size:1rem; color:#ffaa00;"> FT</span></div>
         </div>
 
-        <div class="grid-container">
-            <div class="module" onclick="updateMetric('lake-val', 25, 'FT')">
-                <span class="label">Basin Displacement</span>
-                <span class="digital-value" id="lake-val">16.40<span class="unit">FT</span></span>
-            </div>
-            <div class="module" onclick="updateMetric('power-val', 100, '%')">
-                <span class="label">Core Saturation</span>
-                <span class="digital-value" id="power-val">82.00<span class="unit">%</span></span>
-            </div>
-            <button id="vault-btn" class="master-btn" onclick="toggleVault(true)">Decrypt Dossier</button>
+        <div class="data-block" onclick="triggerSim()">
+            <span class="tag">Core Saturation</span>
+            <div class="hero-val" id="main-power">82.00<span style="font-size:1rem; color:#ffaa00;"> %</span></div>
         </div>
     </div>
 
-    <div id="vault-panel">
-        <div class="exit-btn" onclick="toggleVault(false)">← BACK TO COMMAND</div>
+    <div id="view-terrain" class="view-panel">
+        <div class="header-title">Terrain Intel</div>
+        <div class="header-sub">Johnston County / 200 Acres</div>
         
         <div class="data-block">
-            <span class="data-tag">Target Site // Slab Road</span>
-            <div class="map-container"><div class="map-target"></div></div>
+            <span class="tag">Site Coordinates</span>
+            <div class="hero-val" style="font-size: 1.2rem;">34.2504° N, 96.6521° W</div>
         </div>
 
         <div class="data-block">
-            <span class="data-tag">Operational Schedule</span>
-            <div class="q-item"><div class="q-tag">Q2-26</div><div>Basin Excavation & Stabilization</div></div>
-            <div class="q-item"><div class="q-tag">Q3-26</div><div>HelioGrid V3 Deployment</div></div>
-            <div class="q-item"><div class="q-tag">Q4-26</div><div>Unit 001 Completion</div></div>
+            <span class="tag">Soil Composition</span>
+            <div class="sub-val">Heavy Clay / Stabilized Shale</div>
+            <div class="sub-val" style="color:#666">Load Bearing: 4,500 PSF</div>
+        </div>
+    </div>
+
+    <div id="view-energy" class="view-panel">
+        <div class="header-title">Energy Grid</div>
+        <div class="header-sub">HelioGrid V3 Distribution</div>
+        
+        <div class="data-block">
+            <span class="tag">Array Capacity</span>
+            <div class="hero-val">2.48<span style="font-size:1rem; color:#ffaa00;"> MW</span></div>
         </div>
 
         <div class="data-block">
-            <span class="data-tag">Unit V3 Baseline</span>
-            <div class="v-row"><span>Solar Output</span><span>12.4 kW Peak</span></div>
-            <div class="v-row"><span>Water Recovery</span><span>95.0% Recycled</span></div>
+            <span class="tag">Storage Reserve</span>
+            <div class="hero-val">9.2<span style="font-size:1rem; color:#ffaa00;"> MWh</span></div>
+        </div>
+    </div>
+
+    <div id="view-housing" class="view-panel">
+        <div class="header-title">Housing Core</div>
+        <div class="header-sub">Universal ADA Units</div>
+        
+        <div class="data-block">
+            <span class="tag">Unit Blueprint 001</span>
+            <div class="blueprint">
+                <div class="line" style="top:20%; left:20%; width:60%; height:1px;"></div>
+                <div class="line" style="top:20%; left:20%; width:1px; height:60%;"></div>
+                <div class="line" style="bottom:20%; left:20%; width:60%; height:1px;"></div>
+                <div class="line" style="top:20%; right:20%; width:1px; height:60%;"></div>
+            </div>
         </div>
 
         <div class="data-block">
-            <span class="data-tag">Briefing Core</span>
-            <p class="briefing-text">"Sovereign Infrastructure Network. Backed by CAGE 1AHA8. $170M rollout, zero grid dependency."</p>
+            <span class="tag">Bill of Materials</span>
+            <div class="sub-val">Steel Frame / R-45 Poly-Iso</div>
+        </div>
+    </div>
+
+    <div id="view-intel" class="view-panel">
+        <div class="header-title">Sovereign Intel</div>
+        <div class="header-sub">Federal Authority 1AHA8</div>
+        
+        <div class="data-block">
+            <span class="tag">Authority CAGE</span>
+            <div class="hero-val">1AHA8</div>
         </div>
 
         <div class="data-block">
-            <span class="data-tag">Sovereign Vanguard</span>
-            <div class="v-row"><span>Jeffery D. Humphrey</span><span>CEO / SME</span></div>
-            <div class="v-row"><span>Wilhelmine Humphrey</span><span>Co-Founder</span></div>
+            <span class="tag">Investor Briefing</span>
+            <div style="font-size:0.8rem; line-height:1.5; color:#888; font-style:italic;">
+                "Deploying a $170M Sovereign Infrastructure Network. Grid-independent housing for the veteran vanguard."
+            </div>
         </div>
+    </div>
 
-        <div class="data-block">
-            <span class="data-tag">Federal CAGE</span>
-            <span class="data-hero">1AHA8</span>
-        </div>
+    <div class="command-dock">
+        <div class="nav-item active" onclick="showView('view-command', this)">Dash</div>
+        <div class="nav-item" onclick="showView('view-terrain', this)">Map</div>
+        <div class="nav-item" onclick="showView('view-energy', this)">Power</div>
+        <div class="nav-item" onclick="showView('view-housing', this)">Home</div>
+        <div class="nav-item" onclick="showView('view-intel', this)">Intel</div>
     </div>
 
     <script>
-        function toggleVault(show) { document.getElementById('vault-panel').classList.toggle('active', show); }
-        
-        function triggerAlarm(active) {
-            const body = document.body;
-            const banner = document.getElementById('alarm-status');
-            const vaultBtn = document.getElementById('vault-btn');
-            if(active) {
-                body.classList.add('alarm-active');
-                banner.style.display = 'block';
-                vaultBtn.innerText = "CRITICAL OVERRIDE";
-            } else {
-                body.classList.remove('alarm-active');
-                banner.style.display = 'none';
-                vaultBtn.innerText = "Decrypt Dossier";
-            }
+        function showView(viewId, el) {
+            // Reset Panels
+            document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            
+            // Set Active
+            document.getElementById(viewId).classList.add('active');
+            el.classList.add('active');
         }
 
-        function updateMetric(textId, max, unit) {
-            const text = document.getElementById(textId);
-            const newVal = (Math.random() * (max - (max*0.6)) + (max*0.6)).toFixed(2);
-            text.innerHTML = newVal + '<span class="unit">' + unit + '</span>';
-            if(newVal > (max * 0.94)) triggerAlarm(true);
-            else triggerAlarm(false);
+        function triggerSim() {
+            const l = document.getElementById('main-lake');
+            const p = document.getElementById('main-power');
+            const b = document.getElementById('alarm-banner');
+            
+            const nL = (Math.random() * 10 + 15).toFixed(2);
+            const nP = (Math.random() * 20 + 75).toFixed(2);
+            
+            l.innerHTML = nL + '<span style="font-size:1rem; color:#ffaa00;"> FT</span>';
+            p.innerHTML = nP + '<span style="font-size:1rem; color:#ffaa00;"> %</span>';
+            
+            if(nL > 24) { b.style.display = 'block'; document.body.style.backgroundColor = '#2b0000'; }
+            else { b.style.display = 'none'; document.body.style.backgroundColor = '#000'; }
         }
     </script>
 </body>
