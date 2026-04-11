@@ -1,1 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HVF NEXUS | TRI-STATE V8.0</title>
+    
+    <style>
+        html, body { margin: 0; padding: 0; background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; width: 100vw; height: 100vh; user-select: none; }
+        body { box-sizing: border-box; background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000 100%); display: flex; flex-direction: column; transition: background 0.4s; }
+        body.alarm-active { background: #2b0000; }
 
+        /* ALARM BANNER */
+        #global-alarm { display: none; position: fixed; top: 0; width: 100%; background: #ff0000; color: #fff; text-align: center; padding: 10px; font-weight: 900; z-index: 9000; letter-spacing: 5px; font-size: 0.7rem; animation: pulse-red 1s infinite; }
+        @keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        /* INDICATOR LIGHTS */
+        .status-light { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 10px; transition: 0.3s; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+        .light-green { background: #00ff00; box-shadow: 0 0 15px #00ff00; }
+        .light-yellow { background: #ffff00; box-shadow: 0 0 15px #ffff00; }
+        .light-red { background: #ff0000; box-shadow: 0 0 15px #ff0000; }
+
+        /* OVERLAYS */
+        .live-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 5000; display: none; flex-direction: column; padding: 40px 25px; box-sizing: border-box; }
+        .visual-box { width: 100%; height: 35%; background: #050505; border: 1px solid #222; margin: 20px 0; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        
+        /* SLIDERS */
+        .control-slider { -webkit-appearance: none; width: 100%; height: 8px; background: #222; border-radius: 5px; outline: none; margin: 15px 0; }
+        .control-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 25px; height: 25px; background: #fff; border-radius: 50%; cursor: pointer; }
+
+        /* DASH */
+        .view-panel { flex: 1; padding: 30px 25px 100px 25px; display: none; }
+        .view-panel.active { display: block; }
+        .data-block { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 25px; border-radius: 2px; margin-bottom: 20px; cursor: pointer; }
+        .hero-val { font-size: 2.5rem; font-weight: 900; }
+    </style>
+</head>
+<body>
+
+    <div id="global-alarm">CRITICAL SYSTEM BREACH // 1AHA8</div>
+
+    <div id="view-lake-live" class="live-overlay">
+        <div style="font-size: 1.2rem; font-weight: 800; letter-spacing: 5px;">BASIN OVERRIDE</div>
+        <div class="visual-box" id="lake-visual-box">
+            <div id="lake-water" style="position:absolute; bottom:0; width:100%; background:rgba(0,170,255,0.2); border-top:2px solid #00aaff; transition: height 0.3s;"></div>
+            <div id="lake-depth-text" style="position:absolute; top:20px; left:20px; font-weight:900;">16.40 FT</div>
+        </div>
+        <input type="range" min="10" max="25" step="0.1" value="16.4" class="control-slider" oninput="updateLake(this.value)">
+        <button onclick="document.querySelectorAll('.live-overlay').forEach(o => o.style.display = 'none')" style="background:#fff; border:none; padding:15px; width:100%; font-weight:900;">LOCK CALIBRATION</button>
+    </div>
+
+    <div id="view-dash" class="view-panel active">
+        <div style="text-transform:uppercase; letter-spacing:8px; font-size:1.5rem; font-weight:800; margin-bottom:30px;">Nexus Command</div>
+        
+        <div class="data-block" onclick="document.getElementById('view-lake-live').style.display = 'flex'">
+            <div style="display:flex; align-items:center; margin-bottom:10px;">
+                <div id="lake-light" class="status-light light-green"></div>
+                <span style="font-size:0.7rem; color:#666; letter-spacing:3px;">Basin Displacement</span>
+            </div>
+            <div class="hero-val" id="dash-lake">16.40<span style="font-size:1rem; color:#ffaa00;"> FT</span></div>
+        </div>
+
+        <div class="data-block" onclick="alert('Grid Override Active')">
+            <div style="display:flex; align-items:center; margin-bottom:10px;">
+                <div id="grid-light" class="status-light light-green"></div>
+                <span style="font-size:0.7rem; color:#666; letter-spacing:3px;">Core Saturation</span>
+            </div>
+            <div class="hero-val" id="dash-grid">82.00<span style="font-size:1rem; color:#ffaa00;"> %</span></div>
+        </div>
+    </div>
+
+    <script>
+        function updateLake(val) {
+            document.getElementById('lake-depth-text').innerText = val + " FT";
+            document.getElementById('dash-lake').innerHTML = val + '<span style="font-size:1rem; color:#ffaa00;"> FT</span>';
+            document.getElementById('lake-water').style.height = (val / 25 * 100) + "%";
+            
+            const light = document.getElementById('lake-light');
+            const alarm = document.getElementById('global-alarm');
+            
+            if (val > 23.5) {
+                light.className = "status-light light-red";
+                document.body.classList.add('alarm-active');
+                alarm.style.display = 'block';
+            } else if (val > 20.0) {
+                light.className = "status-light light-yellow";
+                document.body.classList.remove('alarm-active');
+                alarm.style.display = 'none';
+            } else {
+                light.className = "status-light light-green";
+                document.body.classList.remove('alarm-active');
+                alarm.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
