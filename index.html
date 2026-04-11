@@ -3,6 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HVF NEXUS | FORTRESS COMMAND</title>
+    
+    <style>
+        html, body { margin: 0; padding: 0; background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; width: 100vw; height: 100vh; user-select: none; }
+        body { box-sizing: border-box; background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000 100%); display: flex; flex-direction: column; }
+
+        /* COMMAND DOCK */
+        .command-dock { position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; background: rgba(10, 10, 10, 0.98); border-top: 1px solid #333; display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
+        .nav-item { color: #444; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; text-align: center; cursor: pointer; flex: 1; }
+        .nav-item.active { color: #ffaa00; text-shadow: 0 0 10px rgba(255,170,0,0.3); }
+
+        .view-panel { flex: 1; padding: 30px 25px 100px 25px; overflow-y: auto; display: none; }
+        .view-panel.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* TITAN STYLING */
+        .header-title { text-transform: uppercase; letter-spacing: 6px; font-size: 1.2rem; font-weight: 800; margin-bottom: 5px; }
+        .header-sub { font-size: 0.65rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 30px; }
+        .data-block { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 20px; border-radius: 2px; margin-bottom: 20px; }
+        .tag { font-size: 0.65rem; color: #666; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 10px; }
+        .hero-val { font-size: 2rem; font-weight: 900; line-height: 1; }
+        .status-pill { display: inline-block; padding: 5px 10px; background: #ffaa00; color: #000; font-size: 0.6rem; font-weight: 900; margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; }
+    </style>
+</head>
+<body>
+
+    <div id="view-dash" class="view-panel active">
+        <div class="header-title">Nexus Dash</div>
+        <div class="header-sub">Sovereign Site Monitor</div>
+        <div class="data-block"><span class="tag">Basin Displacement</span><div class="hero-val">16.40<span style="font-size:1rem; color:#ffaa00;"> FT</span></div></div>
+        <div class="data-block"><span class="tag">Core Saturation</span><div class="hero-val">82.00<span style="font-size:1rem; color:#ffaa00;"> %</span></div></div>
+    </div>
+
+    <div id="view-map" class="view-panel">
+        <div class="header-title">Tactical Map</div>
+        <div class="header-sub">Johnston County // Slab Road</div>
+        <div class="data-block"><span class="tag">Target Site</span><div class="hero-val" style="font-size:1.2rem;">200 ACRES // 34.2504° N</div></div>
+    </div>
+
+    <div id="view-clinic" class="view-panel">
+        <div class="header-title">Medical Wing</div>
+        <div class="header-sub">HVF Specialized Care Clinic</div>
+        <div class="data-block">
+            <span class="tag">Structural Integrity</span>
+            <div class="hero-val">F-5 RATED</div>
+            <div class="status-pill">Critical Life Support Active</div>
+        </div>
+        <div class="data-block">
+            <span class="tag">Facility Capacity</span>
+            <div class="hero-val">24/7 SURGICAL</div>
+            <div style="font-size:0.7rem; color:#888; margin-top:10px;">VETERAN-CENTRIC TRAUMA CARE</div>
+        </div>
+    </div>
+
+    <div id="view-home" class="view-panel">
+        <div class="header-title">Housing Core</div>
+        <div class="header-sub">Monolithic Residential Enclosures</div>
+        <div class="data-block">
+            <span class="tag">Residential Armor</span>
+            <div class="hero-val">F-5 PROOF</div>
+            <div style="font-size:0.7rem; color:#888; margin-top:10px;">POURED REINFORCED CONCRETE SHELL</div>
+        </div>
+        <div class="data-block">
+            <span class="tag">Unit Count</span>
+            <div class="hero-val">200 UNITS</div>
+        </div>
+    </div>
+
+    <div id="view-intel" class="view-panel">
+        <div class="header-title">Sovereign Intel</div>
+        <div class="header-sub">CAGE: 1AHA8 // UEI: S1M4ENLHTDH5</div>
+        <div class="data-block"><span class="tag">Strategic Objective</span><div style="font-size:0.85rem; line-height:1.5; font-style:italic; color:#ccc;">"200 F-5 Proof Units and a specialized medical clinic, geolocated in Johnston County, OK. 100% self-sustaining via HelioGrid V3."</div></div>
+    </div>
+
+    <div class="command-dock">
+        <div class="nav-item active" onclick="showView('view-dash', this)">Dash</div>
+        <div class="nav-item" onclick="showView('view-map', this)">Map</div>
+        <div class="nav-item" onclick="showView('view-clinic', this)">Clinic</div>
+        <div class="nav-item" onclick="showView('view-home', this)">Home</div>
+        <div class="nav-item" onclick="showView('view-intel', this)">Intel</div>
+    </div>
+
+    <script>
+        function showView(viewId, el) {
+            document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            el.classList.add('active');
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>HVF NEXUS | FULL SPECTRUM COMMAND</title>
     
     <style>
