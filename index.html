@@ -3,139 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | COMMAND STABILITY</title>
+    <title>HVF NEXUS | PRESIDENTIAL SITREP</title>
     
     <style>
-        /* CORE INDUSTRIAL PALETTE */
+        /* COMMANDER-IN-CHIEF PALETTE */
         html, body {
             margin: 0; padding: 0;
-            background-color: #020202;
-            color: #e0e0e0;
-            font-family: 'Helvetica Neue', Helvetica, sans-serif;
-            overflow: hidden; /* Prevents background scrolling when vault is open */
-            width: 100vw; height: 100vh;
-            user-select: none;
+            background-color: #0d0d0d;
+            color: #f1e9d2;
+            font-family: 'Times New Roman', Times, serif;
+            overflow: hidden; width: 100vw; height: 100vh;
         }
 
-        body { box-sizing: border-box; background-image: radial-gradient(circle at 50% 10%, #1a1a1a 0%, #020202 100%); }
+        body { 
+            box-sizing: border-box; 
+            background: radial-gradient(circle, #2b1d12 0%, #050505 100%);
+            border: 10px solid #3d2b1f; /* Mahogany Bezel around the entire screen */
+        }
 
-        /* THE MAIN DASHBOARD (Z-INDEX: 1) */
+        /* LAYER 1: COMMAND DASHBOARD */
         #main-dashboard {
-            position: absolute;
-            top: 0; left: 0;
+            position: absolute; top: 0; left: 0;
             width: 100%; height: 100%;
-            padding: 20px; box-sizing: border-box;
-            z-index: 1;
-            overflow-y: auto;
-            transition: opacity 0.3s ease;
+            padding: 30px; box-sizing: border-box;
+            z-index: 1; overflow-y: auto;
         }
 
-        #alarm-banner { display: none; background: #ff0000; color: #fff; text-align: center; font-weight: bold; padding: 12px; margin-bottom: 20px; text-transform: uppercase; animation: blink 0.8s infinite; letter-spacing: 2px; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
+        .sitrep-header { 
+            text-align: center; border-bottom: 3px double #8e6d13; 
+            padding-bottom: 15px; margin-bottom: 25px; 
+        }
+        .sitrep-title { text-transform: uppercase; letter-spacing: 8px; color: #d4af37; margin: 0; font-size: 1.5rem; font-weight: bold; }
+        .clock-row { font-family: monospace; font-size: 0.8rem; color: #8e7d66; margin-top: 10px; letter-spacing: 2px; }
 
-        .header-panel { text-align: left; border-left: 6px solid #ffaa00; padding: 20px; margin-bottom: 30px; background: rgba(20, 20, 20, 0.8); }
-        .header { text-transform: uppercase; letter-spacing: 4px; color: #ffffff; margin: 0; font-size: 1.5rem; font-weight: 900; }
-        .sub-header { font-size: 0.7rem; color: #ffaa00; margin-top: 5px; text-transform: uppercase; font-weight: bold; letter-spacing: 2px; }
+        .grid-container { display: flex; flex-direction: column; gap: 30px; }
 
-        .grid-container { display: flex; flex-direction: column; gap: 25px; }
-
+        /* THE FOUNDRY MODULE */
         .module { 
-            background: linear-gradient(180deg, #121212 0%, #080808 100%);
-            border: 1px solid #222; border-top: 1px solid #333;
-            padding: 25px; position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-            cursor: pointer;
+            background: rgba(26, 17, 10, 0.9);
+            border: 1px solid #8e6d13;
+            padding: 20px; position: relative;
+            box-shadow: inset 0 0 20px #000, 0 10px 30px rgba(0,0,0,0.8);
         }
 
-        h3 { margin-top: 0; color: #ffffff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; opacity: 0.7; }
-        .digital-readout { text-align: center; font-family: 'Courier New', monospace; color: #ffaa00; font-size: 1.6rem; font-weight: bold; margin-top: 10px; }
+        .status-seal { 
+            float: right; width: 12px; height: 12px; 
+            background: #2ecc71; border-radius: 50%; 
+            box-shadow: 0 0 10px #2ecc71; margin-top: 5px;
+        }
 
-        /* THE TACTICAL VAULT (Z-INDEX: 100) */
+        h3 { margin-top: 0; color: #d4af37; font-size: 1rem; text-transform: uppercase; letter-spacing: 3px; border-bottom: 1px solid #3d2b1f; padding-bottom: 10px; }
+
+        /* BRASS GAUGE */
+        .brass-bezel {
+            width: 120px; height: 120px;
+            border: 5px solid #8e6d13;
+            border-radius: 50%; margin: 10px auto; position: relative;
+            background: #e3d5ca; 
+            box-shadow: inset 0 5px 10px rgba(0,0,0,0.4);
+        }
+
+        .needle {
+            position: absolute; bottom: 50%; left: 50%;
+            width: 2px; height: 45px; background: #7b0000;
+            transform-origin: bottom center; transform: rotate(115deg);
+            transition: transform 1.5s ease-in-out;
+        }
+
+        .readout { text-align: center; font-family: 'Courier New', monospace; color: #d4af37; font-size: 1.8rem; font-weight: bold; margin-top: 15px; }
+
+        /* THE DEEP VAULT OVERLAY */
         #vault-panel { 
-            position: fixed; top: 0; right: -100%; /* Fully off-screen */
+            position: fixed; top: 0; left: 100%;
             width: 100vw; height: 100vh; 
-            background: #020202; z-index: 100; 
-            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-            padding: 30px; box-sizing: border-box; 
-            border-left: 6px solid #ffaa00;
+            background: #1a110a; z-index: 100; 
+            transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
+            padding: 40px; box-sizing: border-box; 
+            border-left: 10px solid #8e6d13;
             overflow-y: auto;
         }
-        #vault-panel.active { right: 0; }
+        #vault-panel.active { left: 0; }
 
-        .return-key {
-            display: block; width: 100%; padding: 18px; background: #1a1a1a; 
-            color: #ffaa00; border: 2px solid #ffaa00; text-align: center; 
-            font-weight: 900; margin-bottom: 30px; text-transform: uppercase; 
-            letter-spacing: 3px; font-size: 1rem; cursor: pointer;
+        .return-btn {
+            display: block; width: 100%; padding: 20px; background: #000; 
+            color: #d4af37; border: 1px solid #d4af37; text-align: center; 
+            font-weight: bold; margin-bottom: 30px; text-transform: uppercase; 
+            letter-spacing: 5px; cursor: pointer;
         }
 
-        .data-section { margin-bottom: 35px; border-left: 4px solid #333; padding-left: 20px; }
-        .data-label { font-size: 0.9rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 3px; font-weight: bold; }
-        .data-value { display: block; font-family: 'Courier New', monospace; font-size: 1.6rem; color: #ffffff; margin-top: 8px; font-weight: 900; }
-        .data-sub { font-size: 1rem; color: #888; margin-top: 4px; }
+        .data-section { margin-bottom: 40px; border-bottom: 1px solid #333; padding-bottom: 20px; }
+        .data-label { font-size: 0.8rem; color: #8e7d66; text-transform: uppercase; letter-spacing: 2px; }
+        .data-value { display: block; font-size: 1.6rem; color: #ffffff; margin-top: 10px; font-weight: bold; }
 
-        .btn { display: block; width: 100%; padding: 20px; background: #ffaa00; color: #000; text-align: center; font-weight: 900; margin-top: 20px; text-transform: uppercase; border: none; letter-spacing: 2px; font-size: 1.1rem; }
-        .footer { text-align: center; margin-top: 60px; font-size: 0.6rem; color: #333; text-transform: uppercase; }
+        .btn { display: block; width: 100%; padding: 20px; background: #d4af37; color: #1a110a; text-align: center; font-weight: bold; margin-top: 25px; text-transform: uppercase; border: none; letter-spacing: 3px; font-size: 1.1rem; }
+        .footer { text-align: center; margin-top: 50px; font-size: 0.7rem; color: #5e4b3c; text-transform: uppercase; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
     <div id="main-dashboard">
-        <div id="alarm-banner">SYSTEM CRITICAL</div>
-
-        <div class="header-panel">
-            <h1 class="header">HVF NEXUS</h1>
-            <div class="sub-header">Executive Logistics | Johnston County V2.9</div>
+        <div class="sitrep-header">
+            <h1 class="sitrep-title">HVF NEXUS SITREP</h1>
+            <div class="clock-row">SITE: JOHNSTON COUNTY, OK | <span id="clock">00:00:00</span></div>
         </div>
 
         <div class="grid-container">
             <div class="module" onclick="updateHydraulics()">
-                <h3>I. HYDRAULIC CORE</h3>
-                <div id="lake-value" class="digital-readout">16.40<span style="font-size: 0.8rem;">FT</span></div>
+                <div class="status-seal"></div>
+                <h3>HYDRAULIC CORE</h3>
+                <div class="brass-bezel">
+                    <div id="lake-needle" class="needle"></div>
+                </div>
+                <div id="lake-value" class="readout">16.40<span style="font-size: 0.9rem;"> FT</span></div>
             </div>
 
             <div class="module" onclick="updateHeliogrid()">
-                <h3>II. HELIOGRID POWER</h3>
-                <div id="power-value" class="digital-readout">82.00<span style="font-size: 0.8rem;">%</span></div>
+                <div class="status-seal"></div>
+                <h3>HELIOGRID OUTPUT</h3>
+                <div class="brass-bezel">
+                    <div id="power-needle" class="needle"></div>
+                </div>
+                <div id="power-value" class="readout">82.00<span style="font-size: 0.9rem;"> %</span></div>
             </div>
 
             <div class="module">
-                <h3>III. SOVEREIGN ASSETS</h3>
-                <button class="btn" onclick="toggleVault(true)">Access Deep Data</button>
+                <h3>SOVEREIGN INTELLIGENCE</h3>
+                <button class="btn" onclick="toggleVault(true)">Access Vault</button>
             </div>
         </div>
 
-        <div class="footer">© 2026 HUMPHREY VIRTUAL FARMS LLC</div>
+        <div class="footer">HUMPHREY VIRTUAL FARMS LLC | SOVEREIGN COMMAND</div>
     </div>
 
     <div id="vault-panel">
-        <div class="return-key" onclick="toggleVault(false)">← RETURN TO DASHBOARD</div>
+        <div class="return-btn" onclick="toggleVault(false)">RETURN TO MONITOR</div>
         
         <div class="data-section">
-            <span class="data-label">CAGE CODE</span>
+            <span class="data-label">FEDERAL CAGE CODE</span>
             <span class="data-value">1AHA8</span>
         </div>
 
         <div class="data-section">
-            <span class="data-label">UEI</span>
+            <span class="data-label">UNIQUE ENTITY ID (UEI)</span>
             <span class="data-value">S1M4ENLHTDH5</span>
         </div>
 
         <div class="data-section">
-            <span class="data-label">ASSET: RESERVOIR</span>
-            <span class="data-value">25-ACRE BASIN</span>
-            <span class="data-sub">403,333 Cubic Yards / Slab Road Site</span>
-        </div>
-
-        <div class="data-section">
-            <span class="data-label">ASSET: RESIDENTIAL</span>
+            <span class="data-label">RESIDENTIAL INTEL</span>
             <span class="data-value">200 UNIVERSAL UNITS</span>
-            <span class="data-sub">Universal Design / ADA Compliant Core</span>
-        </div>
-
-        <div class="data-section">
-            <span class="data-label">INTEL STATUS</span>
-            <span class="data-value" style="color:#ffaa00;">RADIO SILENCE ACTIVE</span>
+            <span style="color:#666;">Site: Slab Road / 25-Acre Basin</span>
         </div>
     </div>
 
@@ -143,29 +159,31 @@
         function toggleVault(show) {
             const vault = document.getElementById('vault-panel');
             const dash = document.getElementById('main-dashboard');
-            if(show) {
-                vault.classList.add('active');
-                dash.style.opacity = "0.3"; /* Fades background to keep focus on Vault */
-            } else {
-                vault.classList.remove('active');
-                dash.style.opacity = "1.0"; /* Restores full visibility to Dashboard */
-            }
+            if(show) { vault.classList.add('active'); dash.style.opacity = "0.2"; }
+            else { vault.classList.remove('active'); dash.style.opacity = "1"; }
         }
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
         
         function updateHydraulics() {
+            const needle = document.getElementById('lake-needle');
             const readout = document.getElementById('lake-value');
             const newVal = (Math.random() * (25 - 15) + 15).toFixed(2);
-            readout.innerHTML = newVal + '<span style="font-size: 0.8rem;">FT</span>';
-            if(newVal > 23.5) document.getElementById('alarm-banner').style.display = 'block';
-            else document.getElementById('alarm-banner').style.display = 'none';
+            needle.style.transform = 'rotate(' + ((newVal * 7.2) - 90) + 'deg)';
+            readout.innerHTML = newVal + '<span style="font-size: 0.9rem;"> FT</span>';
         }
 
         function updateHeliogrid() {
+            const needle = document.getElementById('power-needle');
             const readout = document.getElementById('power-value');
-            const newVal = (Math.random() * (100 - 70) + 70).toFixed(2);
-            readout.innerHTML = newVal + '<span style="font-size: 0.8rem;">%</span>';
-            if(newVal > 96) document.getElementById('alarm-banner').style.display = 'block';
-            else document.getElementById('alarm-banner').style.display = 'none';
+            const newVal = (Math.random() * (95 - 70) + 70).toFixed(2);
+            needle.style.transform = 'rotate(' + ((newVal * 1.8) - 90) + 'deg)';
+            readout.innerHTML = newVal + '<span style="font-size: 0.9rem;"> %</span>';
         }
     </script>
 </body>
