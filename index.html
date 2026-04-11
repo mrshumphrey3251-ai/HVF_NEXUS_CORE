@@ -3,23 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | EXECUTIVE COMMAND</title>
+    <title>HVF NEXUS | COMMAND STABILITY</title>
     
     <style>
+        /* CORE INDUSTRIAL PALETTE */
         html, body {
             margin: 0; padding: 0;
             background-color: #020202;
             color: #e0e0e0;
             font-family: 'Helvetica Neue', Helvetica, sans-serif;
-            overflow-x: hidden; width: 100vw;
+            overflow: hidden; /* Prevents background scrolling when vault is open */
+            width: 100vw; height: 100vh;
             user-select: none;
-            transition: background-color 0.5s ease;
         }
 
-        body.alarm-state { background-color: #300000; }
-        body { box-sizing: border-box; padding: 20px; background-image: radial-gradient(circle at 50% 10%, #1a1a1a 0%, #020202 100%); }
+        body { box-sizing: border-box; background-image: radial-gradient(circle at 50% 10%, #1a1a1a 0%, #020202 100%); }
 
-        #alarm-banner { display: none; background: #ff0000; color: #fff; text-align: center; font-weight: bold; padding: 12px; margin-bottom: 20px; text-transform: uppercase; animation: blink 0.8s infinite; z-index: 200; letter-spacing: 2px; position: sticky; top: 0; }
+        /* THE MAIN DASHBOARD (Z-INDEX: 1) */
+        #main-dashboard {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            padding: 20px; box-sizing: border-box;
+            z-index: 1;
+            overflow-y: auto;
+            transition: opacity 0.3s ease;
+        }
+
+        #alarm-banner { display: none; background: #ff0000; color: #fff; text-align: center; font-weight: bold; padding: 12px; margin-bottom: 20px; text-transform: uppercase; animation: blink 0.8s infinite; letter-spacing: 2px; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
 
         .header-panel { text-align: left; border-left: 6px solid #ffaa00; padding: 20px; margin-bottom: 30px; background: rgba(20, 20, 20, 0.8); }
@@ -39,67 +50,66 @@
         h3 { margin-top: 0; color: #ffffff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; opacity: 0.7; }
         .digital-readout { text-align: center; font-family: 'Courier New', monospace; color: #ffaa00; font-size: 1.6rem; font-weight: bold; margin-top: 10px; }
 
-        /* DEEP TACTICAL VAULT PANEL */
+        /* THE TACTICAL VAULT (Z-INDEX: 100) */
         #vault-panel { 
-            position: fixed; top: 0; right: -100%; width: 100%; height: 100%; 
-            background: #020202; z-index: 300; transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
-            padding: 30px; box-sizing: border-box; border-left: 6px solid #ffaa00;
+            position: fixed; top: 0; right: -100%; /* Fully off-screen */
+            width: 100vw; height: 100vh; 
+            background: #020202; z-index: 100; 
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            padding: 30px; box-sizing: border-box; 
+            border-left: 6px solid #ffaa00;
             overflow-y: auto;
         }
         #vault-panel.active { right: 0; }
 
-        /* TOP RETURN KEY */
         .return-key {
-            display: block; width: 100%; padding: 15px; background: #1a1a1a; 
+            display: block; width: 100%; padding: 18px; background: #1a1a1a; 
             color: #ffaa00; border: 2px solid #ffaa00; text-align: center; 
             font-weight: 900; margin-bottom: 30px; text-transform: uppercase; 
-            letter-spacing: 3px; font-size: 0.9rem; cursor: pointer;
+            letter-spacing: 3px; font-size: 1rem; cursor: pointer;
         }
 
-        .vault-header { color: #ffffff; font-size: 1.8rem; font-weight: 900; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 30px; border-bottom: 3px solid #ffaa00; padding-bottom: 15px; }
-        
-        .data-section { margin-bottom: 30px; border-left: 4px solid #333; padding-left: 20px; }
-        .data-label { font-size: 0.85rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
-        .data-value { display: block; font-family: 'Courier New', monospace; font-size: 1.4rem; color: #ffffff; margin-top: 5px; font-weight: 900; }
+        .data-section { margin-bottom: 35px; border-left: 4px solid #333; padding-left: 20px; }
+        .data-label { font-size: 0.9rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 3px; font-weight: bold; }
+        .data-value { display: block; font-family: 'Courier New', monospace; font-size: 1.6rem; color: #ffffff; margin-top: 8px; font-weight: 900; }
+        .data-sub { font-size: 1rem; color: #888; margin-top: 4px; }
 
-        .blueprint-box { width: 100%; height: 180px; border: 1px solid #00ffff33; background: #000; position: relative; margin: 15px 0; overflow: hidden; }
-        .blueprint-line { position: absolute; border: 1px solid #00ffff66; }
-
-        .btn { display: block; width: 100%; padding: 20px; background: #ffaa00; color: #000; text-align: center; font-weight: 900; margin-top: 20px; text-transform: uppercase; border: none; letter-spacing: 2px; }
-        
+        .btn { display: block; width: 100%; padding: 20px; background: #ffaa00; color: #000; text-align: center; font-weight: 900; margin-top: 20px; text-transform: uppercase; border: none; letter-spacing: 2px; font-size: 1.1rem; }
         .footer { text-align: center; margin-top: 60px; font-size: 0.6rem; color: #333; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
-    <div id="alarm-banner">CRITICAL: INFRASTRUCTURE BREACH</div>
+    <div id="main-dashboard">
+        <div id="alarm-banner">SYSTEM CRITICAL</div>
 
-    <div class="header-panel">
-        <h1 class="header">HVF NEXUS</h1>
-        <div class="sub-header">Executive Logistics | V2.7 Command Baseline</div>
-    </div>
-
-    <div class="grid-container">
-        <div class="module" onclick="updateHydraulics()">
-            <h3>I. HYDRAULIC CORE</h3>
-            <div id="lake-value" class="digital-readout">16.40<span style="font-size: 0.8rem;">FT</span></div>
+        <div class="header-panel">
+            <h1 class="header">HVF NEXUS</h1>
+            <div class="sub-header">Executive Logistics | Johnston County V2.9</div>
         </div>
 
-        <div class="module" onclick="updateHeliogrid()">
-            <h3>II. HELIOGRID POWER</h3>
-            <div id="power-value" class="digital-readout">82.00<span style="font-size: 0.8rem;">%</span></div>
+        <div class="grid-container">
+            <div class="module" onclick="updateHydraulics()">
+                <h3>I. HYDRAULIC CORE</h3>
+                <div id="lake-value" class="digital-readout">16.40<span style="font-size: 0.8rem;">FT</span></div>
+            </div>
+
+            <div class="module" onclick="updateHeliogrid()">
+                <h3>II. HELIOGRID POWER</h3>
+                <div id="power-value" class="digital-readout">82.00<span style="font-size: 0.8rem;">%</span></div>
+            </div>
+
+            <div class="module">
+                <h3>III. SOVEREIGN ASSETS</h3>
+                <button class="btn" onclick="toggleVault(true)">Access Deep Data</button>
+            </div>
         </div>
 
-        <div class="module">
-            <h3>III. INTEL VAULT</h3>
-            <button class="btn" onclick="toggleVault(true)">Access Deep Data</button>
-        </div>
+        <div class="footer">© 2026 HUMPHREY VIRTUAL FARMS LLC</div>
     </div>
 
     <div id="vault-panel">
-        <div class="return-key" onclick="toggleVault(false)">← RETURN TO COMMAND</div>
-
-        <div class="vault-header">Sovereign Intel</div>
+        <div class="return-key" onclick="toggleVault(false)">← RETURN TO DASHBOARD</div>
         
         <div class="data-section">
             <span class="data-label">CAGE CODE</span>
@@ -107,33 +117,40 @@
         </div>
 
         <div class="data-section">
-            <span class="data-label">UNIQUE ENTITY ID (UEI)</span>
+            <span class="data-label">UEI</span>
             <span class="data-value">S1M4ENLHTDH5</span>
         </div>
 
         <div class="data-section">
-            <span class="data-label">UNIT 001 SCHEMATIC</span>
-            <div class="blueprint-box">
-                <div class="blueprint-line" style="top:25%; left:25%; width:50%; height:50%;"></div>
-                <div class="blueprint-line" style="top:25%; left:50%; width:1px; height:50%;"></div>
-                <div style="position:absolute; bottom:10px; left:10px; color:#00ffff; font-size:0.5rem; font-family:monospace;">HVF_STRUCTURAL_V1.0</div>
-            </div>
-            <span class="data-sub" style="color:#666; font-size:0.8rem;">Master Build: Universal ADA Compliant</span>
+            <span class="data-label">ASSET: RESERVOIR</span>
+            <span class="data-value">25-ACRE BASIN</span>
+            <span class="data-sub">403,333 Cubic Yards / Slab Road Site</span>
         </div>
 
-        <div class="data-section" style="border-left-color: #ffaa00;">
-            <span class="data-label">ASSET STATUS</span>
-            <span class="data-value" style="color:#ffaa00;">PROTOTYPE LOCK</span>
-            <span class="data-sub" style="color:#666; font-size:0.8rem;">Directive: Radio Silence / Field Simulation Only</span>
+        <div class="data-section">
+            <span class="data-label">ASSET: RESIDENTIAL</span>
+            <span class="data-value">200 UNIVERSAL UNITS</span>
+            <span class="data-sub">Universal Design / ADA Compliant Core</span>
         </div>
 
-        <button class="btn" onclick="toggleVault(false)" style="background:#1a1a1a; color:#ffaa00; border:1px solid #ffaa00; margin-top:40px;">EXIT VAULT</button>
+        <div class="data-section">
+            <span class="data-label">INTEL STATUS</span>
+            <span class="data-value" style="color:#ffaa00;">RADIO SILENCE ACTIVE</span>
+        </div>
     </div>
 
-    <div class="footer">© 2026 HUMPHREY VIRTUAL FARMS LLC</div>
-
     <script>
-        function toggleVault(show) { document.getElementById('vault-panel').classList.toggle('active', show); }
+        function toggleVault(show) {
+            const vault = document.getElementById('vault-panel');
+            const dash = document.getElementById('main-dashboard');
+            if(show) {
+                vault.classList.add('active');
+                dash.style.opacity = "0.3"; /* Fades background to keep focus on Vault */
+            } else {
+                vault.classList.remove('active');
+                dash.style.opacity = "1.0"; /* Restores full visibility to Dashboard */
+            }
+        }
         
         function updateHydraulics() {
             const readout = document.getElementById('lake-value');
