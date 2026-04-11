@@ -3,155 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | PRESIDENTIAL SITREP</title>
+    <title>HVF NEXUS | GUARDIAN CHRONOS</title>
     
     <style>
-        /* COMMANDER-IN-CHIEF PALETTE */
+        /* GUARDIAN CHRONOS PALETTE */
         html, body {
             margin: 0; padding: 0;
-            background-color: #0d0d0d;
-            color: #f1e9d2;
-            font-family: 'Times New Roman', Times, serif;
+            background-color: #121212; /* Gunmetal Base */
+            color: #d1d1d1; /* Steel Grey */
+            font-family: 'Helvetica', 'Arial', sans-serif;
             overflow: hidden; width: 100vw; height: 100vh;
+            user-select: none;
         }
 
         body { 
             box-sizing: border-box; 
-            background: radial-gradient(circle, #2b1d12 0%, #050505 100%);
-            border: 10px solid #3d2b1f; /* Mahogany Bezel around the entire screen */
+            background: radial-gradient(circle, #2a2a2a 0%, #0a0a0a 100%), 
+                        url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            border: 8px solid #1f1f1f; /* Sandblasted Steel Bezel */
         }
 
         /* LAYER 1: COMMAND DASHBOARD */
         #main-dashboard {
             position: absolute; top: 0; left: 0;
             width: 100%; height: 100%;
-            padding: 30px; box-sizing: border-box;
+            padding: 25px; box-sizing: border-box;
             z-index: 1; overflow-y: auto;
         }
 
-        .sitrep-header { 
-            text-align: center; border-bottom: 3px double #8e6d13; 
-            padding-bottom: 15px; margin-bottom: 25px; 
+        .chronos-header { 
+            text-align: left; border-left: 5px solid #ffffff; 
+            padding-left: 20px; margin-bottom: 30px; 
         }
-        .sitrep-title { text-transform: uppercase; letter-spacing: 8px; color: #d4af37; margin: 0; font-size: 1.5rem; font-weight: bold; }
-        .clock-row { font-family: monospace; font-size: 0.8rem; color: #8e7d66; margin-top: 10px; letter-spacing: 2px; }
+        .chronos-title { text-transform: uppercase; letter-spacing: 5px; color: #ffffff; margin: 0; font-size: 1.4rem; font-weight: bold; }
+        .chronos-sub { font-size: 0.7rem; color: #666; margin-top: 5px; text-transform: uppercase; letter-spacing: 2px; }
 
-        .grid-container { display: flex; flex-direction: column; gap: 30px; }
+        .grid-container { display: flex; flex-direction: column; gap: 25px; }
 
-        /* THE FOUNDRY MODULE */
+        /* THE CHRONOS MODULE */
         .module { 
-            background: rgba(26, 17, 10, 0.9);
-            border: 1px solid #8e6d13;
+            background: #1a1a1a;
+            border: 1px solid #333;
             padding: 20px; position: relative;
-            box-shadow: inset 0 0 20px #000, 0 10px 30px rgba(0,0,0,0.8);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
         }
 
-        .status-seal { 
-            float: right; width: 12px; height: 12px; 
-            background: #2ecc71; border-radius: 50%; 
-            box-shadow: 0 0 10px #2ecc71; margin-top: 5px;
-        }
+        h3 { margin-top: 0; color: #fff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.6; margin-bottom: 15px; }
 
-        h3 { margin-top: 0; color: #d4af37; font-size: 1rem; text-transform: uppercase; letter-spacing: 3px; border-bottom: 1px solid #3d2b1f; padding-bottom: 10px; }
-
-        /* BRASS GAUGE */
-        .brass-bezel {
-            width: 120px; height: 120px;
-            border: 5px solid #8e6d13;
+        /* CHRONOS DIAL DESIGN */
+        .chronos-bezel {
+            width: 140px; height: 140px;
+            border: 4px solid #444; /* Brushed Steel */
             border-radius: 50%; margin: 10px auto; position: relative;
-            background: #e3d5ca; 
-            box-shadow: inset 0 5px 10px rgba(0,0,0,0.4);
+            background: #e0e0e0; /* Matte Cream Face */
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.2), 0 5px 15px rgba(0,0,0,0.5);
         }
 
-        .needle {
+        .needle-axis {
+            position: absolute; top: 50%; left: 50%;
+            width: 12px; height: 12px; background: #222;
+            border-radius: 50%; transform: translate(-50%, -50%); z-index: 10;
+        }
+
+        .needle-steel {
             position: absolute; bottom: 50%; left: 50%;
-            width: 2px; height: 45px; background: #7b0000;
+            width: 2px; height: 60px; background: #111;
             transform-origin: bottom center; transform: rotate(115deg);
-            transition: transform 1.5s ease-in-out;
+            transition: transform 1.2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+            z-index: 5;
         }
 
-        .readout { text-align: center; font-family: 'Courier New', monospace; color: #d4af37; font-size: 1.8rem; font-weight: bold; margin-top: 15px; }
+        /* GAUGE TICKS */
+        .tick { position: absolute; width: 2px; height: 8px; background: #999; left: 50%; transform-origin: 0 70px; }
 
-        /* THE DEEP VAULT OVERLAY */
+        .digital-readout { text-align: center; font-family: monospace; color: #ffffff; font-size: 1.8rem; font-weight: bold; margin-top: 15px; letter-spacing: -1px; }
+
+        /* THE VAULT OVERLAY (GUARDIAN TINTYPE STYLE) */
         #vault-panel { 
             position: fixed; top: 0; left: 100%;
             width: 100vw; height: 100vh; 
-            background: #1a110a; z-index: 100; 
-            transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
-            padding: 40px; box-sizing: border-box; 
-            border-left: 10px solid #8e6d13;
+            background: #111; z-index: 100; 
+            transition: left 0.4s ease; 
+            padding: 30px; box-sizing: border-box; 
+            border-left: 5px solid #ffffff;
             overflow-y: auto;
+            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                              url('https://www.transparenttextures.com/patterns/pinstriped-suit.png');
         }
         #vault-panel.active { left: 0; }
 
         .return-btn {
-            display: block; width: 100%; padding: 20px; background: #000; 
-            color: #d4af37; border: 1px solid #d4af37; text-align: center; 
-            font-weight: bold; margin-bottom: 30px; text-transform: uppercase; 
-            letter-spacing: 5px; cursor: pointer;
+            display: block; width: 100%; padding: 18px; background: #fff; 
+            color: #000; text-align: center; font-weight: bold; margin-bottom: 30px; 
+            text-transform: uppercase; letter-spacing: 4px; cursor: pointer;
         }
 
-        .data-section { margin-bottom: 40px; border-bottom: 1px solid #333; padding-bottom: 20px; }
-        .data-label { font-size: 0.8rem; color: #8e7d66; text-transform: uppercase; letter-spacing: 2px; }
-        .data-value { display: block; font-size: 1.6rem; color: #ffffff; margin-top: 10px; font-weight: bold; }
+        .data-section { margin-bottom: 35px; border-left: 2px solid #ffffff; padding-left: 20px; }
+        .data-label { font-size: 0.75rem; color: #555; text-transform: uppercase; letter-spacing: 3px; }
+        .data-value { display: block; font-size: 1.5rem; color: #fff; margin-top: 8px; font-weight: bold; }
 
-        .btn { display: block; width: 100%; padding: 20px; background: #d4af37; color: #1a110a; text-align: center; font-weight: bold; margin-top: 25px; text-transform: uppercase; border: none; letter-spacing: 3px; font-size: 1.1rem; }
-        .footer { text-align: center; margin-top: 50px; font-size: 0.7rem; color: #5e4b3c; text-transform: uppercase; letter-spacing: 2px; }
+        .btn { display: block; width: 100%; padding: 18px; background: #333; color: #fff; text-align: center; font-weight: bold; margin-top: 25px; text-transform: uppercase; border: 1px solid #444; letter-spacing: 2px; }
+        .footer { text-align: center; margin-top: 60px; font-size: 0.65rem; color: #444; text-transform: uppercase; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
     <div id="main-dashboard">
-        <div class="sitrep-header">
-            <h1 class="sitrep-title">HVF NEXUS SITREP</h1>
-            <div class="clock-row">SITE: JOHNSTON COUNTY, OK | <span id="clock">00:00:00</span></div>
+        <div class="chronos-header">
+            <h1 class="chronos-title">NEXUS COMMAND</h1>
+            <div class="chronos-sub">GUARDIAN PROTOCOL V4.0 | JOHNSTON CO. OK</div>
         </div>
 
         <div class="grid-container">
             <div class="module" onclick="updateHydraulics()">
-                <div class="status-seal"></div>
-                <h3>HYDRAULIC CORE</h3>
-                <div class="brass-bezel">
-                    <div id="lake-needle" class="needle"></div>
+                <h3>RESERVOIR CAPACITY</h3>
+                <div class="chronos-bezel">
+                    <div id="lake-needle" class="needle-steel"></div>
+                    <div class="needle-axis"></div>
+                    <div class="tick" style="transform: rotate(0deg)"></div>
+                    <div class="tick" style="transform: rotate(90deg)"></div>
+                    <div class="tick" style="transform: rotate(180deg)"></div>
+                    <div class="tick" style="transform: rotate(270deg)"></div>
                 </div>
-                <div id="lake-value" class="readout">16.40<span style="font-size: 0.9rem;"> FT</span></div>
+                <div id="lake-value" class="digital-readout">16.40<span style="font-size: 0.8rem; margin-left: 5px;">FT</span></div>
             </div>
 
             <div class="module" onclick="updateHeliogrid()">
-                <div class="status-seal"></div>
-                <h3>HELIOGRID OUTPUT</h3>
-                <div class="brass-bezel">
-                    <div id="power-needle" class="needle"></div>
+                <h3>POWER LOAD FACTOR</h3>
+                <div class="chronos-bezel">
+                    <div id="power-needle" class="needle-steel"></div>
+                    <div class="needle-axis"></div>
+                    <div class="tick" style="transform: rotate(0deg)"></div>
+                    <div class="tick" style="transform: rotate(90deg)"></div>
+                    <div class="tick" style="transform: rotate(180deg)"></div>
+                    <div class="tick" style="transform: rotate(270deg)"></div>
                 </div>
-                <div id="power-value" class="readout">82.00<span style="font-size: 0.9rem;"> %</span></div>
+                <div id="power-value" class="digital-readout">82.00<span style="font-size: 0.8rem; margin-left: 5px;">%</span></div>
             </div>
 
             <div class="module">
                 <h3>SOVEREIGN INTELLIGENCE</h3>
-                <button class="btn" onclick="toggleVault(true)">Access Vault</button>
+                <button class="btn" onclick="toggleVault(true)">Open Guardian Vault</button>
             </div>
         </div>
 
-        <div class="footer">HUMPHREY VIRTUAL FARMS LLC | SOVEREIGN COMMAND</div>
+        <div class="footer">© 2026 HUMPHREY VIRTUAL FARMS LLC | SME ASSET</div>
     </div>
 
     <div id="vault-panel">
-        <div class="return-btn" onclick="toggleVault(false)">RETURN TO MONITOR</div>
+        <div class="return-btn" onclick="toggleVault(false)">← CLOSE VAULT</div>
         
         <div class="data-section">
-            <span class="data-label">FEDERAL CAGE CODE</span>
+            <span class="data-label">CAGE CODE</span>
             <span class="data-value">1AHA8</span>
         </div>
 
         <div class="data-section">
-            <span class="data-label">UNIQUE ENTITY ID (UEI)</span>
+            <span class="data-label">UEI REFERENCE</span>
             <span class="data-value">S1M4ENLHTDH5</span>
         </div>
 
         <div class="data-section">
-            <span class="data-label">RESIDENTIAL INTEL</span>
-            <span class="data-value">200 UNIVERSAL UNITS</span>
-            <span style="color:#666;">Site: Slab Road / 25-Acre Basin</span>
+            <span class="data-label">PATENT TRACKING</span>
+            <span class="data-value">TPP99424</span>
+        </div>
+
+        <div class="data-section">
+            <span class="data-label">RESIDENTIAL LOAD</span>
+            <span class="data-value">200 UNITS</span>
+            <span style="color:#444; font-size:0.8rem;">Slab Road Master Plan Phase 1</span>
         </div>
     </div>
 
@@ -159,23 +179,16 @@
         function toggleVault(show) {
             const vault = document.getElementById('vault-panel');
             const dash = document.getElementById('main-dashboard');
-            if(show) { vault.classList.add('active'); dash.style.opacity = "0.2"; }
+            if(show) { vault.classList.add('active'); dash.style.opacity = "0.1"; }
             else { vault.classList.remove('active'); dash.style.opacity = "1"; }
         }
-
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString();
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
         
         function updateHydraulics() {
             const needle = document.getElementById('lake-needle');
             const readout = document.getElementById('lake-value');
             const newVal = (Math.random() * (25 - 15) + 15).toFixed(2);
             needle.style.transform = 'rotate(' + ((newVal * 7.2) - 90) + 'deg)';
-            readout.innerHTML = newVal + '<span style="font-size: 0.9rem;"> FT</span>';
+            readout.innerHTML = newVal + '<span style="font-size: 0.8rem; margin-left: 5px;">FT</span>';
         }
 
         function updateHeliogrid() {
@@ -183,7 +196,7 @@
             const readout = document.getElementById('power-value');
             const newVal = (Math.random() * (95 - 70) + 70).toFixed(2);
             needle.style.transform = 'rotate(' + ((newVal * 1.8) - 90) + 'deg)';
-            readout.innerHTML = newVal + '<span style="font-size: 0.9rem;"> %</span>';
+            readout.innerHTML = newVal + '<span style="font-size: 0.8rem; margin-left: 5px;">%</span>';
         }
     </script>
 </body>
