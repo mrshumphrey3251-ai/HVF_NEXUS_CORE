@@ -3,189 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | INDUSTRIAL COMMAND</title>
+    <title>HVF NEXUS | EXECUTIVE TERMINAL</title>
     
     <style>
-        /* PERIOD-APPROPRIATE CORE */
+        /* EXECUTIVE MATERIAL PALETTE */
         html, body {
             margin: 0;
             padding: 0;
-            background-color: #0a0908; /* Coal Mine Black */
-            color: #d4a373; /* Aged Parchment/Brass */
-            font-family: 'Courier New', Courier, monospace; /* Typewriter/Letterpress feel */
+            background-color: #0d0d0d;
+            color: #d4af37; /* Metallic Gold */
+            font-family: 'Georgia', serif; /* Classic Executive Font */
             overflow-x: hidden;
             width: 100vw;
         }
 
         body {
             box-sizing: border-box;
-            padding: 20px;
-            background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png'); /* Gritty texture */
+            padding: 25px;
+            /* Subtopographic Map Background */
+            background-image: radial-gradient(circle at 50% 50%, rgba(20, 15, 10, 0.9), rgba(5, 5, 5, 1)), 
+                              url('https://www.transparenttextures.com/patterns/pinstriped-suit.png');
         }
 
-        /* HEADER: FOUNDRY STYLE */
-        .header-container {
+        /* MAHOGANY HEADER CABINET */
+        .header-cabinet {
             text-align: center;
-            border: 2px solid #5e503f;
-            padding: 15px;
-            margin-bottom: 25px;
-            background: rgba(43, 36, 28, 0.5);
+            border: 4px solid #3d2b1f; /* Dark Wood */
+            background: linear-gradient(145deg, #2b1d12, #1a110a);
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.8), inset 0 0 10px #000;
+            border-radius: 4px;
         }
 
         .header { 
             text-transform: uppercase; 
-            letter-spacing: 5px; 
-            color: #f1c40f; /* High-Grade Gold */
+            letter-spacing: 6px; 
+            color: #d4af37; 
             margin: 0;
             font-size: 1.6rem;
-            text-shadow: 2px 2px #000;
+            text-shadow: 2px 2px 4px #000;
         }
 
         .sub-header { 
-            font-size: 0.7rem; 
-            color: #8e7d66; 
+            font-size: 0.65rem; 
+            color: #7d6b5d; 
             margin-top: 10px; 
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
         }
 
-        .grid-container { display: flex; flex-direction: column; gap: 25px; }
+        .grid-container { display: flex; flex-direction: column; gap: 30px; }
 
-        /* THE INDUSTRIAL MODULE */
+        /* MAHOGANY & BRASS MODULE */
         .module { 
-            border: 3px solid #5e503f; /* Cast Iron Border */
-            background: #1a1612; /* Dark Timber */
-            padding: 20px;
+            border: 2px solid #5e4b3c;
+            background: linear-gradient(145deg, #1e140d, #120c08);
+            padding: 25px;
             position: relative;
-            box-shadow: inset 0 0 15px #000;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.9);
+            border-radius: 8px;
         }
 
         h3 { 
             margin-top: 0; 
-            color: #f1c40f; 
-            font-size: 1.1rem; 
+            color: #d4af37; 
+            font-size: 1rem; 
             text-transform: uppercase;
-            border-bottom: 1px solid #5e503f;
-            padding-bottom: 10px;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #3d2b1f;
+            padding-bottom: 12px;
+            text-align: center;
         }
 
-        /* GAUGE 01: THE HYDRAULIC GLASS COLUMN */
-        .glass-column-container {
-            width: 50px;
-            height: 150px;
-            border: 4px solid #8d99ae; /* Lead/Iron casing */
+        /* EXECUTIVE GAUGE 01: POLISHED GLASS COLUMN */
+        .glass-housing {
+            width: 45px;
+            height: 160px;
+            border: 3px solid #7a7a7a; /* Polished Steel */
             background: #000;
-            margin: 10px auto;
+            margin: 15px auto;
             position: relative;
-            border-radius: 5px;
+            border-radius: 10px;
+            box-shadow: inset 0 0 15px #000, 5px 5px 15px rgba(0,0,0,0.5);
+            overflow: hidden;
         }
 
-        .water-column {
+        .liquid-core {
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: 65.6%; /* 16.4ft / 25ft max */
-            background: linear-gradient(to right, #2a6f97, #468faf);
-            box-shadow: inset -5px 0 10px rgba(0,0,0,0.5);
+            height: 65.6%;
+            background: linear-gradient(to right, #1a4f6e, #2a6f97, #1a4f6e);
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.2);
         }
 
-        /* GAUGE 02: THE STEAM DIAL (HELIOGRID) */
-        .steam-dial {
-            width: 120px;
-            height: 120px;
-            border: 6px solid #b87333; /* Heavy Brass */
+        /* Glass Reflection Shine */
+        .glass-shine {
+            position: absolute;
+            top: 0; left: 10%; width: 20%; height: 100%;
+            background: rgba(255,255,255,0.05);
+            z-index: 2;
+        }
+
+        /* EXECUTIVE GAUGE 02: BRASS STEAM DIAL */
+        .brass-bezel {
+            width: 140px;
+            height: 140px;
+            border: 8px solid #8e6d13; /* Antiqued Brass */
             border-radius: 50%;
-            margin: 10px auto;
+            margin: 15px auto;
             position: relative;
-            background: #e3d5ca; /* Aged Paper Face */
-            box-shadow: 0 0 10px #000;
+            background: radial-gradient(circle, #e6d5b8, #c5b396); /* Aged Paper */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.6), inset 0 5px 10px rgba(0,0,0,0.3);
         }
 
         .needle {
             position: absolute;
             bottom: 50%;
             left: 50%;
-            width: 4px;
-            height: 45px;
-            background: #780000; /* Dark Iron Red */
+            width: 3px;
+            height: 55px;
+            background: #4a0000;
             transform-origin: bottom center;
-            transform: rotate(100deg); /* 82% Load position */
-            transition: transform 2s ease-in-out;
-            border-radius: 2px;
+            transform: rotate(102deg); /* 82% position */
+            z-index: 3;
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
         }
 
-        .dial-center {
+        .center-nut {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 12px;
-            height: 12px;
-            background: #333;
+            width: 14px;
+            height: 14px;
+            background: radial-gradient(circle, #8e6d13, #3d2b1f);
             border-radius: 50%;
             transform: translate(-50%, -50%);
+            z-index: 4;
+            border: 1px solid #000;
         }
 
-        .readout-stamp {
+        .stamp {
             text-align: center;
             font-weight: bold;
-            color: #f1c40f;
-            font-size: 1.2rem;
-            margin-top: 10px;
-            text-shadow: 1px 1px #000;
-        }
-
-        .map-bg {
-            background-image: url('https://www.transparenttextures.com/patterns/pinstriped-suit.png');
-            opacity: 0.1;
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            color: #d4af37;
+            font-size: 1.3rem;
+            margin-top: 15px;
+            font-family: 'Times New Roman', serif;
+            letter-spacing: 1px;
         }
 
         .footer { 
             text-align: center; 
-            margin-top: 40px; 
+            margin-top: 50px; 
             font-size: 0.6rem; 
-            color: #5e503f; 
+            color: #3d2b1f; 
             text-transform: uppercase;
+            letter-spacing: 2px;
         }
     </style>
 </head>
 <body>
 
-    <div class="header-container">
+    <div class="header-cabinet">
         <h1 class="header">HVF NEXUS</h1>
-        <div class="sub-header">PROPRIETARY INDUSTRIAL TERMINAL | EST. 2026</div>
+        <div class="sub-header">Executive Industrial Terminal | Johnston County Division</div>
     </div>
 
     <div class="grid-container">
         
         <div class="module">
-            <div class="map-bg"></div>
-            <h3>I. HYDRAULIC RESERVOIR (25-ACRE)</h3>
-            <div class="glass-column-container">
-                <div class="water-column"></div>
+            <h3>I. HYDRAULIC RETENTION</h3>
+            <div class="glass-housing">
+                <div class="liquid-core"></div>
+                <div class="glass-shine"></div>
             </div>
-            <div class="readout-stamp">16.4 FT</div>
-            <p style="text-align: center; font-size: 0.8rem; color: #8e7d66;">CURRENT RETENTION DEPTH</p>
+            <div class="stamp">16.4 FT</div>
+            <p style="text-align: center; font-size: 0.75rem; color: #5e4b3c; font-style: italic;">Measured at Slab Road Basin</p>
         </div>
 
         <div class="module">
-            <div class="map-bg"></div>
-            <h3>II. HELIOGRID POWER LOAD</h3>
-            <div class="steam-dial">
+            <h3>II. HELIOGRID OUTPUT</h3>
+            <div class="brass-bezel">
                 <div class="needle"></div>
-                <div class="dial-center"></div>
-                <div style="position: absolute; bottom: 20px; width: 100%; text-align: center; color: #333; font-size: 0.6rem; font-weight: bold;">PSI / LOAD</div>
+                <div class="center-nut"></div>
             </div>
-            <div class="readout-stamp">82% CAP.</div>
-            <p style="text-align: center; font-size: 0.8rem; color: #8e7d66;">SOLAR CORE CONSUMPTION</p>
+            <div class="stamp">82% LOAD</div>
+            <p style="text-align: center; font-size: 0.75rem; color: #5e4b3c; font-style: italic;">Core Consumption Statistics</p>
         </div>
 
     </div>
 
     <div class="footer">
-        HUMPHREY VIRTUAL FARMS LLC<br>
-        JOHNSTON COUNTY SOVEREIGNTY PROJECT
+        © 2026 HUMPHREY VIRTUAL FARMS LLC<br>
+        Sovereign Master Plan | Prototype 1.6
     </div>
 
 </body>
