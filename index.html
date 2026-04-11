@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | DUAL-TIER COMMAND</title>
+    <title>HVF NEXUS | LIVE BASIN V7.6</title>
     
     <style>
         html, body { margin: 0; padding: 0; background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; width: 100vw; height: 100vh; user-select: none; }
@@ -19,73 +19,69 @@
 
         .header-title { text-transform: uppercase; letter-spacing: 6px; font-size: 1.2rem; font-weight: 800; margin-bottom: 5px; }
         .header-sub { font-size: 0.65rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 30px; }
-        .data-block { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 20px; border-radius: 2px; margin-bottom: 20px; position: relative; }
-        .tag { font-size: 0.65rem; color: #666; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 10px; }
-        .hero-val { font-size: 2rem; font-weight: 900; line-height: 1; }
-
-        /* SOVEREIGN CONTROLS (Initially Hidden) */
-        .master-control { display: none; margin-top: 20px; border-top: 1px solid #333; padding-top: 15px; }
-        .auth-active .master-control { display: block; }
         
-        .cmd-toggle { width: 50px; height: 25px; background: #222; border: 1px solid #444; border-radius: 15px; cursor: pointer; position: relative; margin-top: 10px; }
-        .cmd-toggle.on { background: #ffaa00; }
+        .data-block { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 25px; border-radius: 2px; margin-bottom: 20px; position: relative; cursor: pointer; }
+        .tag { font-size: 0.65rem; color: #666; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 10px; }
+        .hero-val { font-size: 2.2rem; font-weight: 900; line-height: 1; }
 
-        /* SECURITY GATE */
-        #gate-ui { text-align: center; padding-top: 50px; }
-        .pin-input { background: transparent; border: none; border-bottom: 2px solid #ffaa00; color: #fff; font-size: 1.5rem; text-align: center; width: 120px; letter-spacing: 5px; outline: none; margin-bottom: 20px; }
-        .master-btn { background: #fff; color: #000; border: none; padding: 15px 30px; font-weight: 900; text-transform: uppercase; letter-spacing: 3px; font-size: 0.7rem; width: 100%; cursor: pointer; }
+        /* LIVE BASIN OVERLAY */
+        #lake-live-view { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background: #000; z-index: 5000; display: none; 
+            flex-direction: column; padding: 40px 25px; box-sizing: border-box;
+        }
+        .lake-visual { 
+            width: 100%; height: 60%; background: #0a0a0a; border: 1px solid #222; 
+            margin: 20px 0; position: relative; overflow: hidden;
+            background-image: radial-gradient(circle at 50% 50%, #001a33 0%, #000 70%);
+        }
+        .water-wave { 
+            position: absolute; bottom: 0; width: 100%; height: 40%; 
+            background: rgba(0, 170, 255, 0.1); border-top: 2px solid #00aaff;
+            box-shadow: 0 0 30px rgba(0, 170, 255, 0.2);
+        }
+        .lake-info-overlay { font-size: 0.7rem; color: #fff; letter-spacing: 2px; line-height: 2; }
+
+        .master-btn { background: #fff; color: #000; border: none; padding: 15px 30px; font-weight: 900; text-transform: uppercase; letter-spacing: 3px; font-size: 0.7rem; width: 100%; cursor: pointer; margin-top: 20px; }
     </style>
 </head>
-<body id="master-body">
+<body>
+
+    <div id="lake-live-view">
+        <div class="header-title">Live Basin Feed</div>
+        <div class="header-sub">Slab Road Reservoir // 25 Acres</div>
+        
+        <div class="lake-visual">
+            <div class="water-wave"></div>
+            <div style="position: absolute; top: 20px; left: 20px; color: #00aaff; font-weight: 900; font-size: 0.8rem; letter-spacing: 3px;">16.40 FT // OPTIMAL</div>
+        </div>
+
+        <div class="lake-info-overlay">
+            <div>SURFACE TEMP: 68°F</div>
+            <div>TURBIDITY: LOW</div>
+            <div>STRUCTURAL ANCHOR: SECURE</div>
+        </div>
+
+        <button class="master-btn" onclick="closeLake()">Return to Command</button>
+    </div>
 
     <div id="view-dash" class="view-panel active">
         <div class="header-title">Nexus Dash</div>
-        <div class="header-sub">Infrastructure Status</div>
-        <div class="data-block">
-            <span class="tag">Basin Level</span>
+        <div class="header-sub">Infrastructure Monitor</div>
+        <div class="data-block" onclick="openLake()">
+            <span class="tag">Basin Level [TAP FOR LIVE]</span>
             <div class="hero-val">16.40<span style="font-size:1rem; color:#ffaa00;"> FT</span></div>
-            <div class="master-control"><span class="tag">Pump Override</span><div class="cmd-toggle" onclick="this.classList.toggle('on')"></div></div>
         </div>
         <div class="data-block">
             <span class="tag">Grid Saturation</span>
             <div class="hero-val">82.00<span style="font-size:1rem; color:#ffaa00;"> %</span></div>
-            <div class="master-control"><span class="tag">Grid Load Balancing</span><div class="cmd-toggle on" onclick="this.classList.toggle('on')"></div></div>
         </div>
     </div>
 
-    <div id="view-home" class="view-panel">
-        <div class="header-title">Fortress Housing</div>
-        <div class="header-sub">Monolithic F-5 Engineering</div>
-        <div class="data-block"><span class="tag">Structural Rating</span><div class="hero-val">F-5 RATED</div></div>
-        <div class="data-block">
-            <span class="tag">Safe-State System</span>
-            <div class="hero-val" id="safe-state-text">STANDBY</div>
-            <div class="master-control">
-                <button class="master-btn" style="background: #ff0000; color: #fff;" onclick="alert('MASS LOCKDOWN ENGAGED')">ENGAGE LOCKDOWN</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="view-intel" class="view-panel">
-        <div class="header-title">Sovereign Intel</div>
-        <div class="header-sub">Restricted Access Layer</div>
-        
-        <div id="gate-ui">
-            <div style="font-size: 0.6rem; color: #666; letter-spacing: 3px; margin-bottom: 20px;">ENTER SOVEREIGN KEY FOR CAGE/UEI DATA</div>
-            <input type="password" id="passkey" class="pin-input" maxlength="4" placeholder="••••">
-            <button class="master-btn" onclick="verifyAccess()">Decrypt Vault</button>
-        </div>
-
-        <div id="vault-data" style="display:none;">
-            <div class="data-block"><span class="tag">CAGE CODE</span><div class="hero-val">1AHA8</div></div>
-            <div class="data-block"><span class="tag">UEI</span><div class="hero-val">S1M4ENLHTDH5</div></div>
-            <div class="data-block"><span class="tag">Project Valuation</span><div class="hero-val">$170M EST</div></div>
-            <button class="master-btn" style="background:#333; color:#fff;" onclick="lockSystem()">Lock System</button>
-        </div>
-    </div>
-
-    <div id="view-map" class="view-panel"><div class="header-title">Tactical Map</div><div class="header-sub">Johnston County Site</div><div class="data-block"><span class="tag">Geospatial Target</span><div class="hero-val">200 ACRES</div></div></div>
-    <div id="view-clinic" class="view-panel"><div class="header-title">Medical Wing</div><div class="header-sub">Specialized Trauma Support</div><div class="data-block"><span class="tag">Facility Rating</span><div class="hero-val">F-5 SECURE</div></div></div>
+    <div id="view-map" class="view-panel"><div class="header-title">Map</div></div>
+    <div id="view-clinic" class="view-panel"><div class="header-title">Clinic</div></div>
+    <div id="view-home" class="view-panel"><div class="header-title">Home</div></div>
+    <div id="view-intel" class="view-panel"><div class="header-title">Intel</div></div>
 
     <div class="command-dock">
         <div class="nav-item active" onclick="showView('view-dash', this)">Dash</div>
@@ -103,24 +99,8 @@
             el.classList.add('active');
         }
 
-        function verifyAccess() {
-            const pin = document.getElementById('passkey').value;
-            if(pin === "1840") {
-                document.getElementById('gate-ui').style.display = 'none';
-                document.getElementById('vault-data').style.display = 'block';
-                document.getElementById('master-body').classList.add('auth-active');
-            } else {
-                alert("ACCESS DENIED");
-                document.getElementById('passkey').value = '';
-            }
-        }
-
-        function lockSystem() {
-            document.getElementById('gate-ui').style.display = 'block';
-            document.getElementById('vault-data').style.display = 'none';
-            document.getElementById('master-body').classList.remove('auth-active');
-            document.getElementById('passkey').value = '';
-        }
+        function openLake() { document.getElementById('lake-live-view').style.display = 'flex'; }
+        function closeLake() { document.getElementById('lake-live-view').style.display = 'none'; }
     </script>
 </body>
 </html>
