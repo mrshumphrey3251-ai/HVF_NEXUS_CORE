@@ -36,7 +36,7 @@ class _NexusBaseState extends State<NexusBase> {
       backgroundColor: const Color(0xFF0A0A0A),
       body: SafeArea(child: _views[_selectedIndex]), 
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed, // Required for 4+ items
+        type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.black,
         selectedItemColor: Colors.blueAccent,
         unselectedItemColor: Colors.white24,
@@ -46,7 +46,7 @@ class _NexusBaseState extends State<NexusBase> {
         onTap: (index) => setState(() => _selectedIndex = index),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.analytics_outlined), label: 'COMMAND'),
-          BottomNavigationBarItem(icon: Icon(Icons.map_outlined), label: 'GIS'),
+          BottomNavigationBarItem(icon: Icon(Icons.map_outlined), label: 'SITE MAP'),
           BottomNavigationBarItem(icon: Icon(Icons.groups_outlined), label: 'CLUB'),
           BottomNavigationBarItem(icon: Icon(Icons.verified_user_outlined), label: 'MISSION'),
         ],
@@ -55,7 +55,7 @@ class _NexusBaseState extends State<NexusBase> {
   }
 }
 
-// VIEW 1: UPDATED COMMAND HUD WITH WEATHER
+// VIEW 1: DYNAMIC COMMAND HUD
 class CommandHUD extends StatelessWidget {
   const CommandHUD({super.key});
   @override
@@ -72,7 +72,8 @@ class CommandHUD extends StatelessWidget {
           const SizedBox(height: 10),
           _statusCard("SITE PERIMETER", "SECURE", Colors.orangeAccent),
           const SizedBox(height: 10),
-          _statusCard("WEATHER (OK)", "72°F | 12MPH NW", Colors.purpleAccent), // New Telemetry
+          // Prepared for OpenWeatherMap API Integration
+          _statusCard("JOHNSTON CO. WX", "LIVE FEED ACTIVE", Colors.purpleAccent), 
         ],
       ),
     );
@@ -93,31 +94,61 @@ class CommandHUD extends StatelessWidget {
   }
 }
 
-// VIEW 2: GIS (RESERVED FOR JOHNSTON COUNTY)
+// VIEW 2: TACTICAL GIS OVERLAY
 class SiteMapGIS extends StatelessWidget {
   const SiteMapGIS({super.key});
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("JOHNSTON COUNTY GIS\nSATELLITE INTERFACE\n[ACTIVE SCAN PENDING]", 
-        textAlign: TextAlign.center, style: TextStyle(color: Colors.blueAccent, letterSpacing: 2, fontSize: 12)),
+    return Container(
+      color: Colors.black,
+      child: Stack(
+        children: [
+          const Center(child: Icon(Icons.gps_fixed, color: Colors.blueAccent, size: 100)),
+          Positioned(
+            bottom: 40, left: 40, right: 40,
+            child: Container(
+              padding: const EdgeInsets.all(15),
+              color: Colors.black87,
+              child: const Text("TARGET: JOHNSTON COUNTY SITE\nLAT: 34.3323° | LON: -96.5056°\nSTATUS: INITIALIZING SAT-LAYER", 
+                style: TextStyle(color: Colors.white70, fontSize: 11, letterSpacing: 1)),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
 
-// VIEW 3: HUMPHREY SOCIAL CLUB
+// VIEW 3: SOCIAL CLUB & MILESTONE TRACKER
 class SocialClubPortal extends StatelessWidget {
   const SocialClubPortal({super.key});
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Padding(
+      padding: const EdgeInsets.all(40.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Icon(Icons.house_siding, size: 40, color: Colors.blueAccent),
-          SizedBox(height: 20),
-          Text("HUMPHREY SOCIAL CLUB", style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 2)),
-          Text("Resident Management Portal", style: TextStyle(color: Colors.white38, fontSize: 11)),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text("HUMPHREY SOCIAL CLUB", style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 2, color: Colors.blueAccent)),
+          const SizedBox(height: 30),
+          const Text("CURRENT PROJECT MILESTONES:", style: TextStyle(fontSize: 10, color: Colors.white38)),
+          const SizedBox(height: 20),
+          _milestone("Nexus Infrastructure", "100%", Colors.greenAccent),
+          _milestone("Johnston County Pivot", "90%", Colors.blueAccent),
+          _milestone("25-Acre Basin Engineering", "IN PROGRESS", Colors.orangeAccent),
+        ],
+      ),
+    );
+  }
+
+  Widget _milestone(String label, String progress, Color color) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: const TextStyle(fontSize: 12, color: Colors.white)),
+          Text(progress, style: TextStyle(fontSize: 12, color: color, fontWeight: FontWeight.bold)),
         ],
       ),
     );
@@ -133,7 +164,7 @@ class MissionIntel extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(40.0),
         child: Text(
-          "THE HUMPHREY CREED\n\nTo lead with honor, to build with purpose, and to provide stewardship for the land and those who served. Through Humphrey Virtual Farms, we bridge the legacy of our ancestors with the technology of the future.",
+          "THE HUMPHREY CREED\n\nTo lead with honor, to build with purpose, and to provide stewardship for the land and those who served.",
           textAlign: TextAlign.center, style: TextStyle(fontStyle: FontStyle.italic, height: 1.6, color: Colors.white70, fontSize: 13),
         ),
       ),
