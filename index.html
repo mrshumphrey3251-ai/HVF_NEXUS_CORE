@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | TITAN SOVEREIGN</title>
+    <title>HVF NEXUS | REFINED SOVEREIGN</title>
     
     <style>
-        /* TITAN OBSIDIAN PALETTE */
+        /* REFINED OBSIDIAN PALETTE */
         html, body {
             margin: 0; padding: 0;
             background-color: #000000;
@@ -19,7 +19,7 @@
         body { 
             box-sizing: border-box; 
             background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000000 100%);
-            padding: 30px;
+            padding: 25px;
         }
 
         /* LAYER 1: THE COMMAND DECK */
@@ -28,70 +28,74 @@
             z-index: 1;
         }
 
-        .header-section { margin-bottom: 40px; }
+        .header-section { margin-bottom: 35px; }
         .brand-title { 
-            text-transform: uppercase; letter-spacing: 10px; color: #ffffff; 
-            margin: 0; font-size: 1.8rem; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 8px; color: #ffffff; 
+            margin: 0; font-size: 1.5rem; font-weight: 800;
         }
         .brand-status { 
-            font-size: 0.8rem; color: #ffaa00; margin-top: 10px; 
-            text-transform: uppercase; letter-spacing: 4px; font-weight: 600;
+            font-size: 0.7rem; color: #ffaa00; margin-top: 8px; 
+            text-transform: uppercase; letter-spacing: 3px; font-weight: 600;
         }
 
-        .grid-container { display: flex; flex-direction: column; gap: 30px; }
+        .grid-container { display: flex; flex-direction: column; gap: 25px; }
 
-        /* THE TITAN MODULE */
+        /* THE REFINED MODULE */
         .module { 
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 35px; border-radius: 4px;
+            padding: 28px; border-radius: 4px;
             cursor: pointer;
         }
 
         .label { 
-            font-size: 0.9rem; color: #888; text-transform: uppercase; 
-            letter-spacing: 5px; margin-bottom: 15px; display: block; font-weight: 700;
+            font-size: 0.75rem; color: #888; text-transform: uppercase; 
+            letter-spacing: 4px; margin-bottom: 12px; display: block; font-weight: 700;
         }
 
         .digital-value { 
-            font-size: 4rem; font-weight: 900; color: #ffffff; 
-            line-height: 1; display: block; letter-spacing: -2px;
+            font-size: 3.4rem; /* Reduced 15% from 4rem */
+            font-weight: 900; color: #ffffff; 
+            line-height: 1; display: block; letter-spacing: -1.5px;
         }
-        .unit { font-size: 1.2rem; color: #ffaa00; margin-left: 10px; letter-spacing: 3px; vertical-align: middle; }
+        .unit { font-size: 1rem; color: #ffaa00; margin-left: 8px; letter-spacing: 2px; vertical-align: middle; }
 
-        .titan-bar-bg { width: 100%; height: 8px; background: rgba(255,255,255,0.1); margin-top: 25px; position: relative; }
-        .titan-bar-fill { height: 100%; width: 65%; background: #ffffff; box-shadow: 0 0 25px rgba(255,255,255,0.5); transition: width 1.2s ease; }
+        .titan-bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.1); margin-top: 20px; position: relative; }
+        .titan-bar-fill { height: 100%; width: 65%; background: #ffffff; box-shadow: 0 0 20px rgba(255,255,255,0.4); transition: width 1.2s ease; }
 
-        /* THE TITAN VAULT OVERLAY */
+        /* THE VAULT OVERLAY */
         #vault-panel { 
             position: fixed; top: 0; left: 0;
             width: 100vw; height: 100vh; 
             background: #000; z-index: 100; 
             transform: translateY(100%);
             transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); 
-            padding: 50px 30px; box-sizing: border-box; 
+            padding: 45px 30px; box-sizing: border-box; 
         }
         #vault-panel.active { transform: translateY(0); }
 
         .exit-btn {
-            font-size: 1rem; color: #ffaa00; text-transform: uppercase; 
-            letter-spacing: 5px; font-weight: 800; cursor: pointer;
-            margin-bottom: 50px; display: inline-block; border-bottom: 2px solid #ffaa00;
+            font-size: 0.85rem; color: #ffaa00; text-transform: uppercase; 
+            letter-spacing: 4px; font-weight: 800; cursor: pointer;
+            margin-bottom: 40px; display: inline-block; border-bottom: 2px solid #ffaa00;
         }
 
-        .data-block { margin-bottom: 50px; }
-        .data-tag { font-size: 0.9rem; color: #555; text-transform: uppercase; letter-spacing: 6px; display: block; margin-bottom: 10px; font-weight: 700; }
-        .data-hero { font-size: 3rem; font-weight: 900; color: #ffffff; letter-spacing: 2px; line-height: 1; }
+        .data-block { margin-bottom: 40px; }
+        .data-tag { font-size: 0.75rem; color: #555; text-transform: uppercase; letter-spacing: 5px; display: block; margin-bottom: 8px; font-weight: 700; }
+        .data-hero { 
+            font-size: 2.55rem; /* Reduced 15% from 3rem */
+            font-weight: 900; color: #ffffff; letter-spacing: 1.5px; line-height: 1; 
+        }
 
         .master-btn { 
-            display: block; width: 100%; padding: 30px; 
+            display: block; width: 100%; padding: 25px; 
             background: #ffffff; color: #000; 
             text-align: center; text-transform: uppercase; 
-            letter-spacing: 8px; font-size: 1.2rem;
-            font-weight: 900; border: none; margin-top: 20px;
+            letter-spacing: 6px; font-size: 1rem;
+            font-weight: 900; border: none; margin-top: 15px;
         }
 
-        .footer { text-align: center; margin-top: 40px; font-size: 0.7rem; color: #333; letter-spacing: 4px; }
+        .footer { text-align: center; margin-top: 35px; font-size: 0.6rem; color: #333; letter-spacing: 3px; }
     </style>
 </head>
 <body>
@@ -137,7 +141,7 @@
         <div class="data-block">
             <span class="data-tag">Unit Allocation</span>
             <span class="data-hero">200 RES</span>
-            <div style="color: #ffaa00; font-size: 0.9rem; margin-top: 10px; letter-spacing: 4px; font-weight: 700;">JOHNSTON COUNTY OK</div>
+            <div style="color: #ffaa00; font-size: 0.8rem; margin-top: 8px; letter-spacing: 3px; font-weight: 700;">JOHNSTON COUNTY OK</div>
         </div>
 
         <div class="data-block">
