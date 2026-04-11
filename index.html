@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | UNIFIED WARNINGS V8.1</title>
+    <title>HVF NEXUS | ATMOSPHERIC COMMAND V8.2</title>
     
     <style>
         html, body { margin: 0; padding: 0; background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; width: 100vw; height: 100vh; user-select: none; }
@@ -13,28 +13,19 @@
         #global-alarm { display: none; position: fixed; top: 0; width: 100%; background: #ff0000; color: #fff; text-align: center; padding: 10px; font-weight: 900; z-index: 9000; letter-spacing: 5px; font-size: 0.7rem; animation: pulse-red 1s infinite; }
         @keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
-        /* INDICATORS */
-        .status-light { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 10px; transition: 0.3s; }
-        .light-green { background: #00ff00; box-shadow: 0 0 15px #00ff00; }
-        .light-yellow { background: #ffff00; box-shadow: 0 0 15px #ffff00; }
-        .light-red { background: #ff0000; box-shadow: 0 0 15px #ff0000; }
+        /* STATUS INDICATORS */
+        .status-light { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 10px; }
+        .light-green { background: #00ff00; box-shadow: 0 0 10px #00ff00; }
+        .light-yellow { background: #ffff00; box-shadow: 0 0 10px #ffff00; }
+        .light-red { background: #ff0000; box-shadow: 0 0 10px #ff0000; }
 
-        /* OVERLAYS */
-        .live-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 5000; display: none; flex-direction: column; padding: 40px 25px; box-sizing: border-box; }
-        .visual-box { width: 100%; height: 35%; background: #050505; border: 1px solid #222; margin: 20px 0; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; transition: border-color 0.3s; }
-        
-        .pulse-core { width: 80px; height: 80px; border: 2px solid #ffaa00; border-radius: 50%; transition: 0.3s; }
-        @keyframes pulse-glow { 0% { box-shadow: 0 0 0 0 var(--p-color); } 70% { box-shadow: 0 0 0 30px rgba(0,0,0,0); } 100% { box-shadow: 0 0 0 0 rgba(0,0,0,0); } }
+        /* DASHBOARD GRID */
+        .view-panel { flex: 1; padding: 25px 20px 100px 20px; overflow-y: auto; }
+        .data-block { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 20px; border-radius: 2px; margin-bottom: 15px; cursor: pointer; }
+        .hero-val { font-size: 2.2rem; font-weight: 900; line-height: 1; }
+        .tag { font-size: 0.6rem; color: #666; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 8px; }
 
-        /* SLIDERS */
-        .control-slider { -webkit-appearance: none; width: 100%; height: 10px; background: #222; border-radius: 5px; outline: none; margin: 20px 0; }
-        .control-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; background: #fff; border-radius: 50%; cursor: pointer; border: 2px solid #333; }
-
-        /* PANELS */
-        .view-panel { flex: 1; padding: 30px 25px 100px 25px; display: none; }
-        .view-panel.active { display: block; }
-        .data-block { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 25px; border-radius: 2px; margin-bottom: 20px; cursor: pointer; }
-        .hero-val { font-size: 2.5rem; font-weight: 900; }
+        /* DOCK */
         .command-dock { position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; background: #0a0a0a; border-top: 1px solid #333; display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
         .nav-item { color: #444; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; flex: 1; text-align: center; }
         .nav-item.active { color: #ffaa00; }
@@ -44,37 +35,34 @@
 
     <div id="global-alarm">CRITICAL SYSTEM BREACH // 1AHA8</div>
 
-    <div id="view-lake-live" class="live-overlay">
-        <div style="font-size: 1.2rem; font-weight: 800; letter-spacing: 5px;">BASIN OVERRIDE</div>
-        <div class="visual-box" id="lake-box">
-            <div id="lake-water" style="position:absolute; bottom:0; width:100%; background:rgba(0,170,255,0.1); border-top:2px solid #00aaff; transition: height 0.3s;"></div>
-            <div id="lake-val-text" style="position:absolute; top:20px; left:20px; font-weight:900;">16.40 FT</div>
-        </div>
-        <input type="range" min="10" max="25" step="0.1" value="16.4" class="control-slider" oninput="updateLake(this.value)">
-        <button onclick="document.getElementById('view-lake-live').style.display='none'" style="background:#fff; border:none; padding:15px; width:100%; font-weight:900;">LOCK BASIN</button>
-    </div>
-
-    <div id="view-grid-live" class="live-overlay">
-        <div style="font-size: 1.2rem; font-weight: 800; letter-spacing: 5px;">GRID OVERRIDE</div>
-        <div class="visual-box" id="grid-box">
-            <div class="pulse-core" id="grid-pulse" style="--p-color: rgba(255,170,0,0.4); animation: pulse-glow 2s infinite;"></div>
-            <div id="grid-val-text" style="position:absolute; top:20px; left:20px; font-weight:900;">82.00 %</div>
-        </div>
-        <input type="range" min="60" max="100" step="0.1" value="82" class="control-slider" oninput="updateGrid(this.value)">
-        <button onclick="document.getElementById('view-grid-live').style.display='none'" style="background:#fff; border:none; padding:15px; width:100%; font-weight:900;">LOCK GRID</button>
-    </div>
-
-    <div id="view-dash" class="view-panel active">
-        <div style="text-transform:uppercase; letter-spacing:8px; font-size:1.5rem; font-weight:800; margin-bottom:30px;">Nexus Command</div>
+    <div id="view-dash" class="view-panel" style="display:block;">
+        <div style="text-transform:uppercase; letter-spacing:6px; font-size:1.2rem; font-weight:800; margin-bottom:20px;">Nexus Dashboard</div>
         
-        <div class="data-block" onclick="document.getElementById('view-lake-live').style.display='flex'">
-            <div style="display:flex; align-items:center; margin-bottom:10px;"><div id="dash-lake-light" class="status-light light-green"></div><span style="font-size:0.7rem; color:#666; letter-spacing:3px;">Basin Displacement</span></div>
-            <div class="hero-val" id="dash-lake-txt">16.40<span style="font-size:1rem; color:#ffaa00;"> FT</span></div>
+        <div class="data-block">
+            <div style="display:flex; align-items:center; margin-bottom:10px;">
+                <div class="status-light light-green"></div>
+                <span class="tag">Meteorological Intel // OK-071</span>
+            </div>
+            <div style="display:flex; justify-content: space-between; align-items: flex-end;">
+                <div class="hero-val">74<span style="font-size:1rem; color:#ffaa00;">°F</span></div>
+                <div style="font-size: 0.8rem; font-weight: 800; color: #888;">WIND: 12 MPH</div>
+            </div>
         </div>
 
-        <div class="data-block" onclick="document.getElementById('view-grid-live').style.display='flex'">
-            <div style="display:flex; align-items:center; margin-bottom:10px;"><div id="dash-grid-light" class="status-light light-green"></div><span style="font-size:0.7rem; color:#666; letter-spacing:3px;">Core Saturation</span></div>
-            <div class="hero-val" id="dash-grid-txt">82.00<span style="font-size:1rem; color:#ffaa00;"> %</span></div>
+        <div class="data-block">
+            <div style="display:flex; align-items:center; margin-bottom:10px;">
+                <div class="status-light light-green"></div>
+                <span class="tag">Basin Displacement</span>
+            </div>
+            <div class="hero-val">16.40<span style="font-size:1rem; color:#ffaa00;"> FT</span></div>
+        </div>
+
+        <div class="data-block">
+            <div style="display:flex; align-items:center; margin-bottom:10px;">
+                <div class="status-light light-green"></div>
+                <span class="tag">Core Saturation</span>
+            </div>
+            <div class="hero-val">82.00<span style="font-size:1rem; color:#ffaa00;"> %</span></div>
         </div>
     </div>
 
@@ -86,40 +74,5 @@
         <div class="nav-item">Intel</div>
     </div>
 
-    <script>
-        let L = 16.4; let G = 82;
-
-        function refreshGlobal() {
-            const alarm = document.getElementById('global-alarm');
-            if(L > 23.5 || G > 96) { document.body.classList.add('alarm-active'); alarm.style.display = 'block'; }
-            else { document.body.classList.remove('alarm-active'); alarm.style.display = 'none'; }
-        }
-
-        function updateLake(v) {
-            L = v;
-            document.getElementById('lake-val-text').innerText = v + " FT";
-            document.getElementById('dash-lake-txt').innerHTML = v + '<span style="font-size:1rem; color:#ffaa00;"> FT</span>';
-            document.getElementById('lake-water').style.height = (v / 25 * 100) + "%";
-            const light = document.getElementById('dash-lake-light');
-            const box = document.getElementById('lake-box');
-            if(v > 23.5) { light.className = "status-light light-red"; box.style.borderColor = "#ff0000"; }
-            else if(v > 20) { light.className = "status-light light-yellow"; box.style.borderColor = "#ffff00"; }
-            else { light.className = "status-light light-green"; box.style.borderColor = "#222"; }
-            refreshGlobal();
-        }
-
-        function updateGrid(v) {
-            G = v;
-            document.getElementById('grid-val-text').innerText = v + " %";
-            document.getElementById('dash-grid-txt').innerHTML = v + '<span style="font-size:1rem; color:#ffaa00;"> %</span>';
-            const light = document.getElementById('dash-grid-light');
-            const box = document.getElementById('grid-box');
-            const pulse = document.getElementById('grid-pulse');
-            if(v > 96) { light.className = "status-light light-red"; box.style.borderColor = "#ff0000"; pulse.style.borderColor = "#ff0000"; pulse.style.setProperty('--p-color', 'rgba(255,0,0,0.6)'); pulse.style.animationDuration = "0.5s"; }
-            else if(v > 90) { light.className = "status-light light-yellow"; box.style.borderColor = "#ffff00"; pulse.style.borderColor = "#ffff00"; pulse.style.setProperty('--p-color', 'rgba(255,255,0,0.4)'); pulse.style.animationDuration = "1s"; }
-            else { light.className = "status-light light-green"; box.style.borderColor = "#222"; pulse.style.borderColor = "#ffaa00"; pulse.style.setProperty('--p-color', 'rgba(255,170,0,0.4)'); pulse.style.animationDuration = "2s"; }
-            refreshGlobal();
-        }
-    </script>
 </body>
 </html>
