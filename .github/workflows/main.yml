@@ -12,14 +12,13 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Force Skeleton Generation
+      - name: Force Project Generation
         run: |
+          # This creates the missing Android files on the fly
           flutter create --platforms android .
           
-      - name: Clean and Get Dependencies
-        run: |
-          flutter clean
-          flutter pub get
+      - name: Sync Sovereign Logic
+        run: flutter pub get
 
       - name: Build Android APK
         run: flutter build apk --release
