@@ -3,29 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | ATMOSPHERIC COMMAND V8.2</title>
+    <title>HVF NEXUS | DYNAMIC FLEET V8.4</title>
     
     <style>
         html, body { margin: 0; padding: 0; background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; width: 100vw; height: 100vh; user-select: none; }
-        body { box-sizing: border-box; background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000 100%); display: flex; flex-direction: column; transition: background 0.4s; }
-        body.alarm-active { background: #2b0000; }
+        body { box-sizing: border-box; background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000 100%); display: flex; flex-direction: column; }
 
-        #global-alarm { display: none; position: fixed; top: 0; width: 100%; background: #ff0000; color: #fff; text-align: center; padding: 10px; font-weight: 900; z-index: 9000; letter-spacing: 5px; font-size: 0.7rem; animation: pulse-red 1s infinite; }
-        @keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        /* OVERLAYS */
+        #radar-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 6000; display: none; flex-direction: column; padding: 40px 25px; box-sizing: border-box; }
+        .radar-box { width: 100%; height: 40%; background: #050505; border: 1px solid #222; margin: 15px 0; position: relative; overflow: hidden; }
+        .radar-sweep { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: conic-gradient(from 0deg, rgba(0,255,0,0.1), transparent 90deg); animation: sweep 4s linear infinite; }
+        @keyframes sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* STATUS INDICATORS */
-        .status-light { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 10px; }
-        .light-green { background: #00ff00; box-shadow: 0 0 10px #00ff00; }
-        .light-yellow { background: #ffff00; box-shadow: 0 0 10px #ffff00; }
-        .light-red { background: #ff0000; box-shadow: 0 0 10px #ff0000; }
+        /* SITE SELECTOR */
+        .site-selector { display: flex; gap: 10px; margin-bottom: 20px; }
+        .site-btn { flex: 1; padding: 10px; border: 1px solid #333; color: #888; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; text-align: center; cursor: pointer; }
+        .site-btn.active { border-color: #ffaa00; color: #fff; background: rgba(255,170,0,0.1); }
 
-        /* DASHBOARD GRID */
+        /* DASH COMPONENTS */
         .view-panel { flex: 1; padding: 25px 20px 100px 20px; overflow-y: auto; }
         .data-block { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 20px; border-radius: 2px; margin-bottom: 15px; cursor: pointer; }
-        .hero-val { font-size: 2.2rem; font-weight: 900; line-height: 1; }
         .tag { font-size: 0.6rem; color: #666; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 8px; }
+        .hero-val { font-size: 2.2rem; font-weight: 900; line-height: 1; }
 
-        /* DOCK */
         .command-dock { position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; background: #0a0a0a; border-top: 1px solid #333; display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
         .nav-item { color: #444; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; flex: 1; text-align: center; }
         .nav-item.active { color: #ffaa00; }
@@ -33,38 +33,35 @@
 </head>
 <body>
 
-    <div id="global-alarm">CRITICAL SYSTEM BREACH // 1AHA8</div>
+    <div id="radar-overlay">
+        <div style="text-transform: uppercase; letter-spacing: 6px; font-size: 1.2rem; font-weight: 800; margin-bottom: 5px;">Radar Matrix</div>
+        <div style="font-size: 0.65rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px;">Fleet Monitoring Service</div>
+        
+        <div class="site-selector">
+            <div class="site-btn" id="btn-local" onclick="setSite('LOCAL')">Current GPS</div>
+            <div class="site-btn active" id="btn-slab" onclick="setSite('SLAB ROAD')">Slab Road HQ</div>
+        </div>
+
+        <div class="radar-box">
+            <div class="radar-sweep"></div>
+            <div style="position:absolute; top:50%; left:50%; width:4px; height:4px; background:#fff; box-shadow:0 0 10px #fff; transform:translate(-50%,-50%); border-radius:50%;"></div>
+            <div id="radar-site-tag" style="position:absolute; bottom:20px; left:20px; color:#00ff00; font-size:0.5rem; letter-spacing:2px; font-weight:900;">LINK: SLAB ROAD HQ</div>
+        </div>
+
+        <button style="background: #fff; color: #000; border: none; padding: 15px; width: 100%; font-weight: 900; text-transform: uppercase; letter-spacing: 3px; font-size: 0.7rem;" onclick="document.getElementById('radar-overlay').style.display='none'">Return to Dash</button>
+    </div>
 
     <div id="view-dash" class="view-panel" style="display:block;">
-        <div style="text-transform:uppercase; letter-spacing:6px; font-size:1.2rem; font-weight:800; margin-bottom:20px;">Nexus Dashboard</div>
+        <div style="text-transform:uppercase; letter-spacing:8px; font-size:1.4rem; font-weight:800; margin-bottom:30px;">Nexus Command</div>
         
-        <div class="data-block">
-            <div style="display:flex; align-items:center; margin-bottom:10px;">
-                <div class="status-light light-green"></div>
-                <span class="tag">Meteorological Intel // OK-071</span>
-            </div>
+        <div class="data-block" onclick="document.getElementById('radar-overlay').style.display='flex'">
+            <span class="tag">Meteorological Intel // <span id="dash-loc-tag">SLAB ROAD</span></span>
             <div style="display:flex; justify-content: space-between; align-items: flex-end;">
                 <div class="hero-val">74<span style="font-size:1rem; color:#ffaa00;">°F</span></div>
                 <div style="font-size: 0.8rem; font-weight: 800; color: #888;">WIND: 12 MPH</div>
             </div>
         </div>
-
-        <div class="data-block">
-            <div style="display:flex; align-items:center; margin-bottom:10px;">
-                <div class="status-light light-green"></div>
-                <span class="tag">Basin Displacement</span>
-            </div>
-            <div class="hero-val">16.40<span style="font-size:1rem; color:#ffaa00;"> FT</span></div>
         </div>
-
-        <div class="data-block">
-            <div style="display:flex; align-items:center; margin-bottom:10px;">
-                <div class="status-light light-green"></div>
-                <span class="tag">Core Saturation</span>
-            </div>
-            <div class="hero-val">82.00<span style="font-size:1rem; color:#ffaa00;"> %</span></div>
-        </div>
-    </div>
 
     <div class="command-dock">
         <div class="nav-item active">Dash</div>
@@ -74,5 +71,15 @@
         <div class="nav-item">Intel</div>
     </div>
 
+    <script>
+        function setSite(site) {
+            document.querySelectorAll('.site-btn').forEach(b => b.classList.remove('active'));
+            if(site === 'LOCAL') document.getElementById('btn-local').classList.add('active');
+            else document.getElementById('btn-slab').classList.add('active');
+            
+            document.getElementById('radar-site-tag').innerText = "LINK: " + site;
+            document.getElementById('dash-loc-tag').innerText = site;
+        }
+    </script>
 </body>
 </html>
