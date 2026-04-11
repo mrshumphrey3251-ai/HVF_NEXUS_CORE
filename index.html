@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | CRITICAL SYSTEM</title>
+    <title>HVF NEXUS | FULL SPECTRUM</title>
     
     <style>
-        /* CORE INDUSTRIAL PALETTE */
         html, body {
             margin: 0; padding: 0;
             background-color: #020202;
@@ -17,32 +16,16 @@
             transition: background-color 0.5s ease;
         }
 
-        body.alarm-state {
-            background-color: #300000; /* Deep Blood Red for Warning */
-        }
+        body.alarm-state { background-color: #300000; }
+        body { box-sizing: border-box; padding: 20px; background-image: radial-gradient(circle at 50% 10%, #1a1a1a 0%, #020202 100%); }
 
-        body {
-            box-sizing: border-box; padding: 20px;
-            background-image: radial-gradient(circle at 50% 10%, #1a1a1a 0%, #020202 100%);
-        }
-
-        /* COMMAND HEADER */
-        .header-panel {
-            text-align: left;
-            border-left: 6px solid #ffaa00;
-            padding: 20px; margin-bottom: 30px;
-            background: rgba(20, 20, 20, 0.8);
-            transition: border-color 0.5s ease;
-        }
-
+        .header-panel { text-align: left; border-left: 6px solid #ffaa00; padding: 20px; margin-bottom: 30px; background: rgba(20, 20, 20, 0.8); }
         .alarm-state .header-panel { border-left-color: #ff0000; }
-
         .header { text-transform: uppercase; letter-spacing: 4px; color: #ffffff; margin: 0; font-size: 1.5rem; font-weight: 900; }
         .sub-header { font-size: 0.7rem; color: #ffaa00; margin-top: 5px; text-transform: uppercase; font-weight: bold; letter-spacing: 2px; }
 
         .grid-container { display: flex; flex-direction: column; gap: 25px; }
 
-        /* THE OBSIDIAN MODULE */
         .module { 
             background: linear-gradient(180deg, #121212 0%, #080808 100%);
             border: 1px solid #222; border-top: 1px solid #333;
@@ -52,121 +35,117 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        .alarm-state .module { border-color: #500000; }
-
         h3 { margin-top: 0; color: #ffffff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; opacity: 0.7; }
 
-        /* WARNING INDICATOR */
-        #alarm-banner {
-            display: none;
-            background: #ff0000;
-            color: #fff;
-            text-align: center;
-            font-weight: bold;
-            padding: 5px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            animation: blink 0.8s infinite;
-        }
-
+        #alarm-banner { display: none; background: #ff0000; color: #fff; text-align: center; font-weight: bold; padding: 10px; margin-bottom: 20px; text-transform: uppercase; animation: blink 0.8s infinite; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
 
-        /* PRECISION GAUGE ELEMENTS */
-        .hydraulic-casing { width: 80%; height: 40px; background: #000; margin: 20px auto; border: 2px solid #333; position: relative; overflow: hidden; }
-        .fluid-level { height: 100%; width: 65.6%; background: linear-gradient(180deg, #004e92 0%, #000428 100%); transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        .alarm-state .fluid-level { background: linear-gradient(180deg, #ff0000 0%, #440000 100%); }
+        /* GAUGE & MAP ASSETS */
+        .hydraulic-casing { width: 100%; height: 30px; background: #000; border: 1px solid #333; position: relative; overflow: hidden; margin-bottom: 10px;}
+        .fluid-level { height: 100%; width: 65.6%; background: linear-gradient(180deg, #004e92 0%, #000428 100%); transition: width 1.5s ease; }
+        .alarm-state .fluid-level { background: #ff0000; }
 
-        .chrono-bezel { width: 160px; height: 160px; border: 2px solid #1a1a1a; border-radius: 50%; margin: 0 auto; position: relative; background: radial-gradient(circle, #0f0f0f, #000); }
-        .chrono-needle { position: absolute; bottom: 50%; left: 50%; width: 2px; height: 70px; background: #ffaa00; transform-origin: bottom center; transform: rotate(115deg); transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 5; }
-        .alarm-state .chrono-needle { background: #ff0000; box-shadow: 0 0 15px #ff0000; }
+        .chrono-bezel { width: 120px; height: 120px; border: 2px solid #1a1a1a; border-radius: 50%; margin: 0 auto; position: relative; background: radial-gradient(circle, #0f0f0f, #000); }
+        .chrono-needle { position: absolute; bottom: 50%; left: 50%; width: 2px; height: 50px; background: #ffaa00; transform-origin: bottom center; transform: rotate(115deg); transition: transform 1.5s ease; z-index: 5; }
+        .alarm-state .chrono-needle { background: #ff0000; }
 
-        .digital-readout { text-align: center; font-family: 'Courier New', monospace; color: #ffaa00; font-size: 1.8rem; font-weight: bold; margin-top: 15px; }
+        /* NEW: RESIDENTIAL HEAT MAP GRID */
+        .residential-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 4px;
+            margin-top: 15px;
+        }
+        .home-unit {
+            height: 12px;
+            background: #00ffff33; /* Blueprint Cyan */
+            border: 1px solid #00ffff66;
+            transition: background 0.5s ease;
+        }
+        .alarm-state .home-unit { border-color: #ff000066; }
+
+        .digital-readout { text-align: center; font-family: 'Courier New', monospace; color: #ffaa00; font-size: 1.6rem; font-weight: bold; margin-top: 10px; }
         .alarm-state .digital-readout { color: #ff0000; }
+        .label { text-align: center; font-size: 0.55rem; color: #444; text-transform: uppercase; letter-spacing: 2px; }
 
-        .label { text-align: center; font-size: 0.6rem; color: #444; text-transform: uppercase; letter-spacing: 2px; margin-top: 5px; }
-
-        .footer { text-align: center; margin-top: 60px; font-size: 0.6rem; color: #333; text-transform: uppercase; letter-spacing: 2px; }
+        .footer { text-align: center; margin-top: 60px; font-size: 0.6rem; color: #333; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
-    <div id="alarm-banner">SYSTEM CRITICAL: CAPACITY REACHED</div>
+    <div id="alarm-banner">CRITICAL: INFRASTRUCTURE BREACH</div>
 
     <div class="header-panel">
         <h1 class="header">HVF NEXUS</h1>
-        <div class="sub-header">Strategic Infrastructure | Johnston County Prototype 1.9</div>
+        <div class="sub-header">Strategic Infrastructure | Johnston County Prototype 2.0</div>
     </div>
 
     <div class="grid-container">
         
         <div class="module" onclick="updateHydraulics()">
-            <h3>I. HYDRAULIC CORE: SLAB ROAD BASIN</h3>
-            <div class="hydraulic-casing">
-                <div id="fluid-bar" class="fluid-level"></div>
-            </div>
-            <div id="lake-value" class="digital-readout">16.40<span style="font-size: 0.8rem; margin-left: 5px;">FT</span></div>
-            <div class="label">TAP TO ANALYZE BASIN LEVEL</div>
+            <h3>I. HYDRAULIC DEPTH: SLAB ROAD</h3>
+            <div class="hydraulic-casing"><div id="fluid-bar" class="fluid-level"></div></div>
+            <div id="lake-value" class="digital-readout">16.40<span style="font-size: 0.8rem;">FT</span></div>
+            <div class="label">RESERVOIR MONITOR</div>
         </div>
 
         <div class="module" onclick="updateHeliogrid()">
             <h3>II. HELIOGRID: CORE GENERATION</h3>
-            <div class="chrono-bezel">
-                <div id="power-needle" class="chrono-needle"></div>
-                <div style="position: absolute; top:50%; left:50%; width:12px; height:12px; background:#111; border:2px solid #ffaa00; border-radius:50%; transform:translate(-50%,-50%); z-index:6;"></div>
+            <div class="chrono-bezel"><div id="power-needle" class="chrono-needle"></div></div>
+            <div id="power-value" class="digital-readout">82.00<span style="font-size: 0.8rem;">%</span></div>
+            <div class="label">CORE LOAD CAPACITY</div>
+        </div>
+
+        <div class="module" onclick="pulseGrid()">
+            <h3>III. RESIDENTIAL GRID: 200 UNITS</h3>
+            <div id="res-grid" class="residential-grid">
+                <script>
+                    for(let i=0; i<100; i++) document.write('<div class="home-unit"></div>');
+                </script>
             </div>
-            <div id="power-value" class="digital-readout">82.00<span style="font-size: 0.8rem; margin-left: 5px;">%</span></div>
-            <div class="label">TAP TO ANALYZE LOAD STATUS</div>
+            <div class="label" style="margin-top:15px;">TAP TO SIMULATE LOAD DISTRIBUTION</div>
         </div>
 
     </div>
 
-    <div class="footer">
-        © 2026 HUMPHREY VIRTUAL FARMS LLC<br>
-        ALARM PROTOCOL: ENABLED
-    </div>
+    <div class="footer">© 2026 HUMPHREY VIRTUAL FARMS LLC</div>
 
     <script>
         function triggerAlarm(isActive) {
             const body = document.body;
             const banner = document.getElementById('alarm-banner');
-            if(isActive) {
-                body.classList.add('alarm-state');
-                banner.style.display = 'block';
-            } else {
-                body.classList.remove('alarm-state');
-                banner.style.display = 'none';
-            }
+            if(isActive) { body.classList.add('alarm-state'); banner.style.display = 'block'; }
+            else { body.classList.remove('alarm-state'); banner.style.display = 'none'; }
         }
 
         function updateHydraulics() {
             const bar = document.getElementById('fluid-bar');
             const readout = document.getElementById('lake-value');
-            // Randomly test the "Safety Limit" (23ft+)
             const newVal = (Math.random() * (25 - 15) + 15).toFixed(2);
-            const percentage = (newVal / 25) * 100;
-            
-            bar.style.width = percentage + '%';
-            readout.innerHTML = newVal + '<span style="font-size: 0.8rem; margin-left: 5px;">FT</span>';
-            
-            if(newVal > 23) triggerAlarm(true);
-            else triggerAlarm(false);
+            bar.style.width = (newVal / 25) * 100 + '%';
+            readout.innerHTML = newVal + '<span style="font-size: 0.8rem;">FT</span>';
+            if(newVal > 23.5) triggerAlarm(true); else triggerAlarm(false);
         }
 
         function updateHeliogrid() {
             const needle = document.getElementById('power-needle');
             const readout = document.getElementById('power-value');
-            // Randomly test the "Load Limit" (95%+)
             const newVal = (Math.random() * (100 - 70) + 70).toFixed(2);
-            const degrees = (newVal * 1.8) - 90;
-            
-            needle.style.transform = 'rotate(' + degrees + 'deg)';
-            readout.innerHTML = newVal + '<span style="font-size: 0.8rem; margin-left: 5px;">%</span>';
-            
-            if(newVal > 95) triggerAlarm(true);
-            else if (document.getElementById('lake-value').innerText.split('FT')[0] <= 23) triggerAlarm(false);
+            needle.style.transform = 'rotate(' + ((newVal * 1.8) - 90) + 'deg)';
+            readout.innerHTML = newVal + '<span style="font-size: 0.8rem;">%</span>';
+            if(newVal > 96) triggerAlarm(true); else triggerAlarm(false);
+        }
+
+        function pulseGrid() {
+            const units = document.getElementsByClassName('home-unit');
+            for(let unit of units) {
+                let intensity = Math.random();
+                unit.style.background = intensity > 0.8 ? '#00ffff' : '#00ffff33';
+                if(document.body.classList.contains('alarm-state')) {
+                    unit.style.background = intensity > 0.5 ? '#ff0000' : '#300000';
+                }
+            }
         }
     </script>
-
 </body>
 </html>
