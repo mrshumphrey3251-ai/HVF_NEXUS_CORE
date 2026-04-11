@@ -3,23 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | INDUSTRIAL SOVEREIGNTY</title>
+    <title>HVF NEXUS | INDUSTRIAL COMMAND</title>
     
     <style>
         /* HIGH-CAPITAL INDUSTRIAL PALETTE */
         html, body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             background-color: #020202;
             color: #e0e0e0;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            overflow-x: hidden;
-            width: 100vw;
+            overflow-x: hidden; width: 100vw;
+            user-select: none; /* Prevents accidental text highlighting during taps */
         }
 
         body {
-            box-sizing: border-box;
-            padding: 20px;
+            box-sizing: border-box; padding: 20px;
             background-image: radial-gradient(circle at 50% 10%, #1a1a1a 0%, #020202 100%);
         }
 
@@ -27,182 +25,103 @@
         .header-panel {
             text-align: left;
             border-left: 6px solid #ffaa00;
-            padding: 20px;
-            margin-bottom: 30px;
+            padding: 20px; margin-bottom: 30px;
             background: rgba(20, 20, 20, 0.8);
             box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
         }
 
-        .header { 
-            text-transform: uppercase; 
-            letter-spacing: 4px; 
-            color: #ffffff; 
-            margin: 0;
-            font-size: 1.5rem;
-            font-weight: 900;
-        }
-
-        .sub-header { 
-            font-size: 0.7rem; 
-            color: #ffaa00; 
-            margin-top: 5px; 
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
+        .header { text-transform: uppercase; letter-spacing: 4px; color: #ffffff; margin: 0; font-size: 1.5rem; font-weight: 900; }
+        .sub-header { font-size: 0.7rem; color: #ffaa00; margin-top: 5px; text-transform: uppercase; font-weight: bold; letter-spacing: 2px; }
 
         .grid-container { display: flex; flex-direction: column; gap: 25px; }
 
         /* THE OBSIDIAN MODULE */
         .module { 
             background: linear-gradient(180deg, #121212 0%, #080808 100%);
-            border: 1px solid #222;
-            border-top: 1px solid #333;
-            padding: 25px;
-            position: relative;
+            border: 1px solid #222; border-top: 1px solid #333;
+            padding: 25px; position: relative;
             box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            cursor: pointer; /* Signals it can be tapped */
+            -webkit-tap-highlight-color: transparent;
         }
 
-        h3 { 
-            margin-top: 0; 
-            color: #ffffff; 
-            font-size: 0.85rem; 
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 25px;
-            opacity: 0.7;
-        }
+        h3 { margin-top: 0; color: #ffffff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; opacity: 0.7; }
 
-        /* PRECISION GAUGE 01: HYDRAULIC CYLINDER */
-        .hydraulic-casing {
-            width: 80%;
-            height: 40px;
-            background: #000;
-            margin: 20px auto;
-            border: 2px solid #333;
-            position: relative;
-            box-shadow: inset 0 0 10px #000;
-        }
+        /* HYDRAULIC VISUALIZER */
+        .hydraulic-casing { width: 80%; height: 40px; background: #000; margin: 20px auto; border: 2px solid #333; position: relative; overflow: hidden; }
+        .fluid-level { height: 100%; width: 65.6%; background: linear-gradient(180deg, #004e92 0%, #000428 100%); transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 15px rgba(0, 78, 146, 0.5); }
 
-        .fluid-level {
-            height: 100%;
-            width: 65.6%; /* 16.4ft */
-            background: linear-gradient(180deg, #004e92 0%, #000428 100%);
-            box-shadow: 0 0 15px rgba(0, 78, 146, 0.5);
-            position: relative;
-        }
+        /* CHRONOGRAPH DIAL */
+        .chrono-bezel { width: 160px; height: 160px; border: 2px solid #1a1a1a; border-radius: 50%; margin: 0 auto; position: relative; background: radial-gradient(circle, #0f0f0f, #000); box-shadow: inset 0 0 20px #000, 0 10px 20px rgba(0,0,0,0.5); }
+        .chrono-needle { position: absolute; bottom: 50%; left: 50%; width: 2px; height: 70px; background: #ffaa00; transform-origin: bottom center; transform: rotate(115deg); transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 5; box-shadow: 0 0 8px #ffaa00; }
+        .needle-hub { position: absolute; top: 50%; left: 50%; width: 12px; height: 12px; background: #111; border: 2px solid #ffaa00; border-radius: 50%; transform: translate(-50%, -50%); z-index: 6; }
 
-        /* PRECISION GAUGE 02: CHRONOGRAPH DIAL */
-        .chrono-bezel {
-            width: 160px;
-            height: 160px;
-            border: 2px solid #1a1a1a;
-            border-radius: 50%;
-            margin: 0 auto;
-            position: relative;
-            background: radial-gradient(circle, #0f0f0f, #000);
-            box-shadow: inset 0 0 20px #000, 0 10px 20px rgba(0,0,0,0.5);
-        }
+        .digital-readout { text-align: center; font-family: 'Courier New', monospace; color: #ffaa00; font-size: 1.8rem; font-weight: bold; margin-top: 15px; letter-spacing: -1px; }
+        .label { text-align: center; font-size: 0.6rem; color: #444; text-transform: uppercase; letter-spacing: 2px; margin-top: 5px; }
 
-        /* Etched Ticks */
-        .chrono-bezel::before {
-            content: '';
-            position: absolute;
-            top: 5%; left: 5%; right: 5%; bottom: 5%;
-            border-radius: 50%;
-            border: 1px dashed #333;
-        }
-
-        .chrono-needle {
-            position: absolute;
-            bottom: 50%;
-            left: 50%;
-            width: 2px;
-            height: 70px;
-            background: #ffaa00;
-            transform-origin: bottom center;
-            transform: rotate(115deg); /* 82% */
-            z-index: 5;
-            box-shadow: 0 0 8px #ffaa00;
-        }
-
-        .needle-hub {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 12px;
-            height: 12px;
-            background: #111;
-            border: 2px solid #ffaa00;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 6;
-        }
-
-        .digital-readout {
-            text-align: center;
-            font-family: 'Courier New', monospace;
-            color: #ffaa00;
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-top: 15px;
-            letter-spacing: -1px;
-        }
-
-        .label {
-            text-align: center;
-            font-size: 0.6rem;
-            color: #444;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 5px;
-        }
-
-        .footer { 
-            text-align: center; 
-            margin-top: 60px; 
-            font-size: 0.6rem; 
-            color: #333; 
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+        .footer { text-align: center; margin-top: 60px; font-size: 0.6rem; color: #333; text-transform: uppercase; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
     <div class="header-panel">
         <h1 class="header">HVF NEXUS</h1>
-        <div class="sub-header">Strategic Infrastructure | Johnston County Prototype</div>
+        <div class="sub-header">Strategic Infrastructure | Prototype 1.8</div>
     </div>
 
     <div class="grid-container">
         
-        <div class="module">
+        <div class="module" onclick="updateHydraulics()">
             <h3>I. HYDRAULIC CORE: SLAB ROAD BASIN</h3>
             <div class="hydraulic-casing">
-                <div class="fluid-level"></div>
+                <div id="fluid-bar" class="fluid-level"></div>
             </div>
-            <div class="digital-readout">16.40<span style="font-size: 0.8rem; margin-left: 5px;">FT</span></div>
-            <div class="label">Reservoir Surface Depth</div>
+            <div id="lake-value" class="digital-readout">16.40<span style="font-size: 0.8rem; margin-left: 5px;">FT</span></div>
+            <div class="label">TAP TO RE-SCAN TERRAIN RUNOFF</div>
         </div>
 
-        <div class="module">
+        <div class="module" onclick="updateHeliogrid()">
             <h3>II. HELIOGRID: CORE GENERATION</h3>
             <div class="chrono-bezel">
-                <div class="chrono-needle"></div>
+                <div id="power-needle" class="chrono-needle"></div>
                 <div class="needle-hub"></div>
-                <div style="position: absolute; bottom: 30px; width: 100%; text-align: center; color: #333; font-size: 0.5rem; letter-spacing: 2px;">OUTPUT LOAD</div>
             </div>
-            <div class="digital-readout">82.00<span style="font-size: 0.8rem; margin-left: 5px;">%</span></div>
-            <div class="label">Sustainable Core Capacity</div>
+            <div id="power-value" class="digital-readout">82.00<span style="font-size: 0.8rem; margin-left: 5px;">%</span></div>
+            <div class="label">TAP TO ANALYZE CURRENT LOAD</div>
         </div>
 
     </div>
 
     <div class="footer">
         © 2026 HUMPHREY VIRTUAL FARMS LLC<br>
-        PRECISION INDUSTRIAL TERMINAL
+        SYSTEM STATUS: INTERACTIVE PROTOTYPE
     </div>
+
+    <script>
+        // INTERACTIVE LOGIC FOR $170M PROTOTYPE
+        function updateHydraulics() {
+            const bar = document.getElementById('fluid-bar');
+            const readout = document.getElementById('lake-value');
+            // Simulate a new scan value between 15 and 20
+            const newVal = (Math.random() * (20 - 15) + 15).toFixed(2);
+            const percentage = (newVal / 25) * 100;
+            
+            bar.style.width = percentage + '%';
+            readout.innerHTML = newVal + '<span style="font-size: 0.8rem; margin-left: 5px;">FT</span>';
+        }
+
+        function updateHeliogrid() {
+            const needle = document.getElementById('power-needle');
+            const readout = document.getElementById('power-value');
+            // Simulate load between 70% and 95%
+            const newVal = (Math.random() * (95 - 70) + 70).toFixed(2);
+            // Map percentage to degrees (0% = -90deg, 100% = 90deg approx)
+            const degrees = (newVal * 1.8) - 90;
+            
+            needle.style.transform = 'rotate(' + degrees + 'deg)';
+            readout.innerHTML = newVal + '<span style="font-size: 0.8rem; margin-left: 5px;">%</span>';
+        }
+    </script>
 
 </body>
 </html>
