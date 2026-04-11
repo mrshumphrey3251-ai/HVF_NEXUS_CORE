@@ -3,92 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | TACTICAL SATELLITE</title>
+    <title>HVF NEXUS | IRON CLOCK</title>
     
     <style>
-        /* THE BESPOKE OBSIDIAN VOID */
-        html, body {
-            margin: 0; padding: 0;
-            background-color: #000; color: #fff;
-            font-family: 'Inter', -apple-system, system-ui, sans-serif;
-            overflow: hidden; width: 100vw; height: 100vh;
-            user-select: none; transition: background-color 0.4s ease;
-        }
-
+        html, body { margin: 0; padding: 0; background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; width: 100vw; height: 100vh; user-select: none; transition: background-color 0.4s ease; }
         body.alarm-active { background-color: #2b0000; }
-        body { 
-            box-sizing: border-box; 
-            background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000 100%); 
-            padding: 25px; 
-        }
+        body { box-sizing: border-box; background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000 100%); padding: 25px; }
 
-        /* ALARM SYSTEM */
-        #alarm-status { 
-            display: none; text-align: center; background: #ff0000; color: #fff; 
-            padding: 10px; font-weight: 900; text-transform: uppercase; 
-            letter-spacing: 5px; font-size: 0.7rem; margin-bottom: 20px; 
-            animation: pulse-red 1s infinite; 
-        }
-        @keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        #alarm-status { display: none; text-align: center; background: #ff0000; color: #fff; padding: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 5px; font-size: 0.7rem; margin-bottom: 20px; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
-        /* COMMAND DASHBOARD */
         .header-section { margin-bottom: 35px; }
         .brand-title { text-transform: uppercase; letter-spacing: 8px; font-size: 1.5rem; font-weight: 800; margin: 0; }
         .brand-status { font-size: 0.7rem; color: #ffaa00; margin-top: 8px; text-transform: uppercase; letter-spacing: 3px; font-weight: 600; }
-        .alarm-active .brand-status { color: #ff0000; }
 
         .grid-container { display: flex; flex-direction: column; gap: 25px; }
-
-        /* REFINED TITAN MODULES */
-        .module { 
-            background: rgba(255, 255, 255, 0.05); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            padding: 28px; border-radius: 4px; cursor: pointer; 
-            transition: all 0.3s ease;
-        }
-        .alarm-active .module { border-color: rgba(255, 0, 0, 0.3); background: rgba(255, 0, 0, 0.05); }
-
+        .module { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 28px; border-radius: 4px; cursor: pointer; }
         .label { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 12px; display: block; font-weight: 700; }
-        .digital-value { font-size: 3.4rem; font-weight: 900; line-height: 1; letter-spacing: -1.5px; transition: color 0.3s ease; }
-        .alarm-active .digital-value { color: #ff0000; text-shadow: 0 0 15px rgba(255, 0, 0, 0.5); }
-        .unit { font-size: 1rem; color: #ffaa00; margin-left: 8px; letter-spacing: 2px; vertical-align: middle; }
+        .digital-value { font-size: 3.4rem; font-weight: 900; line-height: 1; letter-spacing: -1.5px; }
+        .unit { font-size: 1rem; color: #ffaa00; margin-left: 8px; letter-spacing: 2px; }
 
-        .bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.1); margin-top: 20px; position: relative; }
-        .bar-fill { height: 100%; width: 65%; background: #fff; box-shadow: 0 0 20px rgba(255,255,255,0.4); transition: width 1.2s ease; }
-        .alarm-active .bar-fill { background: #ff0000; box-shadow: 0 0 20px rgba(255, 0, 0, 0.6); }
+        .bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.1); margin-top: 20px; }
+        .bar-fill { height: 100%; width: 65%; background: #fff; transition: width 1.2s ease; }
 
-        /* TACTICAL VAULT OVERLAY */
-        #vault-panel { 
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-            background: #000; z-index: 100; transform: translateY(100%); 
-            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); 
-            padding: 45px 30px; box-sizing: border-box; overflow-y: auto; 
-        }
+        #vault-panel { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 100; transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); padding: 40px 30px; box-sizing: border-box; overflow-y: auto; }
         #vault-panel.active { transform: translateY(0); }
-
         .exit-btn { font-size: 0.85rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 4px; font-weight: 800; cursor: pointer; margin-bottom: 30px; display: inline-block; border-bottom: 2px solid #ffaa00; }
-
-        /* GEOSPATIAL OVERLAY */
-        .map-container { 
-            width: 100%; height: 180px; background: #0a0a0a; border: 1px solid #222; 
-            margin-bottom: 40px; position: relative;
-            background-image: linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-        .map-target { position: absolute; top: 40%; left: 45%; width: 50px; height: 35px; border: 2px solid #fff; box-shadow: 0 0 15px #fff; }
 
         .data-block { margin-bottom: 35px; border-left: 3px solid #333; padding-left: 15px; }
         .data-tag { font-size: 0.75rem; color: #555; text-transform: uppercase; letter-spacing: 5px; display: block; margin-bottom: 8px; font-weight: 700; }
-        .data-hero { font-size: 2.2rem; font-weight: 900; color: #fff; line-height: 1; letter-spacing: 1px; }
+        .data-hero { font-size: 1.8rem; font-weight: 900; color: #fff; line-height: 1; letter-spacing: 1px; }
 
-        .master-btn { 
-            display: block; width: 100%; padding: 25px; background: #fff; color: #000; 
-            text-align: center; text-transform: uppercase; letter-spacing: 6px; 
-            font-size: 1rem; font-weight: 900; border: none; margin-top: 15px; 
-            transition: all 0.3s ease;
-        }
-        .alarm-active .master-btn { background: #ff0000; color: #fff; }
+        /* THE IRON CLOCK ROADMAP */
+        .roadmap-item { margin-bottom: 20px; display: flex; align-items: flex-start; gap: 15px; }
+        .q-tag { font-weight: 900; color: #ffaa00; font-size: 1rem; min-width: 50px; }
+        .q-desc { font-size: 0.85rem; color: #ccc; border-left: 1px solid #333; padding-left: 15px; line-height: 1.4; }
 
+        .master-btn { display: block; width: 100%; padding: 25px; background: #fff; color: #000; text-align: center; text-transform: uppercase; letter-spacing: 6px; font-size: 1rem; font-weight: 900; border: none; margin-top: 15px; }
         .footer { text-align: center; margin-top: 35px; font-size: 0.6rem; color: #333; letter-spacing: 3px; }
     </style>
 </head>
@@ -117,73 +68,39 @@
 
             <button id="vault-btn" class="master-btn" onclick="toggleVault(true)">Decrypt Vault</button>
         </div>
-
-        <div class="footer">HUMPHREY VIRTUAL FARMS LLC // SOVEREIGN STATUS</div>
     </div>
 
     <div id="vault-panel">
         <div class="exit-btn" onclick="toggleVault(false)">← BACK TO COMMAND</div>
         
-        <div class="data-tag" style="margin-bottom:15px;">Site Geospatial Anchor</div>
-        <div class="map-container">
-            <div class="map-target"></div>
-            <div style="position:absolute; bottom:10px; left:10px; color:#444; font-size:0.55rem; letter-spacing:2px; font-weight:bold;">SLAB ROAD // JOHNSTON CO OK</div>
+        <div class="data-block">
+            <span class="data-tag">Operational Roadmap // IRON CLOCK</span>
+            <div class="roadmap-item"><div class="q-tag">Q2-26</div><div class="q-desc">Basin Excavation & Earthwork Stabilization (Johnston Co.)</div></div>
+            <div class="roadmap-item"><div class="q-tag">Q3-26</div><div class="q-desc">HelioGrid V3 Array Deployment & Core Integration</div></div>
+            <div class="roadmap-item"><div class="q-tag">Q4-26</div><div class="q-desc">Unit 001 Completion // Residential Proof of Concept</div></div>
+            <div class="roadmap-item"><div class="q-tag">Q1-27</div><div class="q-desc">200-Unit Sovereign Scaling // Johnston Co. Commission</div></div>
         </div>
 
-        <div class="data-block">
-            <span class="data-tag">CAGE CODE</span>
-            <span class="data-hero">1AHA8</span>
-        </div>
-
-        <div class="data-block">
-            <span class="data-tag">Sovereign UEI</span>
-            <span class="data-hero">S1M4ENLHTDH5</span>
-        </div>
-
-        <div class="data-block">
-            <span class="data-tag">Operational Target</span>
-            <span class="data-hero">200 RES UNITS</span>
-        </div>
+        <div class="data-block"><span class="data-tag">CAGE CODE</span><span class="data-hero">1AHA8</span></div>
+        <div class="data-block"><span class="data-tag">Sovereign UEI</span><span class="data-hero">S1M4ENLHTDH5</span></div>
     </div>
 
     <script>
-        function toggleVault(show) {
-            const vault = document.getElementById('vault-panel');
-            if(show) vault.classList.add('active');
-            else vault.classList.remove('active');
-        }
-
+        function toggleVault(show) { document.getElementById('vault-panel').classList.toggle('active', show); }
         function triggerAlarm(active) {
             const body = document.body;
             const banner = document.getElementById('alarm-status');
-            const statusText = document.getElementById('system-status');
             const vaultBtn = document.getElementById('vault-btn');
-            
-            if(active) {
-                body.classList.add('alarm-active');
-                banner.style.display = 'block';
-                statusText.innerText = "CRITICAL BREACH // 1AHA8";
-                vaultBtn.innerText = "CRITICAL OVERRIDE";
-            } else {
-                body.classList.remove('alarm-active');
-                banner.style.display = 'none';
-                statusText.innerText = "Operational Status // 1AHA8";
-                vaultBtn.innerText = "Decrypt Vault";
-            }
+            if(active) { body.classList.add('alarm-active'); banner.style.display = 'block'; vaultBtn.style.background = '#ff0000'; vaultBtn.style.color = '#fff'; vaultBtn.innerText = "CRITICAL OVERRIDE"; }
+            else { body.classList.remove('alarm-active'); banner.style.display = 'none'; vaultBtn.style.background = '#fff'; vaultBtn.style.color = '#000'; vaultBtn.innerText = "Decrypt Vault"; }
         }
-        
         function updateMetric(barId, textId, max, unit) {
             const bar = document.getElementById(barId);
             const text = document.getElementById(textId);
             const newVal = (Math.random() * (max - (max*0.6)) + (max*0.6)).toFixed(2);
             bar.style.width = (newVal / max) * 100 + '%';
             text.innerHTML = newVal + '<span class="unit">' + unit + '</span>';
-            
-            // Intelligence Logic: Check for Breach
-            const basinVal = parseFloat(document.getElementById('lake-val').innerText);
-            const powerVal = parseFloat(document.getElementById('power-val').innerText);
-            if(basinVal > 23.5 || powerVal > 96) triggerAlarm(true);
-            else triggerAlarm(false);
+            if(newVal > (max * 0.95)) triggerAlarm(true); else triggerAlarm(false);
         }
     </script>
 </body>
