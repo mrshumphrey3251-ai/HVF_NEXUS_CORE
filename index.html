@@ -3,91 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HVF NEXUS | LIVE GRID V7.7</title>
+    <title>HVF NEXUS | STRESS TEST V7.8</title>
     
     <style>
         html, body { margin: 0; padding: 0; background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; width: 100vw; height: 100vh; user-select: none; }
-        body { box-sizing: border-box; background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000 100%); display: flex; flex-direction: column; }
+        body { box-sizing: border-box; background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000 100%); display: flex; flex-direction: column; transition: background 0.4s; }
+        body.alarm-active { background: #2b0000; }
 
-        .command-dock { position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; background: rgba(10, 10, 10, 0.98); border-top: 1px solid #333; display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
-        .nav-item { color: #444; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; text-align: center; cursor: pointer; flex: 1; }
-        .nav-item.active { color: #ffaa00; }
+        /* ALARM BANNER */
+        #global-alarm { display: none; position: fixed; top: 0; width: 100%; background: #ff0000; color: #fff; text-align: center; padding: 10px; font-weight: 900; z-index: 9000; letter-spacing: 5px; font-size: 0.7rem; animation: pulse-red 1s infinite; }
+        @keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
-        .view-panel { flex: 1; padding: 30px 25px 100px 25px; overflow-y: auto; display: none; }
-        .view-panel.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .data-block { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 25px; border-radius: 2px; margin-bottom: 20px; position: relative; cursor: pointer; }
-        .hero-val { font-size: 2.2rem; font-weight: 900; line-height: 1; }
-        .tag { font-size: 0.65rem; color: #666; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 10px; }
-
-        /* LIVE GRID OVERLAY */
-        #grid-live-view { 
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-            background: #000; z-index: 5000; display: none; 
-            flex-direction: column; padding: 40px 25px; box-sizing: border-box;
-        }
-        .grid-visual { 
-            width: 100%; height: 50%; background: #050505; border: 1px solid #222; 
-            margin: 20px 0; position: relative; display: flex; align-items: center; justify-content: center;
-        }
-        .pulse-core { width: 100px; height: 100px; border: 2px solid #ffaa00; border-radius: 50%; position: relative; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255,170,0,0.4); } 70% { box-shadow: 0 0 0 40px rgba(255,170,0,0); } 100% { box-shadow: 0 0 0 0 rgba(255,170,0,0); } }
+        /* OVERLAYS */
+        .live-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 5000; display: none; flex-direction: column; padding: 40px 25px; box-sizing: border-box; }
+        .visual-box { width: 100%; height: 40%; background: #050505; border: 1px solid #222; margin: 20px 0; position: relative; overflow: hidden; }
         
-        .grid-info { font-size: 0.7rem; color: #888; letter-spacing: 2px; line-height: 2; margin-top: 10px; }
-        .master-btn { background: #fff; color: #000; border: none; padding: 15px 30px; font-weight: 900; text-transform: uppercase; letter-spacing: 3px; font-size: 0.7rem; width: 100%; cursor: pointer; margin-top: 20px; }
+        /* SLIDERS */
+        .slider-box { margin-top: 30px; border-top: 1px solid #222; padding-top: 20px; }
+        .control-slider { -webkit-appearance: none; width: 100%; height: 10px; background: #222; border-radius: 5px; outline: none; margin: 20px 0; }
+        .control-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; background: #ffaa00; border-radius: 50%; cursor: pointer; }
+
+        /* DASH & DOCK */
+        .view-panel { flex: 1; padding: 30px 25px 100px 25px; display: none; }
+        .view-panel.active { display: block; }
+        .data-block { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 25px; border-radius: 2px; margin-bottom: 20px; cursor: pointer; }
+        .hero-val { font-size: 2.5rem; font-weight: 900; }
+        .command-dock { position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; background: #0a0a0a; border-top: 1px solid #333; display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
+        .nav-item { color: #444; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; flex: 1; text-align: center; }
+        .nav-item.active { color: #ffaa00; }
     </style>
 </head>
 <body>
 
-    <div id="grid-live-view">
-        <div style="text-transform: uppercase; letter-spacing: 6px; font-size: 1.2rem; font-weight: 800; margin-bottom: 5px;">HelioGrid V3 Live</div>
-        <div style="font-size: 0.65rem; color: #ffaa00; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 30px;">Energy Distribution Matrix</div>
-        
-        <div class="grid-visual">
-            <div class="pulse-core"></div>
-            <div style="position: absolute; color: #ffaa00; font-size: 0.6rem; letter-spacing: 2px; bottom: 20px;">CORE SATURATION: 82%</div>
-        </div>
+    <div id="global-alarm">CRITICAL SYSTEM BREACH // 1AHA8</div>
 
-        <div class="grid-info">
-            <div>CURRENT HARVEST: 1.84 MW</div>
-            <div>LOAD CONSUMPTION: 0.42 MW</div>
-            <div>BUNKER STORAGE: 9.2 MWh</div>
+    <div id="view-lake-live" class="live-overlay">
+        <div style="font-size: 1.2rem; font-weight: 800; letter-spacing: 5px;">BASIN OVERRIDE</div>
+        <div class="visual-box" id="lake-visual-box">
+            <div id="lake-water" style="position:absolute; bottom:0; width:100%; background:rgba(0,170,255,0.2); border-top:2px solid #00aaff; transition: height 0.3s;"></div>
+            <div id="lake-depth-text" style="position:absolute; top:20px; left:20px; font-weight:900;">16.40 FT</div>
         </div>
-
-        <button class="master-btn" onclick="closeGrid()">Return to Command</button>
+        <div class="slider-box">
+            <span style="font-size:0.7rem; letter-spacing:2px; color:#888;">CALIBRATE DEPTH</span>
+            <input type="range" min="10" max="25" step="0.1" value="16.4" class="control-slider" id="lake-slider" oninput="adjustLake(this.value)">
+        </div>
+        <button onclick="closeOverlays()" style="background:#fff; border:none; padding:15px; width:100%; font-weight:900; margin-top:20px;">LOCK CALIBRATION</button>
     </div>
 
     <div id="view-dash" class="view-panel active">
-        <div style="text-transform: uppercase; letter-spacing: 6px; font-size: 1.2rem; font-weight: 800; margin-bottom: 30px;">Nexus Dash</div>
+        <div style="text-transform:uppercase; letter-spacing:8px; font-size:1.5rem; font-weight:800; margin-bottom:30px;">Nexus Command</div>
         <div class="data-block" onclick="openLake()">
-            <span class="tag">Basin Level [TAP]</span>
-            <div class="hero-val">16.40<span style="font-size:1rem; color:#ffaa00;"> FT</span></div>
+            <span style="font-size:0.7rem; color:#666; letter-spacing:3px;">Basin Displacement</span>
+            <div class="hero-val" id="dash-lake">16.40<span style="font-size:1rem; color:#ffaa00;"> FT</span></div>
         </div>
-        <div class="data-block" onclick="openGrid()">
-            <span class="tag">Grid Saturation [TAP]</span>
+        <div class="data-block" onclick="alert('Grid Stress Test Coming Next...')">
+            <span style="font-size:0.7rem; color:#666; letter-spacing:3px;">Core Saturation</span>
             <div class="hero-val">82.00<span style="font-size:1rem; color:#ffaa00;"> %</span></div>
         </div>
     </div>
 
     <div class="command-dock">
-        <div class="nav-item active" onclick="showView('view-dash', this)">Dash</div>
-        <div class="nav-item" onclick="showView('view-map', this)">Map</div>
-        <div class="nav-item" onclick="showView('view-clinic', this)">Clinic</div>
-        <div class="nav-item" onclick="showView('view-home', this)">Home</div>
-        <div class="nav-item" onclick="showView('view-intel', this)">Intel</div>
+        <div class="nav-item active">Dash</div>
+        <div class="nav-item">Map</div>
+        <div class="nav-item">Clinic</div>
+        <div class="nav-item">Home</div>
+        <div class="nav-item">Intel</div>
     </div>
 
     <script>
-        function showView(v, e) {
-            document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(v).classList.add('active');
-            e.classList.add('active');
+        function openLake() { document.getElementById('view-lake-live').style.display = 'flex'; }
+        function closeOverlays() { document.querySelectorAll('.live-overlay').forEach(o => o.style.display = 'none'); }
+
+        function adjustLake(val) {
+            document.getElementById('lake-depth-text').innerText = val + " FT";
+            document.getElementById('dash-lake').innerHTML = val + '<span style="font-size:1rem; color:#ffaa00;"> FT</span>';
+            document.getElementById('lake-water').style.height = (val / 25 * 100) + "%";
+            
+            const alarm = document.getElementById('global-alarm');
+            const visual = document.getElementById('lake-visual-box');
+            
+            if(val > 23.5) {
+                document.body.classList.add('alarm-active');
+                alarm.style.display = 'block';
+                visual.style.borderColor = '#ff0000';
+            } else {
+                document.body.classList.remove('alarm-active');
+                alarm.style.display = 'none';
+                visual.style.borderColor = '#222';
+            }
         }
-        function openGrid() { document.getElementById('grid-live-view').style.display = 'flex'; }
-        function closeGrid() { document.getElementById('grid-live-view').style.display = 'none'; }
-        // Note: openLake/closeLake from V7.6 remain necessary for full functionality
     </script>
 </body>
 </html>
