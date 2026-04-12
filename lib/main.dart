@@ -19,6 +19,8 @@ class HVFNexus extends StatelessWidget {
   }
 }
 
+// ... [ExecutiveGate and NexusBase logic remains the same] ...
+
 class ExecutiveGate extends StatelessWidget {
   const ExecutiveGate({super.key});
   @override
@@ -31,6 +33,7 @@ class ExecutiveGate extends StatelessWidget {
             const Icon(Icons.shield_outlined, color: Color(0xFFB87333), size: 80),
             const SizedBox(height: 24),
             const Text("HVF NEXUS CORE", style: TextStyle(letterSpacing: 6, fontWeight: FontWeight.bold, fontSize: 18)),
+            const Text("UEI: S1M4ENLHTDH5", style: TextStyle(fontSize: 9, color: Colors.white24, letterSpacing: 2)),
             const SizedBox(height: 48),
             OutlinedButton(
               style: OutlinedButton.styleFrom(side: const BorderSide(color: Color(0xFFB87333)), padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16)),
@@ -159,6 +162,66 @@ class _CommandHUDState extends State<CommandHUD> {
   }
 }
 
-class SiteMapGIS extends StatelessWidget { const SiteMapGIS({super.key}); @override Widget build(BuildContext context) { return const Center(child: Text("GIS LAYER: 200 UNITS PLOTTED", style: TextStyle(color: Color(0xFFB87333)))); } }
+class SiteMapGIS extends StatelessWidget {
+  const SiteMapGIS({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text("GIS STRATEGIC LAYER", style: TextStyle(color: Color(0xFFB87333), fontWeight: FontWeight.bold)),
+          const SizedBox(height: 20),
+          _mapInfo("MASTER PLAN", "200 ACRES", Icons.landscape),
+          _mapInfo("RESIDENTIAL", "200 UNITS PLOTTED", Icons.home),
+          _mapInfo("RESERVOIR", "25-ACRE BASIN", Icons.waves),
+          const Spacer(),
+          const Center(child: Icon(Icons.gps_fixed, color: Colors.blueAccent, size: 60)),
+        ],
+      ),
+    );
+  }
+
+  Widget _mapInfo(String label, String value, IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        children: [
+          Icon(icon, size: 14, color: Colors.white24),
+          const SizedBox(width: 10),
+          Text("$label: ", style: const TextStyle(fontSize: 11, color: Colors.white38)),
+          Text(value, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+        ],
+      ),
+    );
+  }
+}
+
 class SocialClubPortal extends StatelessWidget { const SocialClubPortal({super.key}); @override Widget build(BuildContext context) { return const Center(child: Text("CLUB REGISTRY: FOUNDER 001", style: TextStyle(color: Color(0xFFB87333)))); } }
-class MissionIntel extends StatelessWidget { const MissionIntel({super.key}); @override Widget build(BuildContext context) { return const Center(child: Text("HVF MISSION INTEL", style: TextStyle(color: Color(0xFFB87333)))); } }
+
+class MissionIntel extends StatelessWidget {
+  const MissionIntel({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(40.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text("CORPORATE IDENTITY", style: TextStyle(color: Color(0xFFB87333), fontWeight: FontWeight.bold, letterSpacing: 2)),
+          const Divider(color: Colors.white10, height: 30),
+          const Text("HUMPHREY VIRTUAL FARMS LLC", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 8),
+          const Text("CAGE CODE: [PENDING]", style: TextStyle(color: Colors.orangeAccent, fontSize: 10, letterSpacing: 2)),
+          const Text("UEI: S1M4ENLHTDH5", style: TextStyle(color: Colors.white38, fontSize: 10, letterSpacing: 2)),
+          const SizedBox(height: 30),
+          const Text(
+            "THE HUMPHREY CREED\n\nTo lead with honor, to build with purpose, and to provide stewardship for the land and those who served.",
+            textAlign: TextAlign.center, style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white70, fontSize: 13),
+          ),
+        ],
+      ),
+    );
+  }
+}
