@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,8 @@ class HVFNexus extends StatelessWidget {
   }
 }
 
+// ... [ExecutiveGate and NexusBase logic remains the same] ...
+
 class ExecutiveGate extends StatelessWidget {
   const ExecutiveGate({super.key});
   @override
@@ -30,7 +33,7 @@ class ExecutiveGate extends StatelessWidget {
             const Icon(Icons.shield_outlined, color: Color(0xFFB87333), size: 80),
             const SizedBox(height: 24),
             const Text("HVF NEXUS CORE", style: TextStyle(letterSpacing: 6, fontWeight: FontWeight.bold, fontSize: 18)),
-            const Text("CAGE: 1AHA8 | UEI: S1M4ENLHTDH5", style: TextStyle(fontSize: 9, color: Colors.white24, letterSpacing: 2)),
+            const Text("UEI: S1M4ENLHTDH5", style: TextStyle(fontSize: 9, color: Colors.white24, letterSpacing: 2)),
             const SizedBox(height: 48),
             OutlinedButton(
               style: OutlinedButton.styleFrom(side: const BorderSide(color: Color(0xFFB87333)), padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16)),
@@ -210,7 +213,7 @@ class MissionIntel extends StatelessWidget {
           const Divider(color: Colors.white10, height: 30),
           const Text("HUMPHREY VIRTUAL FARMS LLC", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
-          const Text("CAGE CODE: 1AHA8", style: TextStyle(color: Colors.greenAccent, fontSize: 10, letterSpacing: 2, fontWeight: FontWeight.bold)),
+          const Text("CAGE CODE: [PENDING]", style: TextStyle(color: Colors.orangeAccent, fontSize: 10, letterSpacing: 2)),
           const Text("UEI: S1M4ENLHTDH5", style: TextStyle(color: Colors.white38, fontSize: 10, letterSpacing: 2)),
           const SizedBox(height: 30),
           const Text(
